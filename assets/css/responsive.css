@@ -323,6 +323,12 @@
     display: none !important;
   }
 
+  /* Hide Call Hotline button inside mobile drawer */
+  .mobile-menu-actions .btn-emergency,
+  .mobile-menu-actions a[href^="tel:"] {
+    display: none !important;
+  }
+
   .process-grid {
     grid-template-columns: repeat(2, 1fr);
   }
