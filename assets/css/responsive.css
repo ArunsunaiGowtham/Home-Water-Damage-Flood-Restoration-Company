@@ -290,6 +290,11 @@
     border-top: 1px solid var(--border-light);
   }
 
+  /* Prevent duplicate Dashboard link inside mobile drawer */
+  .mobile-menu-actions a[href*="dashboard"] {
+    display: none !important;
+  }
+
   .process-grid {
     grid-template-columns: repeat(2, 1fr);
   }
