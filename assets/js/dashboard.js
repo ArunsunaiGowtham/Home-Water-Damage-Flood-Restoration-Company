@@ -89,12 +89,25 @@ const jobData = {
 
 function initJobPipelineTracker() {
   const jobSelector = document.getElementById('activeJobSelector');
+  const jobSelectorDrawer = document.getElementById('activeJobSelectorDrawer');
   const nextStageBtn = document.getElementById('btnSimulateNextStage');
   const resetStageBtn = document.getElementById('btnResetStage');
 
+  function syncAndRender(val) {
+    if (jobSelector && jobSelector.value !== val) jobSelector.value = val;
+    if (jobSelectorDrawer && jobSelectorDrawer.value !== val) jobSelectorDrawer.value = val;
+    renderJobState(val);
+  }
+
   if (jobSelector) {
     jobSelector.addEventListener('change', () => {
-      renderJobState(jobSelector.value);
+      syncAndRender(jobSelector.value);
+    });
+  }
+
+  if (jobSelectorDrawer) {
+    jobSelectorDrawer.addEventListener('change', () => {
+      syncAndRender(jobSelectorDrawer.value);
     });
   }
 
@@ -240,12 +253,20 @@ function initDashboardEmergencyForm() {
 
     // Add to selector
     const jobSelector = document.getElementById('activeJobSelector');
+    const jobSelectorDrawer = document.getElementById('activeJobSelectorDrawer');
     if (jobSelector) {
       const opt = document.createElement('option');
       opt.value = newId;
       opt.textContent = `Job #${newId} - ${address.substring(0, 25)}...`;
       jobSelector.appendChild(opt);
       jobSelector.value = newId;
+    }
+    if (jobSelectorDrawer) {
+      const opt2 = document.createElement('option');
+      opt2.value = newId;
+      opt2.textContent = `Job #${newId} - ${address.substring(0, 25)}...`;
+      jobSelectorDrawer.appendChild(opt2);
+      jobSelectorDrawer.value = newId;
     }
 
     form.reset();

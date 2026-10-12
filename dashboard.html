@@ -313,19 +313,32 @@
       padding: 0 32px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
       position: sticky;
       top: 0;
       z-index: 90;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .topbar-main-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
       gap: 16px;
     }
 
+    .topbar-brand-section {
+      display: none;
+    }
+
+    .topbar-search-tools,
     .topbar-left {
       display: flex;
       align-items: center;
       gap: 12px;
       flex: 1;
-      max-width: 540px;
+      max-width: 580px;
     }
 
     .btn-mobile-sidebar-toggle {
@@ -340,6 +353,12 @@
       justify-content: center;
       cursor: pointer;
       flex-shrink: 0;
+      transition: all 0.15s ease;
+    }
+
+    .btn-mobile-sidebar-toggle:hover {
+      background: var(--dash-surface-alt);
+      border-color: var(--dash-primary);
     }
 
     .topbar-search-wrap {
@@ -954,7 +973,152 @@
       box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
     }
 
-    /* Responsive */
+    /* --------------------------------------------------
+       Responsive Table Styling
+       -------------------------------------------------- */
+    .dash-table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      margin: 14px 0;
+      border-radius: 12px;
+      border: 1px solid var(--dash-border);
+      background: var(--dash-surface);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02);
+    }
+
+    .dash-table {
+      width: 100%;
+      min-width: 640px;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.88rem;
+    }
+
+    [dir="rtl"] .dash-table {
+      text-align: right;
+    }
+
+    .dash-table thead th {
+      padding: 12px 14px;
+      background: var(--dash-surface-alt);
+      color: var(--dash-muted);
+      font-size: 0.74rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 2px solid var(--dash-border);
+      white-space: nowrap;
+    }
+
+    .dash-table tbody td {
+      padding: 13px 14px;
+      border-bottom: 1px solid var(--dash-border);
+      color: var(--dash-text);
+      vertical-align: middle;
+    }
+
+    .dash-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .dash-table tbody tr:hover {
+      background: var(--dash-surface-alt);
+    }
+
+    /* Form Rows and Claim Grids */
+    .dash-form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .claim-grid-2col {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+
+    /* Sidebar Brand & Mobile Close Button */
+    .sidebar-brand-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--dash-border);
+      padding: 0 4px 14px 4px;
+      margin-bottom: 14px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .sidebar-brand-wrapper .sidebar-brand {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding: 0;
+      flex: 1;
+    }
+
+    .btn-sidebar-close {
+      display: none;
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      border: 1px solid var(--dash-border);
+      background: var(--dash-surface-alt);
+      color: var(--dash-text);
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: all 0.2s ease;
+    }
+
+    .btn-sidebar-close:hover {
+      background: #fee2e2;
+      color: #ef4444;
+      border-color: #fca5a5;
+    }
+
+    /* Sidebar Synchronized Job Switcher Card */
+    .sidebar-job-switcher-card {
+      background: var(--dash-surface-alt);
+      border: 1px solid var(--dash-border);
+      border-radius: 12px;
+      padding: 10px 12px;
+      margin-bottom: 14px;
+    }
+
+    .sidebar-job-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--dash-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+
+    .sidebar-job-select {
+      width: 100%;
+      height: 36px;
+      padding: 0 10px;
+      border-radius: 8px;
+      border: 1px solid var(--dash-border);
+      background: var(--dash-surface);
+      color: var(--dash-text);
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      outline: none;
+    }
+
+    /* --------------------------------------------------
+       Responsive Breakpoints
+       -------------------------------------------------- */
     @media (max-width: 1200px) {
       .kpi-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -979,8 +1143,10 @@
         left: 0;
         top: 0;
         bottom: 0;
+        width: min(300px, 86vw);
         transform: translateX(-100%);
-        box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 0 35px rgba(0, 0, 0, 0.3);
+        z-index: 100;
       }
       [dir="rtl"] .app-sidebar {
         left: auto;
@@ -993,17 +1159,78 @@
       .btn-mobile-sidebar-toggle {
         display: inline-flex;
       }
+      .btn-sidebar-close {
+        display: inline-flex;
+      }
       .mobile-topbar-logo {
         display: inline-flex !important;
         align-items: center;
         gap: 8px;
         text-decoration: none;
+        min-width: 0;
       }
+
+      /* Two-row mobile topbar: complete parity with laptop */
       .app-topbar {
-        padding: 0 16px;
+        height: auto;
+        min-height: auto;
+        padding: 10px 14px 12px;
       }
+      .topbar-main-row {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 10px;
+        width: 100%;
+        align-items: center;
+      }
+      .topbar-brand-section {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-width: 0;
+        grid-column: 1;
+        grid-row: 1;
+      }
+      .topbar-actions {
+        grid-column: 2;
+        grid-row: 1;
+        gap: 6px;
+        justify-self: end;
+      }
+      .topbar-actions .topbar-btn {
+        height: 38px;
+        padding: 0 10px;
+        font-size: 0.82rem;
+      }
+      .topbar-actions .topbar-btn.theme-toggle-btn {
+        width: 38px;
+        min-width: 38px;
+      }
+
+      /* Tools sub-row: Search AND Job Selector visible on mobile! */
+      .topbar-search-tools {
+        grid-column: 1 / -1;
+        grid-row: 2;
+        width: 100%;
+        max-width: 100%;
+        display: flex;
+        gap: 8px;
+      }
+      .topbar-search-tools .topbar-search-wrap {
+        flex: 1;
+        min-width: 0;
+      }
+      .topbar-search-tools .job-pill-select {
+        display: block !important;
+        max-width: 175px;
+        height: 40px;
+        padding: 0 10px;
+        font-size: 0.8rem;
+        flex-shrink: 0;
+      }
+
       .app-content {
-        padding: 20px 16px 36px;
+        padding: 20px 14px 36px;
       }
       .kpi-grid {
         grid-template-columns: 1fr;
@@ -1011,11 +1238,59 @@
       .pipeline-wrapper {
         grid-template-columns: repeat(2, 1fr);
       }
-      .topbar-btn span.label-text {
+    }
+
+    @media (max-width: 640px) {
+      .dash-page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+      .dash-page-header > div:last-child {
+        width: 100%;
+      }
+      .dash-page-header > div:last-child button,
+      .dash-page-header > div:last-child a {
+        flex: 1;
+      }
+      .dash-form-row {
+        grid-template-columns: 1fr;
+        gap: 14px;
+        margin-bottom: 14px;
+      }
+      .claim-grid-2col {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .topbar-main-row {
+        gap: 8px;
+      }
+      .mobile-topbar-logo .logo-text p {
         display: none;
       }
-      .job-pill-select {
+      .topbar-actions .topbar-btn .back-text {
         display: none;
+      }
+      .topbar-search-tools .job-pill-select {
+        max-width: 140px;
+        font-size: 0.74rem;
+        padding: 0 6px;
+      }
+      .pipeline-wrapper {
+        grid-template-columns: 1fr;
+      }
+      .panel-card {
+        padding: 18px 14px;
+        border-radius: 14px;
+      }
+      .kpi-card {
+        padding: 16px 14px;
+      }
+      .kpi-value {
+        font-size: 1.5rem;
       }
     }
 
@@ -1043,16 +1318,33 @@
          LEFT SIDEBAR: DASHBOARD NAVIGATION
          ============================================== -->
     <aside class="app-sidebar" id="appSidebar">
-      <!-- Top Brand Logo -->
-      <a href="index.html" class="site-logo sidebar-brand">
-        <div class="logo-icon-wrap">
-          <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
+      <!-- Top Brand Logo & Mobile Close Button -->
+      <div class="sidebar-brand-wrapper">
+        <a href="index.html" class="site-logo sidebar-brand">
+          <div class="logo-icon-wrap">
+            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
+          </div>
+          <div class="logo-text">
+            <h3>Aqua<span>Shield</span></h3>
+            <p>Emergency Restoration</p>
+          </div>
+        </a>
+        <button type="button" class="btn-sidebar-close" id="sidebarCloseBtn" aria-label="Close sidebar menu">
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <!-- Synchronized Claim Job Selector in Mobile/Tablet Drawer -->
+      <div class="sidebar-job-switcher-card">
+        <div class="sidebar-job-label">
+          <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z"/></svg>
+          <span>Active Claim Dossier</span>
         </div>
-        <div class="logo-text">
-          <h3>Aqua<span>Shield</span></h3>
-          <p>Emergency Restoration</p>
-        </div>
-      </a>
+        <select id="activeJobSelectorDrawer" class="sidebar-job-select" title="Active Claim File">
+          <option value="AQ-9421" selected>Job #AQ-9421 (Springfield)</option>
+          <option value="AQ-8830">Job #AQ-8830 (Coastal)</option>
+        </select>
+      </div>
 
       <!-- Primary Category: Restoration Hub -->
       <div class="sidebar-section-title">Restoration Hub</div>
@@ -1142,47 +1434,52 @@
 
       <!-- Topbar Header -->
       <header class="app-topbar">
-        <div class="topbar-left">
-          <button type="button" class="btn-mobile-sidebar-toggle" id="mobileSidebarToggle" aria-label="Open sidebar menu">
-            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-          </button>
-          <a href="index.html" class="site-logo mobile-topbar-logo" style="display: none;">
-            <div class="logo-icon-wrap" style="width: 34px; height: 34px;">
-              <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
-            </div>
-            <div class="logo-text">
-              <h3 style="font-size: 1.15rem; margin: 0; line-height: 1;">Aqua<span style="color: var(--dash-primary);">Shield</span></h3>
-              <p style="font-size: 0.62rem; margin: 2px 0 0; letter-spacing: 0.5px; text-transform: uppercase; font-weight: 600; color: var(--dash-muted);">Emergency Restoration</p>
-            </div>
-          </a>
-          <div class="topbar-search-wrap">
-            <svg class="topbar-search-icon" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-            <input type="text" class="topbar-search-input" id="dashSearchInput" placeholder="Search claims, moisture logs, equipment...">
+        <div class="topbar-main-row">
+          <div class="topbar-brand-section">
+            <button type="button" class="btn-mobile-sidebar-toggle" id="mobileSidebarToggle" aria-label="Open sidebar menu">
+              <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+            </button>
+            <a href="index.html" class="site-logo mobile-topbar-logo" style="display: none;">
+              <div class="logo-icon-wrap" style="width: 34px; height: 34px;">
+                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
+              </div>
+              <div class="logo-text">
+                <h3 style="font-size: 1.15rem; margin: 0; line-height: 1;">Aqua<span style="color: var(--dash-primary);">Shield</span></h3>
+                <p style="font-size: 0.62rem; margin: 2px 0 0; letter-spacing: 0.5px; text-transform: uppercase; font-weight: 600; color: var(--dash-muted);">Emergency Restoration</p>
+              </div>
+            </a>
           </div>
-          <!-- Job Switcher -->
-          <select id="activeJobSelector" class="job-pill-select" title="Active Claim File">
-            <option value="AQ-9421" selected>Job #AQ-9421 (Springfield)</option>
-            <option value="AQ-8830">Job #AQ-8830 (Coastal)</option>
-          </select>
-        </div>
 
-        <div class="topbar-actions">
-          <!-- Theme Toggle -->
-          <button type="button" class="topbar-btn theme-toggle-btn" aria-label="Toggle dark/light mode" title="Toggle Theme">
-            <span class="theme-icon"><svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg></span>
-          </button>
+          <div class="topbar-search-tools">
+            <div class="topbar-search-wrap">
+              <svg class="topbar-search-icon" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+              <input type="text" class="topbar-search-input" id="dashSearchInput" placeholder="Search claims, moisture logs, equipment...">
+            </div>
+            <!-- Job Switcher -->
+            <select id="activeJobSelector" class="job-pill-select" title="Active Claim File">
+              <option value="AQ-9421" selected>Job #AQ-9421 (Springfield)</option>
+              <option value="AQ-8830">Job #AQ-8830 (Coastal)</option>
+            </select>
+          </div>
 
-          <!-- RTL Toggle -->
-          <button type="button" class="topbar-btn rtl-toggle-btn" aria-label="Switch LTR / RTL" title="Switch Direction">
-            <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
-            <span class="label-text">RTL</span>
-          </button>
+          <div class="topbar-actions">
+            <!-- Theme Toggle -->
+            <button type="button" class="topbar-btn theme-toggle-btn" aria-label="Toggle dark/light mode" title="Toggle Theme">
+              <span class="theme-icon"><svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg></span>
+            </button>
 
-          <!-- Back to Website Pill Button -->
-          <a href="index.html" class="topbar-btn btn-back-web">
-            <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
-            <span>Back to Website</span>
-          </a>
+            <!-- RTL Toggle -->
+            <button type="button" class="topbar-btn rtl-toggle-btn" aria-label="Switch LTR / RTL" title="Switch Direction">
+              <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
+              <span class="label-text">RTL</span>
+            </button>
+
+            <!-- Back to Website Pill Button -->
+            <a href="index.html" class="topbar-btn btn-back-web" title="Return to AquaShield Website">
+              <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+              <span class="back-text">Website</span>
+            </a>
+          </div>
         </div>
       </header>
 
@@ -1564,8 +1861,8 @@
           </div>
 
           <div class="panel-card">
-            <div style="overflow-x: auto;">
-              <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem;">
+            <div class="dash-table-wrap">
+              <table class="dash-table">
                 <thead>
                   <tr style="border-bottom: 2px solid var(--dash-border); color: var(--dash-muted); font-size: 0.78rem; text-transform: uppercase;">
                     <th style="padding: 14px;">Monitoring Date</th>
@@ -1692,7 +1989,7 @@
           </div>
 
           <!-- Policy & Claims Coordination Dossier (2-Column Grid) -->
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; margin-bottom: 24px;">
+          <div class="claim-grid-2col">
             <!-- Column 1: Policyholder & Coverage Details -->
             <div class="panel-card" style="margin-bottom: 0;">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--dash-border);">
@@ -2015,7 +2312,7 @@
 
           <div class="panel-card" style="max-width: 820px; margin: 0 auto;">
             <form onsubmit="handleEmergencyTicket(event)">
-              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px;">
+              <div class="dash-form-row">
                 <div>
                   <label style="font-size: 0.82rem; font-weight: 700; color: var(--dash-muted); text-transform: uppercase;">Damaged Property Address *</label>
                   <input type="text" class="form-input-control" required value="742 Evergreen Terrace, Springfield" style="margin-top: 6px;">
@@ -2030,7 +2327,7 @@
                 </div>
               </div>
 
-              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px;">
+              <div class="dash-form-row">
                 <div>
                   <label style="font-size: 0.82rem; font-weight: 700; color: var(--dash-muted); text-transform: uppercase;">Incursion Cause *</label>
                   <select class="form-input-control" style="margin-top: 6px;">
@@ -2139,7 +2436,7 @@
           </div>
 
           <!-- Policy & Claims Coordination Dossier (2-Column Grid) -->
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; margin-bottom: 24px;">
+          <div class="claim-grid-2col">
             <!-- Column 1: Policy & Loss Telemetry -->
             <div class="panel-card" style="margin-bottom: 0;">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--dash-border);">
@@ -3558,8 +3855,8 @@
       });
     });
 
-    // Mobile Sidebar Drawer
     const mobileToggle = document.getElementById('mobileSidebarToggle');
+    const sidebarClose = document.getElementById('sidebarCloseBtn');
     const sidebar = document.getElementById('appSidebar');
     const overlay = document.getElementById('sidebarOverlay');
 
@@ -3574,6 +3871,7 @@
     }
 
     if (mobileToggle) mobileToggle.addEventListener('click', openMobileSidebar);
+    if (sidebarClose) sidebarClose.addEventListener('click', closeMobileSidebar);
     if (overlay) overlay.addEventListener('click', closeMobileSidebar);
 
     // Sign Out Handler
@@ -3586,8 +3884,9 @@
       });
     }
 
-    // Active Job Switcher Simulation
+    // Active Job Switcher Simulation (Two-Way Synced Across Topbar & Sidebar Drawer)
     const jobSelector = document.getElementById('activeJobSelector');
+    const jobSelectorDrawer = document.getElementById('activeJobSelectorDrawer');
     function applyJobState(val) {
       const addr = document.getElementById('currentJobAddress');
       const crew = document.getElementById('currentCrewLead');
@@ -3664,10 +3963,24 @@
       }
     }
 
+    function syncAndApplyJob(val, showToastMsg = true) {
+      if (jobSelector && jobSelector.value !== val) jobSelector.value = val;
+      if (jobSelectorDrawer && jobSelectorDrawer.value !== val) jobSelectorDrawer.value = val;
+      applyJobState(val);
+      if (showToastMsg) {
+        showToast(`Job switched to #${val}. Carrier dossier synchronized.`, 'info');
+      }
+    }
+
     if (jobSelector) {
       jobSelector.addEventListener('change', () => {
-        applyJobState(jobSelector.value);
-        showToast(`Job switched to #${jobSelector.value}. Carrier dossier synchronized.`, 'info');
+        syncAndApplyJob(jobSelector.value);
+      });
+    }
+
+    if (jobSelectorDrawer) {
+      jobSelectorDrawer.addEventListener('change', () => {
+        syncAndApplyJob(jobSelectorDrawer.value);
       });
     }
 
