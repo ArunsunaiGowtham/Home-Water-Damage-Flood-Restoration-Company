@@ -1314,11 +1314,23 @@
         flex-shrink: 0 !important;
         box-sizing: border-box !important;
       }
-      .topbar-actions .topbar-btn svg {
-        width: 16px;
-        height: 16px;
+      .topbar-actions .topbar-btn.rtl-toggle-btn {
+        width: auto !important;
+        min-width: auto !important;
+        padding: 0 10px !important;
+        border-radius: 999px !important;
+        gap: 5px !important;
       }
-      .topbar-actions .rtl-toggle-btn .label-text,
+      .topbar-actions .topbar-btn svg {
+        width: 15px;
+        height: 15px;
+      }
+      .topbar-actions .rtl-toggle-btn .label-text {
+        display: inline !important;
+        font-size: 0.8rem !important;
+        font-weight: 700 !important;
+        letter-spacing: 0.3px;
+      }
       .topbar-actions .btn-back-web .back-text-full,
       .topbar-actions .btn-back-web .back-text-short {
         display: none !important;
@@ -1518,8 +1530,7 @@
         font-size: 0.76rem !important;
       }
 
-      /* Mobile topbar actions stay circular icon-only to eliminate crowding */
-      .topbar-actions .rtl-toggle-btn,
+      /* Back to website and theme toggle are compact circles; RTL toggle is a clean pill */
       .topbar-actions .btn-back-web,
       .topbar-actions .theme-toggle-btn {
         width: 36px !important;
@@ -1529,7 +1540,19 @@
         justify-content: center !important;
         border-radius: 50% !important;
       }
-      .topbar-actions .rtl-toggle-btn .label-text,
+      .topbar-actions .rtl-toggle-btn {
+        width: auto !important;
+        min-width: auto !important;
+        height: 36px !important;
+        padding: 0 10px !important;
+        border-radius: 999px !important;
+        gap: 5px !important;
+      }
+      .topbar-actions .rtl-toggle-btn .label-text {
+        display: inline !important;
+        font-size: 0.8rem !important;
+        font-weight: 700 !important;
+      }
       .topbar-actions .btn-back-web .back-text-full,
       .topbar-actions .btn-back-web .back-text-short {
         display: none !important;
@@ -1680,11 +1703,22 @@
         justify-content: center !important;
         border-radius: 50% !important;
       }
-      .topbar-actions .topbar-btn svg {
-        width: 15px;
-        height: 15px;
+      .topbar-actions .topbar-btn.rtl-toggle-btn {
+        width: auto !important;
+        min-width: auto !important;
+        padding: 0 8px !important;
+        border-radius: 999px !important;
+        gap: 4px !important;
       }
-      .topbar-actions .rtl-toggle-btn .label-text,
+      .topbar-actions .topbar-btn svg {
+        width: 14px;
+        height: 14px;
+      }
+      .topbar-actions .rtl-toggle-btn .label-text {
+        display: inline !important;
+        font-size: 0.76rem !important;
+        font-weight: 700 !important;
+      }
       .topbar-actions .btn-back-web .back-text-full,
       .topbar-actions .btn-back-web .back-text-short {
         display: none !important;
@@ -1800,7 +1834,6 @@
         gap: 3px;
       }
       .topbar-actions .topbar-btn.theme-toggle-btn,
-      .topbar-actions .topbar-btn.rtl-toggle-btn,
       .topbar-actions .topbar-btn.btn-back-web {
         width: 32px !important;
         min-width: 32px !important;
@@ -1809,9 +1842,22 @@
         justify-content: center !important;
         border-radius: 50% !important;
       }
+      .topbar-actions .topbar-btn.rtl-toggle-btn {
+        width: auto !important;
+        min-width: auto !important;
+        height: 32px !important;
+        padding: 0 7px !important;
+        border-radius: 999px !important;
+        font-size: 0.72rem !important;
+        gap: 3px !important;
+      }
+      .topbar-actions .topbar-btn.rtl-toggle-btn .label-text {
+        display: inline !important;
+        font-size: 0.72rem !important;
+      }
       .topbar-actions .topbar-btn svg {
-        width: 14px;
-        height: 14px;
+        width: 13px;
+        height: 13px;
       }
       .topbar-search-tools .job-pill-select {
         max-width: 95px !important;
@@ -1965,6 +2011,16 @@
             <div style="font-size: 0.88rem; font-weight: 700; color: var(--dash-text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" id="dashUserName">Sarah Connor</div>
             <div style="font-size: 0.75rem; color: #059669; font-weight: 600;">● Active Demo</div>
           </div>
+        </div>
+        <div style="padding: 0 4px 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+          <button type="button" class="topbar-btn rtl-toggle-btn" style="width: 100% !important; height: 38px !important; border-radius: 8px !important; justify-content: center !important; gap: 6px !important; font-size: 0.82rem !important; font-weight: 700 !important;" aria-label="Switch Direction" title="Switch Direction">
+            <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
+            <span><strong class="label-text">RTL</strong></span>
+          </button>
+          <button type="button" class="topbar-btn theme-toggle-btn" style="width: 100% !important; height: 38px !important; border-radius: 8px !important; justify-content: center !important; gap: 6px !important; font-size: 0.82rem !important; font-weight: 700 !important;" aria-label="Toggle Theme" title="Toggle Theme">
+            <span class="theme-icon"><svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg></span>
+            <span>Theme</span>
+          </button>
         </div>
         <a href="index.html" class="btn-sidebar-back-web" id="sidebarBackWebBtn" title="Return to Main Website">
           <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>

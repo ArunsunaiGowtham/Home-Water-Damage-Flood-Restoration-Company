@@ -295,6 +295,31 @@
     display: none !important;
   }
 
+  .mobile-controls-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .mobile-drawer-rtl-btn,
+  .mobile-drawer-theme-btn {
+    width: 100% !important;
+    height: 42px !important;
+    border-radius: var(--radius-md) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    font-size: 0.84rem !important;
+    font-weight: 700 !important;
+    border: 1px solid var(--border-color);
+    background: var(--bg-surface);
+    color: var(--text-main);
+    box-sizing: border-box;
+    cursor: pointer;
+  }
+
   .process-grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -422,17 +447,31 @@
   }
 
   .btn-ctrl.rtl-toggle-btn {
-    width: 36px;
-    min-width: 36px;
-    height: 36px;
-    padding: 0 !important;
-    border-radius: 50% !important;
-    justify-content: center;
+    width: auto !important;
+    min-width: auto !important;
+    height: 36px !important;
+    padding: 0 10px !important;
+    border-radius: 999px !important;
+    font-size: 0.8rem !important;
+    font-weight: 700 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 5px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .btn-ctrl.rtl-toggle-btn svg {
+    width: 14px;
+    height: 14px;
     flex-shrink: 0;
   }
 
   .btn-ctrl.rtl-toggle-btn .label-text {
-    display: none !important;
+    display: inline !important;
+    font-size: 0.8rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.3px;
   }
 
   .btn-mobile-toggle {
@@ -638,9 +677,16 @@
     height: 34px;
   }
   .btn-ctrl.rtl-toggle-btn {
-    width: 34px;
-    min-width: 34px;
-    height: 34px;
+    width: auto !important;
+    min-width: auto !important;
+    height: 34px !important;
+    padding: 0 8px !important;
+    font-size: 0.74rem !important;
+    gap: 4px !important;
+  }
+  .btn-ctrl.rtl-toggle-btn .label-text {
+    display: inline !important;
+    font-size: 0.74rem !important;
   }
   .btn-mobile-toggle {
     width: 36px;
