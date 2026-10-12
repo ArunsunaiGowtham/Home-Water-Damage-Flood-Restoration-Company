@@ -12,8 +12,8 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <link rel="stylesheet" href="assets/css/style.css?v=4.2">
-  <link rel="stylesheet" href="assets/css/responsive.css?v=4.2">
+  <link rel="stylesheet" href="assets/css/style.css?v=4.3">
+  <link rel="stylesheet" href="assets/css/responsive.css?v=4.3">
 
   <!-- Favicon & Brand Icons -->
   <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
@@ -1238,46 +1238,52 @@
       }
       .mobile-topbar-logo {
         display: inline-flex !important;
-        align-items: center;
-        gap: 8px;
-        text-decoration: none;
-        min-width: max-content !important;
+        align-items: center !important;
+        gap: 6px !important;
+        text-decoration: none !important;
+        min-width: 0 !important;
         flex-shrink: 0 !important;
-        overflow: visible !important;
       }
       .mobile-topbar-logo .logo-icon-wrap {
-        width: 32px;
-        height: 32px;
-        min-width: 32px;
-        flex-shrink: 0;
+        width: 28px !important;
+        height: 28px !important;
+        min-width: 28px !important;
+        border-radius: 7px !important;
+        flex-shrink: 0 !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+      }
+      .mobile-topbar-logo .logo-icon-wrap svg {
+        width: 15px !important;
+        height: 15px !important;
       }
       .mobile-topbar-logo .logo-text {
-        min-width: max-content !important;
-        overflow: visible !important;
+        min-width: 0 !important;
         display: flex !important;
         flex-direction: column !important;
         justify-content: center !important;
+        line-height: 1 !important;
       }
       .mobile-topbar-logo .logo-text h3 {
-        font-size: 1.15rem;
-        margin: 0;
-        line-height: 1;
+        font-size: 1.02rem !important;
+        margin: 0 !important;
+        line-height: 1.05 !important;
         white-space: nowrap !important;
-        overflow: visible !important;
-        text-overflow: clip !important;
-        letter-spacing: -0.2px;
+        letter-spacing: -0.3px !important;
       }
-      .mobile-topbar-logo .logo-text p {
+      .mobile-topbar-logo .logo-text p,
+      .mobile-topbar-logo .mobile-logo-subtitle {
         display: block !important;
         visibility: visible !important;
         opacity: 1 !important;
-        font-size: 0.58rem !important;
-        line-height: 1.1 !important;
+        font-size: 0.46rem !important;
+        line-height: 1 !important;
         margin: 2px 0 0 0 !important;
         color: var(--dash-muted) !important;
         text-transform: uppercase !important;
         font-weight: 700 !important;
-        letter-spacing: 0.5px !important;
+        letter-spacing: 0.2px !important;
         white-space: nowrap !important;
       }
 
@@ -1285,82 +1291,114 @@
       .app-topbar {
         height: auto;
         min-height: auto;
-        padding: 10px 14px 12px;
+        padding: 8px 12px 10px;
         width: 100%;
         max-width: 100%;
         box-sizing: border-box;
       }
       .topbar-main-row {
-        display: grid;
-        grid-template-columns: 1fr auto;
-        gap: 8px;
+        display: grid !important;
+        grid-template-columns: 1fr auto !important;
+        gap: 8px 10px !important;
         width: 100%;
         max-width: 100%;
-        align-items: center;
+        align-items: center !important;
         box-sizing: border-box;
       }
       .topbar-brand-section {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        min-width: 0;
-        grid-column: 1;
-        grid-row: 1;
+        grid-column: 1 !important;
+        grid-row: 1 !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 6px !important;
+        min-width: 0 !important;
         overflow: visible !important;
-        flex-shrink: 0;
+        flex-shrink: 0 !important;
+      }
+      .btn-mobile-sidebar-toggle {
+        width: 32px !important;
+        min-width: 32px !important;
+        height: 32px !important;
+        border-radius: 8px !important;
+        padding: 0 !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        flex-shrink: 0 !important;
       }
       .topbar-actions {
-        grid-column: 2;
-        grid-row: 1;
-        gap: 6px;
-        justify-self: end;
-        display: flex;
-        align-items: center;
-        flex-shrink: 0;
+        grid-column: 2 !important;
+        grid-row: 1 !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: flex-end !important;
+        justify-self: end !important;
+        gap: 4px !important;
+        flex-shrink: 0 !important;
+        margin-left: auto !important;
       }
       .topbar-actions .topbar-btn {
-        width: 36px !important;
-        min-width: 36px !important;
-        height: 36px !important;
+        height: 32px !important;
+        box-sizing: border-box !important;
+      }
+      .topbar-actions .topbar-btn.theme-toggle-btn {
+        width: 32px !important;
+        min-width: 32px !important;
+        height: 32px !important;
         padding: 0 !important;
         border-radius: 50% !important;
         display: inline-flex !important;
         align-items: center !important;
         justify-content: center !important;
         flex-shrink: 0 !important;
-        box-sizing: border-box !important;
+      }
+      .topbar-actions .topbar-btn.theme-toggle-btn svg {
+        width: 14px !important;
+        height: 14px !important;
       }
       .topbar-actions .topbar-btn.rtl-toggle-btn {
         width: auto !important;
         min-width: auto !important;
-        padding: 0 10px !important;
+        height: 32px !important;
+        padding: 0 7px !important;
         border-radius: 999px !important;
-        gap: 5px !important;
+        gap: 3px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        font-size: 0.72rem !important;
+        flex-shrink: 0 !important;
+      }
+      .topbar-actions .topbar-btn.rtl-toggle-btn svg {
+        width: 13px !important;
+        height: 13px !important;
+      }
+      .topbar-actions .rtl-toggle-btn .label-text {
+        display: inline !important;
+        font-size: 0.72rem !important;
+        font-weight: 700 !important;
       }
       .topbar-actions .topbar-btn.btn-back-web {
         width: auto !important;
         min-width: auto !important;
-        padding: 0 12px !important;
+        height: 32px !important;
+        padding: 0 8px !important;
         border-radius: 999px !important;
-        gap: 6px !important;
-        font-size: 0.82rem !important;
+        gap: 3px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        font-size: 0.72rem !important;
         font-weight: 700 !important;
+        flex-shrink: 0 !important;
       }
-      .topbar-actions .topbar-btn svg {
-        width: 15px;
-        height: 15px;
-      }
-      .topbar-actions .rtl-toggle-btn .label-text {
-        display: inline !important;
-        font-size: 0.8rem !important;
-        font-weight: 700 !important;
-        letter-spacing: 0.3px;
+      .topbar-actions .topbar-btn.btn-back-web svg {
+        width: 13px !important;
+        height: 13px !important;
       }
       .topbar-actions .btn-back-web .back-text-full {
-        display: inline !important;
+        display: none !important;
       }
       .topbar-actions .btn-back-web .back-text-short {
-        display: none !important;
+        display: inline !important;
       }
 
       /* Tools sub-row: Search and Job Selector */
@@ -1557,46 +1595,6 @@
         font-size: 0.76rem !important;
       }
 
-      .topbar-actions .theme-toggle-btn {
-        width: 36px !important;
-        min-width: 36px !important;
-        height: 36px !important;
-        padding: 0 !important;
-        justify-content: center !important;
-        border-radius: 50% !important;
-      }
-      .topbar-actions .rtl-toggle-btn {
-        width: auto !important;
-        min-width: auto !important;
-        height: 36px !important;
-        padding: 0 9px !important;
-        border-radius: 999px !important;
-        gap: 5px !important;
-      }
-      .topbar-actions .rtl-toggle-btn .label-text {
-        display: inline !important;
-        font-size: 0.78rem !important;
-        font-weight: 700 !important;
-      }
-      .topbar-actions .btn-back-web {
-        width: auto !important;
-        min-width: auto !important;
-        height: 36px !important;
-        padding: 0 10px !important;
-        border-radius: 999px !important;
-        gap: 5px !important;
-        display: inline-flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-      }
-      .topbar-actions .btn-back-web .back-text-full {
-        display: none !important;
-      }
-      .topbar-actions .btn-back-web .back-text-short {
-        display: inline !important;
-        font-size: 0.78rem !important;
-        font-weight: 700 !important;
-      }
 
       /* Status Alert Banners (Tab 5, Tab 7, Tab 8) */
       div[style*="border-left: 4px solid #10b981"] {
@@ -1702,40 +1700,41 @@
         padding: 8px 10px 10px;
       }
       .topbar-main-row {
-        gap: 6px;
+        gap: 6px !important;
       }
       .topbar-brand-section {
-        gap: 6px;
+        gap: 5px !important;
       }
       .btn-mobile-sidebar-toggle {
-        width: 35px;
-        min-width: 35px;
-        height: 35px;
-        border-radius: 8px;
+        width: 30px !important;
+        min-width: 30px !important;
+        height: 30px !important;
+        border-radius: 7px !important;
       }
       .mobile-topbar-logo {
-        gap: 6px;
+        gap: 5px !important;
       }
       .mobile-topbar-logo .logo-icon-wrap {
-        width: 30px !important;
-        height: 30px !important;
-        min-width: 30px;
-        border-radius: 8px;
+        width: 26px !important;
+        height: 26px !important;
+        min-width: 26px !important;
+        border-radius: 6px !important;
       }
       .mobile-topbar-logo .logo-icon-wrap svg {
-        width: 16px;
-        height: 16px;
+        width: 14px !important;
+        height: 14px !important;
       }
       .mobile-topbar-logo .logo-text h3 {
-        font-size: 1.05rem !important;
+        font-size: 0.98rem !important;
       }
-      .mobile-topbar-logo .logo-text p {
+      .mobile-topbar-logo .logo-text p,
+      .mobile-topbar-logo .mobile-logo-subtitle {
         display: block !important;
         visibility: visible !important;
         opacity: 1 !important;
-        font-size: 0.54rem !important;
-        letter-spacing: 0.4px !important;
-        line-height: 1.1 !important;
+        font-size: 0.44rem !important;
+        letter-spacing: 0.15px !important;
+        line-height: 1 !important;
         margin: 2px 0 0 0 !important;
         color: var(--dash-muted) !important;
         text-transform: uppercase !important;
@@ -1743,50 +1742,29 @@
         white-space: nowrap !important;
       }
       .topbar-actions {
-        gap: 5px;
+        gap: 3px !important;
       }
       .topbar-actions .topbar-btn {
-        width: 34px !important;
-        min-width: 34px !important;
-        height: 34px !important;
-        padding: 0 !important;
-        justify-content: center !important;
-        border-radius: 50% !important;
+        height: 30px !important;
+      }
+      .topbar-actions .topbar-btn.theme-toggle-btn {
+        width: 30px !important;
+        min-width: 30px !important;
+        height: 30px !important;
       }
       .topbar-actions .topbar-btn.rtl-toggle-btn {
         width: auto !important;
         min-width: auto !important;
-        padding: 0 8px !important;
-        border-radius: 999px !important;
-        gap: 4px !important;
-      }
-      .topbar-actions .topbar-btn svg {
-        width: 14px;
-        height: 14px;
-      }
-      .topbar-actions .rtl-toggle-btn .label-text {
-        display: inline !important;
-        font-size: 0.76rem !important;
-        font-weight: 700 !important;
+        height: 30px !important;
+        padding: 0 6px !important;
+        font-size: 0.70rem !important;
       }
       .topbar-actions .topbar-btn.btn-back-web {
         width: auto !important;
         min-width: auto !important;
-        height: 34px !important;
-        padding: 0 8px !important;
-        border-radius: 999px !important;
-        gap: 4px !important;
-        display: inline-flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-      }
-      .topbar-actions .btn-back-web .back-text-full {
-        display: none !important;
-      }
-      .topbar-actions .btn-back-web .back-text-short {
-        display: inline !important;
-        font-size: 0.74rem !important;
-        font-weight: 700 !important;
+        height: 30px !important;
+        padding: 0 7px !important;
+        font-size: 0.70rem !important;
       }
 
       .topbar-search-tools {
@@ -1877,74 +1855,56 @@
         padding: 6px 8px 8px;
       }
       .topbar-main-row {
-        gap: 4px;
+        gap: 4px !important;
       }
       .topbar-brand-section {
-        gap: 4px;
+        gap: 4px !important;
       }
       .btn-mobile-sidebar-toggle {
-        width: 32px;
-        min-width: 32px;
-        height: 32px;
+        width: 28px !important;
+        min-width: 28px !important;
+        height: 28px !important;
       }
       .mobile-topbar-logo .logo-icon-wrap {
-        width: 26px !important;
-        height: 26px !important;
-        min-width: 26px;
+        width: 24px !important;
+        height: 24px !important;
+        min-width: 24px !important;
       }
       .mobile-topbar-logo .logo-text h3 {
-        font-size: 0.95rem !important;
+        font-size: 0.90rem !important;
       }
-      .mobile-topbar-logo .logo-text p {
-        font-size: 0.48rem !important;
-        letter-spacing: 0.2px !important;
+      .mobile-topbar-logo .logo-text p,
+      .mobile-topbar-logo .mobile-logo-subtitle {
+        font-size: 0.40rem !important;
+        letter-spacing: 0.1px !important;
       }
       .topbar-actions {
-        gap: 3px;
+        gap: 2px !important;
       }
       .topbar-actions .topbar-btn.theme-toggle-btn {
-        width: 32px !important;
-        min-width: 32px !important;
-        height: 32px !important;
-        padding: 0 !important;
-        justify-content: center !important;
-        border-radius: 50% !important;
+        width: 28px !important;
+        min-width: 28px !important;
+        height: 28px !important;
+      }
+      .topbar-actions .topbar-btn.rtl-toggle-btn {
+        height: 28px !important;
+        padding: 0 5px !important;
+        font-size: 0.65rem !important;
       }
       .topbar-actions .topbar-btn.btn-back-web {
-        width: auto !important;
-        min-width: auto !important;
-        height: 32px !important;
-        padding: 0 7px !important;
-        border-radius: 999px !important;
-        font-size: 0.72rem !important;
-        gap: 3px !important;
-        display: inline-flex !important;
-        align-items: center !important;
-        justify-content: center !important;
+        height: 28px !important;
+        padding: 0 5px !important;
+        font-size: 0.65rem !important;
       }
       .topbar-actions .btn-back-web .back-text-full {
         display: none !important;
       }
       .topbar-actions .btn-back-web .back-text-short {
         display: inline !important;
-        font-size: 0.72rem !important;
-      }
-      .topbar-actions .topbar-btn.rtl-toggle-btn {
-        width: auto !important;
-        min-width: auto !important;
-        height: 32px !important;
-        padding: 0 7px !important;
-        border-radius: 999px !important;
-        font-size: 0.72rem !important;
-        gap: 3px !important;
-      }
-      .topbar-actions .topbar-btn.rtl-toggle-btn .label-text {
-        display: inline !important;
-        font-size: 0.72rem !important;
       }
       .topbar-actions .topbar-btn svg {
-        width: 13px;
-        height: 13px;
+        width: 12px !important;
+        height: 12px !important;
       }
       .topbar-search-tools .job-pill-select {
         max-width: 95px !important;
@@ -2129,12 +2089,12 @@
               <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
             </button>
             <a href="index.html" class="site-logo mobile-topbar-logo">
-              <div class="logo-icon-wrap" style="width: 34px; height: 34px;">
-                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
+              <div class="logo-icon-wrap">
+                <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
               </div>
               <div class="logo-text">
-                <h3 style="font-size: 1.15rem; margin: 0; line-height: 1;">Aqua<span style="color: var(--dash-primary);">Shield</span></h3>
-                <p style="display: block !important; visibility: visible !important; opacity: 1 !important; font-size: 0.62rem !important; margin: 2px 0 0 !important; letter-spacing: 0.5px !important; text-transform: uppercase !important; font-weight: 700 !important; color: var(--dash-muted, #64748b) !important; white-space: nowrap !important;">Emergency Restoration</p>
+                <h3>Aqua<span style="color: var(--dash-primary);">Shield</span></h3>
+                <p class="mobile-logo-subtitle">Emergency Restoration</p>
               </div>
             </a>
           </div>
@@ -4520,7 +4480,7 @@
   </div>
 
   <!-- Client-side Logic (Tabs, Themes, RTL, Session) -->
-  <script src="assets/js/main.js?v=4.2"></script>
+  <script src="assets/js/main.js?v=4.3"></script>
   <script>
     // Tab Navigation Logic
     const navButtons = document.querySelectorAll('.sidebar-nav-btn');
