@@ -1238,26 +1238,31 @@
         align-items: center;
         gap: 8px;
         text-decoration: none;
-        min-width: 0;
-        overflow: hidden;
+        min-width: max-content !important;
+        flex-shrink: 0 !important;
+        overflow: visible !important;
       }
       .mobile-topbar-logo .logo-icon-wrap {
-        width: 34px;
-        height: 34px;
-        min-width: 34px;
+        width: 32px;
+        height: 32px;
+        min-width: 32px;
         flex-shrink: 0;
       }
       .mobile-topbar-logo .logo-text {
-        min-width: 0;
-        overflow: hidden;
+        min-width: max-content !important;
+        overflow: visible !important;
       }
       .mobile-topbar-logo .logo-text h3 {
         font-size: 1.15rem;
         margin: 0;
-        line-height: 1.1;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        line-height: 1;
+        white-space: nowrap !important;
+        overflow: visible !important;
+        text-overflow: clip !important;
+        letter-spacing: -0.2px;
+      }
+      .mobile-topbar-logo .logo-text p {
+        display: none !important;
       }
 
       /* Two-row mobile topbar: pixel-perfect alignment without horizontal overflow */
@@ -1285,7 +1290,8 @@
         min-width: 0;
         grid-column: 1;
         grid-row: 1;
-        overflow: hidden;
+        overflow: visible !important;
+        flex-shrink: 0;
       }
       .topbar-actions {
         grid-column: 2;
@@ -1297,20 +1303,25 @@
         flex-shrink: 0;
       }
       .topbar-actions .topbar-btn {
-        height: 38px;
-        padding: 0 10px;
-        font-size: 0.82rem;
-        flex-shrink: 0;
-        box-sizing: border-box;
+        width: 36px !important;
+        min-width: 36px !important;
+        height: 36px !important;
+        padding: 0 !important;
+        border-radius: 50% !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        flex-shrink: 0 !important;
+        box-sizing: border-box !important;
       }
-      .topbar-actions .topbar-btn.theme-toggle-btn {
-        width: 38px;
-        min-width: 38px;
-        padding: 0;
+      .topbar-actions .topbar-btn svg {
+        width: 16px;
+        height: 16px;
       }
-      .topbar-actions .topbar-btn.rtl-toggle-btn {
-        height: 38px;
-        padding: 0 8px;
+      .topbar-actions .rtl-toggle-btn .label-text,
+      .topbar-actions .btn-back-web .back-text-full,
+      .topbar-actions .btn-back-web .back-text-short {
+        display: none !important;
       }
 
       /* Tools sub-row: Search and Job Selector */
@@ -1329,13 +1340,21 @@
         flex: 1;
         min-width: 0;
       }
+      .topbar-search-tools .topbar-search-input {
+        width: 100%;
+        height: 38px;
+        font-size: 0.82rem;
+      }
       .topbar-search-tools .job-pill-select {
         display: block !important;
-        max-width: 160px;
-        height: 40px;
-        padding: 0 10px;
-        font-size: 0.8rem;
+        width: auto !important;
+        max-width: 115px !important;
+        min-width: 90px !important;
+        height: 38px !important;
+        padding: 0 8px !important;
+        font-size: 0.78rem !important;
         flex-shrink: 0;
+        text-overflow: ellipsis;
       }
 
       .app-main {
@@ -1499,39 +1518,21 @@
         font-size: 0.76rem !important;
       }
 
-      /* RTL toggle icon-only to prevent overflow */
-      .topbar-actions .rtl-toggle-btn {
-        width: 36px;
-        min-width: 36px;
-        height: 36px;
-        padding: 0;
-        justify-content: center;
-        border-radius: 50%;
-      }
-      .topbar-actions .rtl-toggle-btn .label-text {
-        display: none !important;
-      }
-
-      /* Back to Website button text on mobile */
-      .topbar-actions .btn-back-web {
-        height: 36px;
-        padding: 0 10px;
-        font-size: 0.8rem;
-        font-weight: 700;
-        gap: 4px;
-        border-radius: 999px;
-      }
-      .topbar-actions .btn-back-web .back-text-full {
-        display: none !important;
-      }
-      .topbar-actions .btn-back-web .back-text-short {
-        display: inline !important;
-        font-size: 0.8rem;
-      }
+      /* Mobile topbar actions stay circular icon-only to eliminate crowding */
+      .topbar-actions .rtl-toggle-btn,
+      .topbar-actions .btn-back-web,
       .topbar-actions .theme-toggle-btn {
-        width: 36px;
-        min-width: 36px;
-        height: 36px;
+        width: 36px !important;
+        min-width: 36px !important;
+        height: 36px !important;
+        padding: 0 !important;
+        justify-content: center !important;
+        border-radius: 50% !important;
+      }
+      .topbar-actions .rtl-toggle-btn .label-text,
+      .topbar-actions .btn-back-web .back-text-full,
+      .topbar-actions .btn-back-web .back-text-short {
+        display: none !important;
       }
 
       /* Status Alert Banners (Tab 5, Tab 7, Tab 8) */
@@ -1669,38 +1670,21 @@
         display: none !important;
       }
       .topbar-actions {
-        gap: 4px;
+        gap: 5px;
       }
       .topbar-actions .topbar-btn {
-        height: 35px;
-        padding: 0 6px;
-        font-size: 0.76rem;
-      }
-      .topbar-actions .topbar-btn.theme-toggle-btn {
-        width: 35px;
-        min-width: 35px;
-        height: 35px;
-      }
-      .topbar-actions .topbar-btn.rtl-toggle-btn {
-        width: 35px;
-        min-width: 35px;
-        height: 35px;
-        padding: 0;
-      }
-
-      /* Compact icon-only Back to Website button on mobile screens under 480px */
-      .topbar-actions .topbar-btn.btn-back-web {
-        width: 35px !important;
-        min-width: 35px !important;
-        height: 35px !important;
+        width: 34px !important;
+        min-width: 34px !important;
+        height: 34px !important;
         padding: 0 !important;
         justify-content: center !important;
         border-radius: 50% !important;
       }
-      .topbar-actions .topbar-btn.btn-back-web svg {
+      .topbar-actions .topbar-btn svg {
         width: 15px;
         height: 15px;
       }
+      .topbar-actions .rtl-toggle-btn .label-text,
       .topbar-actions .btn-back-web .back-text-full,
       .topbar-actions .btn-back-web .back-text-short {
         display: none !important;
@@ -1821,11 +1805,19 @@
         width: 32px !important;
         min-width: 32px !important;
         height: 32px !important;
+        padding: 0 !important;
+        justify-content: center !important;
+        border-radius: 50% !important;
+      }
+      .topbar-actions .topbar-btn svg {
+        width: 14px;
+        height: 14px;
       }
       .topbar-search-tools .job-pill-select {
-        max-width: 100px;
-        font-size: 0.7rem;
-        padding: 0 4px;
+        max-width: 95px !important;
+        min-width: 80px !important;
+        font-size: 0.7rem !important;
+        padding: 0 4px !important;
       }
       .pipeline-wrapper {
         grid-template-columns: 1fr !important;
@@ -2011,12 +2003,12 @@
           <div class="topbar-search-tools">
             <div class="topbar-search-wrap">
               <svg class="topbar-search-icon" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-              <input type="text" class="topbar-search-input" id="dashSearchInput" placeholder="Search claims, moisture logs, equipment...">
+              <input type="text" class="topbar-search-input" id="dashSearchInput" placeholder="Search claims, logs...">
             </div>
             <!-- Job Switcher -->
             <select id="activeJobSelector" class="job-pill-select" title="Active Claim File">
-              <option value="AQ-9421" selected>Job #AQ-9421 (Springfield)</option>
-              <option value="AQ-8830">Job #AQ-8830 (Coastal)</option>
+              <option value="AQ-9421" selected>#AQ-9421</option>
+              <option value="AQ-8830">#AQ-8830</option>
             </select>
           </div>
 
@@ -2033,7 +2025,7 @@
             </button>
 
             <!-- Back to Website Pill Button -->
-            <a href="index.html" class="topbar-btn btn-back-web" title="Return to AquaShield Website" id="topbarBackWebBtn">
+            <a href="index.html" class="topbar-btn btn-back-web" title="Return to AquaShield Website" id="topbarBackWebBtn" aria-label="Return to AquaShield Website">
               <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
               <span class="back-text-full">Back to Website</span>
               <span class="back-text-short">Website</span>
