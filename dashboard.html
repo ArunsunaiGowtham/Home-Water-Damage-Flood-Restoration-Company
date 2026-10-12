@@ -9,8 +9,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/style.css?v=3.1">
-  <link rel="stylesheet" href="assets/css/responsive.css?v=3.1">
+  <link rel="stylesheet" href="assets/css/style.css?v=3.2">
+  <link rel="stylesheet" href="assets/css/responsive.css?v=3.2">
 
   <!-- Favicon & Brand Icons -->
   <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
@@ -1251,6 +1251,9 @@
       .mobile-topbar-logo .logo-text {
         min-width: max-content !important;
         overflow: visible !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
       }
       .mobile-topbar-logo .logo-text h3 {
         font-size: 1.15rem;
@@ -1262,7 +1265,15 @@
         letter-spacing: -0.2px;
       }
       .mobile-topbar-logo .logo-text p {
-        display: none !important;
+        display: block !important;
+        font-size: 0.58rem !important;
+        line-height: 1.1 !important;
+        margin: 2px 0 0 0 !important;
+        color: var(--dash-muted) !important;
+        text-transform: uppercase !important;
+        font-weight: 700 !important;
+        letter-spacing: 0.5px !important;
+        white-space: nowrap !important;
       }
 
       /* Two-row mobile topbar: pixel-perfect alignment without horizontal overflow */
@@ -1714,7 +1725,15 @@
         font-size: 1.05rem !important;
       }
       .mobile-topbar-logo .logo-text p {
-        display: none !important;
+        display: block !important;
+        font-size: 0.54rem !important;
+        letter-spacing: 0.4px !important;
+        line-height: 1.1 !important;
+        margin: 2px 0 0 0 !important;
+        color: var(--dash-muted) !important;
+        text-transform: uppercase !important;
+        font-weight: 700 !important;
+        white-space: nowrap !important;
       }
       .topbar-actions {
         gap: 5px;
@@ -1868,6 +1887,10 @@
       }
       .mobile-topbar-logo .logo-text h3 {
         font-size: 0.95rem !important;
+      }
+      .mobile-topbar-logo .logo-text p {
+        font-size: 0.48rem !important;
+        letter-spacing: 0.2px !important;
       }
       .topbar-actions {
         gap: 3px;
@@ -4500,7 +4523,7 @@
   </div>
 
   <!-- Client-side Logic (Tabs, Themes, RTL, Session) -->
-  <script src="assets/js/main.js?v=3.1"></script>
+  <script src="assets/js/main.js?v=3.2"></script>
   <script>
     // Tab Navigation Logic
     const navButtons = document.querySelectorAll('.sidebar-nav-btn');

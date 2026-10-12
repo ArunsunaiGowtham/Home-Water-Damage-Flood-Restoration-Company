@@ -416,16 +416,28 @@
 
   .logo-text {
     min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 
   .logo-text h3 {
     font-size: 1.15rem;
     line-height: 1.1;
+    margin: 0;
   }
 
-  /* Hide subtitle text on mobile phones to guarantee zero horizontal clipping */
+  /* Subtitle text on mobile phones: beautifully scaled and crisp */
   .logo-text p {
-    display: none !important;
+    display: block !important;
+    font-size: 0.58rem !important;
+    line-height: 1.1 !important;
+    margin: 2px 0 0 0 !important;
+    color: var(--text-muted) !important;
+    text-transform: uppercase !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.5px !important;
+    white-space: nowrap !important;
   }
 
   .nav-actions {
@@ -645,6 +657,11 @@
 
   .logo-text h3 {
     font-size: 1.05rem;
+  }
+
+  .logo-text p {
+    font-size: 0.50rem !important;
+    letter-spacing: 0.3px !important;
   }
 
   .btn {
