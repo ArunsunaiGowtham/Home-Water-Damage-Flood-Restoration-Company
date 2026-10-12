@@ -340,8 +340,7 @@
       display: none;
     }
 
-    .topbar-search-tools,
-    .topbar-left {
+    .topbar-search-tools {
       display: flex;
       align-items: center;
       gap: 12px;
@@ -1194,15 +1193,24 @@
     }
 
     @media (max-width: 900px) {
+      .app-layout {
+        width: 100%;
+        max-width: 100vw;
+        overflow-x: hidden;
+      }
       .app-sidebar {
         position: fixed;
         left: 0;
         top: 0;
         bottom: 0;
         width: min(300px, 86vw);
+        height: 100vh;
+        height: 100dvh;
         transform: translateX(-100%);
-        box-shadow: 0 0 35px rgba(0, 0, 0, 0.3);
-        z-index: 100;
+        box-shadow: 0 0 35px rgba(0, 0, 0, 0.35);
+        z-index: 1000;
+        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        -webkit-overflow-scrolling: touch;
       }
       [dir="rtl"] .app-sidebar {
         left: auto;
@@ -1347,7 +1355,14 @@
         grid-template-columns: 1fr;
       }
       .pipeline-wrapper {
-        grid-template-columns: repeat(2, 1fr) !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 8px !important;
+      }
+      .pipeline-step {
+        padding: 10px 12px !important;
+        font-size: 0.84rem !important;
+        min-width: 0 !important;
+        word-break: break-word !important;
       }
       .sub-grid-2col {
         grid-template-columns: 1fr !important;
@@ -1360,41 +1375,128 @@
     }
 
     @media (max-width: 640px) {
+      /* Page Header Mobile Stacking & Alignment */
       .dash-page-header {
         flex-direction: column;
         align-items: stretch;
         gap: 12px;
         margin-bottom: 18px;
+        padding-bottom: 14px;
       }
       .dash-page-header-text h2 {
-        font-size: 1.35rem;
+        font-size: 1.3rem;
       }
       .dash-page-header-text p {
         font-size: 0.84rem;
+        line-height: 1.45;
       }
-      .dash-page-header > div:last-child,
-      .dash-page-header > a:last-child,
-      .dash-page-header > button:last-child {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        text-align: center;
-        box-sizing: border-box;
+      .dash-page-header > div:last-child {
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 8px !important;
+        align-items: stretch !important;
+        box-sizing: border-box !important;
       }
+      .dash-page-header > div:last-child .topbar-btn,
       .dash-page-header > div:last-child button,
       .dash-page-header > div:last-child a,
-      .dash-page-header > a.topbar-btn {
-        width: 100%;
-        justify-content: center;
-        text-align: center;
+      .dash-page-header > a.topbar-btn,
+      .dash-page-header > button.topbar-btn {
+        width: 100% !important;
+        flex: none !important;
+        justify-content: center !important;
+        text-align: center !important;
+        box-sizing: border-box !important;
+        white-space: normal !important;
+        height: auto !important;
+        min-height: 40px !important;
+        padding: 9px 14px !important;
       }
+
+      /* Stack action buttons inside Lead Card & Sub-Grids to prevent mobile overflow */
+      .dash-lead-actions,
+      .sub-grid-2col .panel-card > div:last-child {
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 8px !important;
+      }
+      .dash-lead-actions .topbar-btn,
+      .dash-lead-actions button,
+      .dash-lead-actions a,
+      .sub-grid-2col .panel-card > div:last-child .topbar-btn {
+        width: 100% !important;
+        flex: none !important;
+        justify-content: center !important;
+        text-align: center !important;
+        min-height: 40px !important;
+        white-space: normal !important;
+      }
+
+      /* Advocate card actions stack on mobile */
+      .dash-advocate-actions {
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 8px !important;
+      }
+      .dash-advocate-actions .topbar-btn,
+      .dash-advocate-actions button,
+      .dash-advocate-actions a {
+        width: 100% !important;
+        flex: none !important;
+        justify-content: center !important;
+      }
+
+      /* Panel Card internal headers wrap cleanly */
+      .dash-card-header,
+      .panel-card > div:first-child[style*="display: flex"][style*="justify-content: space-between"] {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 8px !important;
+      }
+      .dash-card-header > div:last-child,
+      .panel-card > div:first-child[style*="display: flex"] > div:last-child {
+        width: 100% !important;
+        display: flex !important;
+        justify-content: flex-start !important;
+        gap: 8px !important;
+        flex-wrap: wrap !important;
+      }
+
+      /* Form Rows collapse to 1 column */
       .dash-form-row {
         grid-template-columns: 1fr;
         gap: 14px;
         margin-bottom: 14px;
       }
-      .pipeline-wrapper {
+
+      /* Auto-fit grids collapse to 1 column on small screens */
+      [style*="grid-template-columns: repeat(auto-fit"] {
         grid-template-columns: 1fr !important;
+        gap: 14px !important;
+      }
+
+      /* Radiometric / Telemetry Line Chart horizontal scroll container */
+      .svg-chart-wrap {
+        width: 100% !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        padding-bottom: 8px !important;
+      }
+      .svg-chart-wrap svg {
+        min-width: 520px !important;
+        height: 220px !important;
+        display: block !important;
+      }
+      .chart-card-header {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 8px !important;
+      }
+      .chart-legend {
+        flex-wrap: wrap !important;
+        justify-content: flex-start !important;
+        font-size: 0.76rem !important;
       }
 
       /* RTL toggle icon-only to prevent overflow */
@@ -1404,18 +1506,20 @@
         height: 36px;
         padding: 0;
         justify-content: center;
+        border-radius: 50%;
       }
       .topbar-actions .rtl-toggle-btn .label-text {
         display: none !important;
       }
 
-      /* Compact Back to Website button text on mobile */
+      /* Back to Website button text on mobile */
       .topbar-actions .btn-back-web {
         height: 36px;
         padding: 0 10px;
         font-size: 0.8rem;
         font-weight: 700;
         gap: 4px;
+        border-radius: 999px;
       }
       .topbar-actions .btn-back-web .back-text-full {
         display: none !important;
@@ -1428,6 +1532,104 @@
         width: 36px;
         min-width: 36px;
         height: 36px;
+      }
+
+      /* Status Alert Banners (Tab 5, Tab 7, Tab 8) */
+      div[style*="border-left: 4px solid #10b981"] {
+        padding: 14px 14px !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 12px !important;
+      }
+      div[style*="border-left: 4px solid #10b981"] > div:first-child {
+        width: 100% !important;
+      }
+      div[style*="border-left: 4px solid #10b981"] > div:last-child,
+      div[style*="border-left: 4px solid #10b981"] > span.sidebar-badge {
+        align-self: flex-start !important;
+      }
+
+      /* Uploaded Documents List in Tab 5 */
+      .uploaded-doc-item {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 10px !important;
+        padding: 12px 14px !important;
+      }
+      .uploaded-doc-item > div:first-child {
+        width: 100% !important;
+        min-width: 0 !important;
+      }
+      .uploaded-doc-item strong {
+        word-break: break-all !important;
+        overflow-wrap: anywhere !important;
+        font-size: 0.88rem !important;
+      }
+      .uploaded-doc-item > div:last-child {
+        width: 100% !important;
+        display: flex !important;
+        gap: 8px !important;
+      }
+      .uploaded-doc-item > div:last-child button {
+        flex: 1 !important;
+        justify-content: center !important;
+        height: 36px !important;
+      }
+
+      /* Document Card Action Buttons in Tab 5 */
+      #dashDocuments .panel-card > div:last-child[style*="display: flex"] {
+        flex-direction: column !important;
+        gap: 8px !important;
+      }
+      #dashDocuments .panel-card > div:last-child[style*="display: flex"] button {
+        width: 100% !important;
+        justify-content: center !important;
+      }
+
+      /* Profile Form Action Buttons in Tab 9 */
+      #profileForm > div > div:last-child {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 12px !important;
+      }
+      #profileForm > div > div:last-child > div:first-child {
+        width: 100% !important;
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 10px !important;
+      }
+      #saveProfileBtn,
+      #resetProfileBtn {
+        width: 100% !important;
+        justify-content: center !important;
+        padding: 0 14px !important;
+      }
+
+      /* Direct Claims Assistance Help Banner */
+      div[style*="Questions About Insurance Billing"] {
+        padding: 16px 14px !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 14px !important;
+      }
+      div[style*="Questions About Insurance Billing"] a,
+      div[style*="Questions About Insurance Billing"] button {
+        width: 100% !important;
+        justify-content: center !important;
+        text-align: center !important;
+      }
+
+      /* Toast Notification Container */
+      .toast-container {
+        left: 14px !important;
+        right: 14px !important;
+        bottom: 16px !important;
+        max-width: calc(100% - 28px) !important;
+      }
+      .toast {
+        width: 100% !important;
+        font-size: 0.84rem !important;
+        padding: 12px 14px !important;
       }
     }
 
@@ -1485,20 +1687,23 @@
         height: 35px;
         padding: 0;
       }
+
+      /* Compact icon-only Back to Website button on mobile screens under 480px */
       .topbar-actions .topbar-btn.btn-back-web {
-        display: inline-flex !important;
-        flex-shrink: 0;
-        height: 35px;
-        padding: 0 8px;
-        font-size: 0.76rem;
-        gap: 4px;
+        width: 35px !important;
+        min-width: 35px !important;
+        height: 35px !important;
+        padding: 0 !important;
+        justify-content: center !important;
+        border-radius: 50% !important;
       }
       .topbar-actions .topbar-btn.btn-back-web svg {
-        width: 13px;
-        height: 13px;
+        width: 15px;
+        height: 15px;
       }
+      .topbar-actions .btn-back-web .back-text-full,
       .topbar-actions .btn-back-web .back-text-short {
-        font-size: 0.76rem;
+        display: none !important;
       }
 
       .topbar-search-tools {
@@ -1521,7 +1726,7 @@
       }
       .topbar-search-tools .job-pill-select {
         height: 36px;
-        max-width: 130px;
+        max-width: 120px;
         font-size: 0.74rem;
         padding: 0 6px;
       }
@@ -1536,32 +1741,57 @@
       .kpi-card {
         padding: 14px 12px;
         border-radius: 14px;
+        min-height: auto;
+      }
+      .kpi-icon-wrap {
+        width: 38px;
+        height: 38px;
+        top: 14px;
+        right: 14px;
+        border-radius: 10px;
+      }
+      [dir="rtl"] .kpi-icon-wrap {
+        right: auto;
+        left: 14px;
+      }
+      .kpi-subtitle {
+        font-size: 0.8rem;
+        padding-right: 42px;
+        margin-bottom: 4px;
+      }
+      [dir="rtl"] .kpi-subtitle {
+        padding-right: 0;
+        padding-left: 42px;
       }
       .kpi-value {
-        font-size: 1.45rem;
+        font-size: 1.4rem;
+        margin-bottom: 4px;
       }
       .chart-card {
         padding: 16px 12px;
         border-radius: 14px;
       }
       .donut-svg-wrap {
-        width: 150px;
-        height: 150px;
+        width: 140px;
+        height: 140px;
+      }
+      .donut-center-val {
+        font-size: 1.7rem;
       }
       .chat-card-container {
         padding: 14px 10px;
         height: 460px;
       }
       .chat-msg {
-        max-width: 88%;
-        font-size: 0.85rem;
+        max-width: 90%;
+        font-size: 0.84rem;
         padding: 10px 12px;
       }
     }
 
     @media (max-width: 360px) {
       .app-topbar {
-        padding: 6px 6px 8px;
+        padding: 6px 8px 8px;
       }
       .topbar-main-row {
         gap: 4px;
@@ -1580,28 +1810,41 @@
         min-width: 26px;
       }
       .mobile-topbar-logo .logo-text h3 {
-        font-size: 0.92rem !important;
+        font-size: 0.95rem !important;
       }
       .topbar-actions {
         gap: 3px;
       }
       .topbar-actions .topbar-btn.theme-toggle-btn,
-      .topbar-actions .topbar-btn.rtl-toggle-btn {
-        width: 32px;
-        min-width: 32px;
-        height: 32px;
-      }
+      .topbar-actions .topbar-btn.rtl-toggle-btn,
       .topbar-actions .topbar-btn.btn-back-web {
-        height: 32px;
-        padding: 0 6px;
-      }
-      .topbar-actions .btn-back-web .back-text-short {
-        font-size: 0.72rem;
+        width: 32px !important;
+        min-width: 32px !important;
+        height: 32px !important;
       }
       .topbar-search-tools .job-pill-select {
-        max-width: 105px;
+        max-width: 100px;
         font-size: 0.7rem;
         padding: 0 4px;
+      }
+      .pipeline-wrapper {
+        grid-template-columns: 1fr !important;
+      }
+      .kpi-value {
+        font-size: 1.3rem;
+      }
+      .kpi-subtitle {
+        padding-right: 36px;
+      }
+      .kpi-icon-wrap {
+        width: 32px;
+        height: 32px;
+        top: 12px;
+        right: 12px;
+      }
+      [dir="rtl"] .kpi-icon-wrap {
+        right: auto;
+        left: 12px;
       }
     }
 
@@ -1611,7 +1854,7 @@
       inset: 0;
       background: rgba(10, 25, 47, 0.5);
       backdrop-filter: blur(4px);
-      z-index: 95;
+      z-index: 999;
     }
 
     .sidebar-overlay.active {
@@ -1990,7 +2233,7 @@
           <div class="sub-grid-2col">
             <!-- 10-Stage Pipeline Overview Bar -->
             <div class="panel-card">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+              <div class="dash-card-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
                 <h4 style="margin: 0; font-size: 1.05rem;">10-Stage Restoration Progress</h4>
                 <div style="display: flex; gap: 8px;">
                   <button type="button" class="topbar-btn" id="btnSimulateNextStage" style="height: 32px; padding: 0 10px; font-size: 0.78rem;">Advance &rarr;</button>
@@ -2016,7 +2259,7 @@
             <!-- Active Response Crew Lead -->
             <div class="panel-card" style="display: flex; flex-direction: column; justify-content: space-between;">
               <div>
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+                <div class="dash-card-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
                   <h4 style="margin: 0; font-size: 1.05rem;">Dispatched Lead Commander</h4>
                   <span class="badge-active-progress" style="background:#ecfdf5; color:#059669;">● On-Site Now</span>
                 </div>
@@ -2029,7 +2272,7 @@
                   </div>
                 </div>
               </div>
-              <div style="display: flex; gap: 10px; margin-top: 18px;">
+              <div class="dash-lead-actions" style="display: flex; gap: 10px; margin-top: 18px;">
                 <a href="tel:8005550199" class="topbar-btn" style="flex: 1; background: #ef4444; color: #fff; border-color: #ef4444;">Call Hotline (800) 555-0199</a>
                 <button type="button" class="topbar-btn" style="flex: 1;" onclick="document.querySelector('[data-target=\'dashCrew\']').click();">Message Crew</button>
               </div>
@@ -2112,7 +2355,7 @@
 
               <!-- Message Input Bar -->
               <form class="chat-input-bar" id="chatSendForm" onsubmit="handleSendChat(event)">
-                <input type="text" id="chatMessageInput" class="form-input-control" placeholder="Type a message to your lead technician..." required style="flex: 1;">
+                <input type="text" id="chatMessageInput" class="form-input-control" placeholder="Type a message to your lead technician..." required style="flex: 1; min-width: 0;">
                 <button type="submit" class="topbar-btn btn-back-web" style="height: 44px; padding: 0 22px; flex-shrink: 0;">Send</button>
               </form>
             </div>
@@ -3871,7 +4114,7 @@
                 <p style="margin: 0 0 16px 0; font-size: 0.88rem; color: var(--dash-text); line-height: 1.55;">
                   "I handle all direct communications with your carrier adjuster Sarah Jenkins. If you have questions about material choices, itemized pricing codes, or scope additions, call my direct desk anytime."
                 </p>
-                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <div class="dash-advocate-actions" style="display: flex; gap: 10px; flex-wrap: wrap;">
                   <a href="tel:8005550199" class="topbar-btn" style="flex: 1; justify-content: center; background: var(--primary-light); color: var(--primary); border-color: rgba(2, 132, 199, 0.3);">
                     Call Desk (Ext. 204)
                   </a>
