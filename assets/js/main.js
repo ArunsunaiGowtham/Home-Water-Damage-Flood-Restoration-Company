@@ -872,3 +872,24 @@ function initCountdownTimer() {
   setInterval(update, 1000);
   update();
 }
+
+/* ==========================================================================
+   Mobile Brand Logo Subtitle Enforcer
+   Guarantees 'EMERGENCY RESTORATION' is always displayed on mobile phones
+   ========================================================================== */
+function enforceMobileLogoSubtitle() {
+  const subtitles = document.querySelectorAll('.logo-text p, .mobile-topbar-logo .logo-text p, .site-logo .logo-text p');
+  subtitles.forEach(function(el) {
+    el.style.setProperty('display', 'block', 'important');
+    el.style.setProperty('visibility', 'visible', 'important');
+    el.style.setProperty('opacity', '1', 'important');
+  });
+}
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', enforceMobileLogoSubtitle);
+} else {
+  enforceMobileLogoSubtitle();
+}
+window.addEventListener('load', enforceMobileLogoSubtitle);
+window.addEventListener('resize', enforceMobileLogoSubtitle);
+

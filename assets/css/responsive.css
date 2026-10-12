@@ -137,6 +137,27 @@
     box-sizing: border-box;
   }
 
+  .logo-text {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    min-width: 0 !important;
+  }
+
+  .logo-text p {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    font-size: 0.65rem !important;
+    line-height: 1.1 !important;
+    margin: 2px 0 0 0 !important;
+    color: var(--text-muted) !important;
+    text-transform: uppercase !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.6px !important;
+    white-space: nowrap !important;
+  }
+
   .nav-actions {
     display: flex;
     align-items: center;
@@ -430,6 +451,8 @@
   /* Subtitle text on mobile phones: beautifully scaled and crisp */
   .logo-text p {
     display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
     font-size: 0.58rem !important;
     line-height: 1.1 !important;
     margin: 2px 0 0 0 !important;

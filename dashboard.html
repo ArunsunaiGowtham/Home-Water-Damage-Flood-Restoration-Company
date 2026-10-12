@@ -9,8 +9,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/style.css?v=3.2">
-  <link rel="stylesheet" href="assets/css/responsive.css?v=3.2">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <link rel="stylesheet" href="assets/css/style.css?v=4.0">
+  <link rel="stylesheet" href="assets/css/responsive.css?v=4.0">
 
   <!-- Favicon & Brand Icons -->
   <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
@@ -1266,6 +1269,8 @@
       }
       .mobile-topbar-logo .logo-text p {
         display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
         font-size: 0.58rem !important;
         line-height: 1.1 !important;
         margin: 2px 0 0 0 !important;
@@ -1726,6 +1731,8 @@
       }
       .mobile-topbar-logo .logo-text p {
         display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
         font-size: 0.54rem !important;
         letter-spacing: 0.4px !important;
         line-height: 1.1 !important;
@@ -1998,7 +2005,7 @@
           </div>
           <div class="logo-text">
             <h3>Aqua<span>Shield</span></h3>
-            <p>Emergency Restoration</p>
+            <p style="display: block !important; visibility: visible !important; opacity: 1 !important; font-size: 0.65rem !important; margin: 3px 0 0 0 !important; text-transform: uppercase !important; font-weight: 700 !important; letter-spacing: 0.7px !important; white-space: nowrap !important;">Emergency Restoration</p>
           </div>
         </a>
         <button type="button" class="btn-sidebar-close" id="sidebarCloseBtn" aria-label="Close sidebar menu">
@@ -2137,7 +2144,7 @@
               </div>
               <div class="logo-text">
                 <h3 style="font-size: 1.15rem; margin: 0; line-height: 1;">Aqua<span style="color: var(--dash-primary);">Shield</span></h3>
-                <p style="font-size: 0.62rem; margin: 2px 0 0; letter-spacing: 0.5px; text-transform: uppercase; font-weight: 600; color: var(--dash-muted);">Emergency Restoration</p>
+                <p style="display: block !important; visibility: visible !important; opacity: 1 !important; font-size: 0.62rem !important; margin: 2px 0 0 !important; letter-spacing: 0.5px !important; text-transform: uppercase !important; font-weight: 700 !important; color: var(--dash-muted, #64748b) !important; white-space: nowrap !important;">Emergency Restoration</p>
               </div>
             </a>
           </div>
@@ -4523,7 +4530,7 @@
   </div>
 
   <!-- Client-side Logic (Tabs, Themes, RTL, Session) -->
-  <script src="assets/js/main.js?v=3.2"></script>
+  <script src="assets/js/main.js?v=4.0"></script>
   <script>
     // Tab Navigation Logic
     const navButtons = document.querySelectorAll('.sidebar-nav-btn');

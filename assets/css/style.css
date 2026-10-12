@@ -485,23 +485,35 @@ td {
   flex-shrink: 0;
 }
 
+.logo-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+}
+
 .logo-text h3 {
   font-size: 1.35rem;
   line-height: 1.1;
   color: var(--text-main);
   letter-spacing: -0.5px;
   white-space: nowrap;
+  margin: 0;
 }
 .logo-text h3 span {
   color: var(--primary);
 }
 .logo-text p {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
   font-size: 0.72rem;
   color: var(--text-muted);
   text-transform: uppercase;
   font-weight: 600;
   letter-spacing: 1px;
   white-space: nowrap;
+  margin: 2px 0 0 0;
 }
 
 /* Nav Menu */
