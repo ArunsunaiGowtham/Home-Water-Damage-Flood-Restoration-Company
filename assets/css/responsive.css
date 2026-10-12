@@ -316,29 +316,11 @@
     display: none !important;
   }
 
-  .mobile-controls-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    width: 100%;
-  }
-
+  /* Hide theme and RTL buttons inside mobile drawer (already available in top navbar) */
+  .mobile-controls-grid,
   .mobile-drawer-rtl-btn,
   .mobile-drawer-theme-btn {
-    width: 100% !important;
-    height: 42px !important;
-    border-radius: var(--radius-md) !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 8px !important;
-    font-size: 0.84rem !important;
-    font-weight: 700 !important;
-    border: 1px solid var(--border-color);
-    background: var(--bg-surface);
-    color: var(--text-main);
-    box-sizing: border-box;
-    cursor: pointer;
+    display: none !important;
   }
 
   .process-grid {
