@@ -9,8 +9,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/style.css">
-  <link rel="stylesheet" href="assets/css/responsive.css">
+  <link rel="stylesheet" href="assets/css/style.css?v=2.3">
+  <link rel="stylesheet" href="assets/css/responsive.css?v=2.3">
 
   <!-- Favicon & Brand Icons -->
   <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
@@ -128,27 +128,27 @@
     <!-- Company Mission & Story -->
     <section class="section">
       <div class="container">
-        <div style="display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 48px; align-items: center;">
+        <div class="about-purpose-grid">
           <div>
             <span class="section-subtitle">Our Purpose</span>
             <h2 class="section-title">Built On Rapid Emergency Relief and Technical Precision</h2>
-            <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 20px;">Founded over 18 years ago by disaster mitigation veterans, AquaShield Pro was created with a single urgent mandate: protect families and businesses from the devastating financial and health hazards of unchecked water intrusion.</p>
-            <p style="font-size: 0.95rem; line-height: 1.7; color: var(--text-muted); margin-bottom: 24px;">When pipes burst or severe storms overwhelm municipal drainage, minutes matter. Our company maintains an active fleet of high-powered suction pump vehicles, heavy-duty LGR dehumidifiers, and thermal imaging specialists on 24/7 standby.</p>
+            <p class="about-purpose-lead">Founded over 18 years ago by disaster mitigation veterans, AquaShield Pro was created with a single urgent mandate: protect families and businesses from the devastating financial and health hazards of unchecked water intrusion.</p>
+            <p class="about-purpose-text">When pipes burst or severe storms overwhelm municipal drainage, minutes matter. Our company maintains an active fleet of high-powered suction pump vehicles, heavy-duty LGR dehumidifiers, and thermal imaging specialists on 24/7 standby.</p>
             
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 30px;">
-              <div style="background: var(--bg-surface-alt); padding: 20px; border-radius: var(--radius-md); border-left: 4px solid var(--primary);">
-                <h4 style="font-size: 1.1rem; margin-bottom: 6px;">IICRC Certified</h4>
-                <p style="font-size: 0.85rem; margin: 0;">Certified Master Water Restorer (#48291) accreditation across all technicians.</p>
+            <div class="about-badges-grid">
+              <div class="about-badge-card badge-primary">
+                <h4>IICRC Certified</h4>
+                <p>Certified Master Water Restorer (#48291) accreditation across all technicians.</p>
               </div>
-              <div style="background: var(--bg-surface-alt); padding: 20px; border-radius: var(--radius-md); border-left: 4px solid var(--emergency);">
-                <h4 style="font-size: 1.1rem; margin-bottom: 6px;">24/7/365 On-Call</h4>
-                <p style="font-size: 0.85rem; margin: 0;">Never an answering machine. Direct line to live licensed disaster dispatchers.</p>
+              <div class="about-badge-card badge-emergency">
+                <h4>24/7/365 On-Call</h4>
+                <p>Never an answering machine. Direct line to live licensed disaster dispatchers.</p>
               </div>
             </div>
           </div>
 
-          <div style="border-radius: var(--radius-xl); overflow: hidden; box-shadow: var(--shadow-xl);">
-            <img src="assets/images/about-technicians-field.jpg" alt="AquaShield Certified Technicians Inspecting Moisture with Thermal Equipment" style="width: 100%; height: 460px; object-fit: cover;">
+          <div class="about-purpose-img-wrap">
+            <img src="assets/images/about-technicians-field.jpg" alt="AquaShield Certified Technicians Inspecting Moisture with Thermal Equipment" class="about-purpose-img" loading="lazy">
           </div>
         </div>
       </div>
@@ -163,52 +163,52 @@
           <p class="section-desc">Our emergency response commanders bring decades of field experience in structural drying, microbial ecology, and insurance claim resolution.</p>
         </div>
 
-        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;">
+        <div class="team-grid">
           <!-- Team 1 -->
-          <div style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-lg); overflow: hidden; text-align: center; box-shadow: var(--shadow-sm);">
-            <div style="height: 250px; overflow: hidden;">
-              <img src="assets/images/team-1.jpg" alt="David Sterling - Director of Operations" style="width: 100%; height: 100%; object-fit: cover;" loading="lazy">
+          <div class="team-card">
+            <div class="team-img-wrap">
+              <img src="assets/images/team-1.jpg" alt="David Sterling - Director of Operations" class="team-img" loading="lazy">
             </div>
-            <div style="padding: 20px;">
-              <h4 style="font-size: 1.1rem; margin-bottom: 4px;">David Sterling</h4>
-              <p style="color: var(--primary); font-weight: 700; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 8px;">Director of Emergency Operations</p>
-              <p style="font-size: 0.85rem;">IICRC Master Water Restorer with 22 years supervising catastrophic flood relief.</p>
+            <div class="team-info">
+              <h4>David Sterling</h4>
+              <p class="team-role">Director of Emergency Operations</p>
+              <p class="team-bio">IICRC Master Water Restorer with 22 years supervising catastrophic flood relief.</p>
             </div>
           </div>
 
           <!-- Team 2 -->
-          <div style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-lg); overflow: hidden; text-align: center; box-shadow: var(--shadow-sm);">
-            <div style="height: 250px; overflow: hidden;">
-              <img src="assets/images/team-2.jpg" alt="Elena Rodriguez - Lead Microbial Remediation" style="width: 100%; height: 100%; object-fit: cover;" loading="lazy">
+          <div class="team-card">
+            <div class="team-img-wrap">
+              <img src="assets/images/team-2.jpg" alt="Elena Rodriguez - Lead Microbial Remediation" class="team-img" loading="lazy">
             </div>
-            <div style="padding: 20px;">
-              <h4 style="font-size: 1.1rem; margin-bottom: 4px;">Elena Rodriguez</h4>
-              <p style="color: var(--primary); font-weight: 700; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 8px;">Lead Microbial Remediation Specialist</p>
-              <p style="font-size: 0.85rem;">Certified indoor environmentalist specializing in post-flood containment &amp; mold prevention.</p>
+            <div class="team-info">
+              <h4>Elena Rodriguez</h4>
+              <p class="team-role">Lead Microbial Remediation Specialist</p>
+              <p class="team-bio">Certified indoor environmentalist specializing in post-flood containment &amp; mold prevention.</p>
             </div>
           </div>
 
           <!-- Team 3 -->
-          <div style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-lg); overflow: hidden; text-align: center; box-shadow: var(--shadow-sm);">
-            <div style="height: 250px; overflow: hidden;">
-              <img src="assets/images/team-3.jpg" alt="Robert Chen - Commercial Recovery" style="width: 100%; height: 100%; object-fit: cover;" loading="lazy">
+          <div class="team-card">
+            <div class="team-img-wrap">
+              <img src="assets/images/team-3.jpg" alt="Robert Chen - Commercial Recovery" class="team-img" loading="lazy">
             </div>
-            <div style="padding: 20px;">
-              <h4 style="font-size: 1.1rem; margin-bottom: 4px;">Robert Chen</h4>
-              <p style="color: var(--primary); font-weight: 700; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 8px;">Commercial Large Loss Commander</p>
-              <p style="font-size: 0.85rem;">Oversees high-rise and industrial drying logistics for business continuity.</p>
+            <div class="team-info">
+              <h4>Robert Chen</h4>
+              <p class="team-role">Commercial Large Loss Commander</p>
+              <p class="team-bio">Oversees high-rise and industrial drying logistics for business continuity.</p>
             </div>
           </div>
 
           <!-- Team 4 -->
-          <div style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-lg); overflow: hidden; text-align: center; box-shadow: var(--shadow-sm);">
-            <div style="height: 250px; overflow: hidden;">
-              <img src="assets/images/team-4.jpg" alt="Sarah Jenkins - Chief Insurance Claim Advocate" style="width: 100%; height: 100%; object-fit: cover;" loading="lazy">
+          <div class="team-card">
+            <div class="team-img-wrap">
+              <img src="assets/images/team-4.jpg" alt="Sarah Jenkins - Chief Insurance Claim Advocate" class="team-img" loading="lazy">
             </div>
-            <div style="padding: 20px;">
-              <h4 style="font-size: 1.1rem; margin-bottom: 4px;">Sarah Jenkins</h4>
-              <p style="color: var(--primary); font-weight: 700; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 8px;">Insurance Claim Advocacy Lead</p>
-              <p style="font-size: 0.85rem;">Former senior carrier adjuster ensuring our clients receive 100% policy reimbursement.</p>
+            <div class="team-info">
+              <h4>Sarah Jenkins</h4>
+              <p class="team-role">Insurance Claim Advocacy Lead</p>
+              <p class="team-bio">Former senior carrier adjuster ensuring our clients receive 100% policy reimbursement.</p>
             </div>
           </div>
         </div>
@@ -224,29 +224,29 @@
           <p class="section-desc">We invest in the restoration industry's most advanced drying technology to extract standing moisture and prevent secondary microbial contamination.</p>
         </div>
 
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;">
-          <div style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 28px;">
-            <div style="font-size: 2rem; color: var(--primary); margin-bottom: 14px;">
+        <div class="equipment-fleet-grid">
+          <div class="equipment-card">
+            <div class="equipment-icon">
               <svg width="36" height="36" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
             </div>
-            <h4 style="font-size: 1.2rem; margin-bottom: 8px;">LGR Industrial Dehumidifiers</h4>
-            <p style="font-size: 0.9rem;">Dri-Eaz Low-Grain Refrigerants extracting up to 130 pints of moisture per day even in near-freezing humidity conditions.</p>
+            <h4>LGR Industrial Dehumidifiers</h4>
+            <p>Dri-Eaz Low-Grain Refrigerants extracting up to 130 pints of moisture per day even in near-freezing humidity conditions.</p>
           </div>
 
-          <div style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 28px;">
-            <div style="font-size: 2rem; color: var(--primary); margin-bottom: 14px;">
+          <div class="equipment-card">
+            <div class="equipment-icon">
               <svg width="36" height="36" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
             </div>
-            <h4 style="font-size: 1.2rem; margin-bottom: 8px;">Axial Air Movers (3,500 CFM)</h4>
-            <p style="font-size: 0.9rem;">High-velocity aerodynamic blowers generating laminar airflow across flooded subfloors to evaporate deep trapped water.</p>
+            <h4>Axial Air Movers (3,500 CFM)</h4>
+            <p>High-velocity aerodynamic blowers generating laminar airflow across flooded subfloors to evaporate deep trapped water.</p>
           </div>
 
-          <div style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 28px;">
-            <div style="font-size: 2rem; color: var(--primary); margin-bottom: 14px;">
+          <div class="equipment-card">
+            <div class="equipment-icon">
               <svg width="36" height="36" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
             </div>
-            <h4 style="font-size: 1.2rem; margin-bottom: 8px;">HEPA 500 Air Scrubbers</h4>
-            <p style="font-size: 0.9rem;">Three-stage filtration system capturing 99.97% of airborne mold spores, soot particles, and dust during structural remediation.</p>
+            <h4>HEPA 500 Air Scrubbers</h4>
+            <p>Three-stage filtration system capturing 99.97% of airborne mold spores, soot particles, and dust during structural remediation.</p>
           </div>
         </div>
       </div>
@@ -411,6 +411,6 @@
     </div>
   </footer>
 
-  <script src="assets/js/main.js"></script>
+  <script src="assets/js/main.js?v=2.3"></script>
 </body>
 </html>
