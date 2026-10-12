@@ -12,8 +12,8 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <link rel="stylesheet" href="assets/css/style.css?v=4.4">
-  <link rel="stylesheet" href="assets/css/responsive.css?v=4.4">
+  <link rel="stylesheet" href="assets/css/style.css?v=4.5">
+  <link rel="stylesheet" href="assets/css/responsive.css?v=4.5">
 
   <!-- Favicon & Brand Icons -->
   <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
@@ -1377,6 +1377,29 @@
         font-size: 0.72rem !important;
         font-weight: 700 !important;
       }
+      .topbar-actions .topbar-btn.btn-back-web {
+        width: auto !important;
+        min-width: auto !important;
+        height: 32px !important;
+        padding: 0 8px !important;
+        border-radius: 999px !important;
+        gap: 3px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        font-size: 0.72rem !important;
+        font-weight: 700 !important;
+        flex-shrink: 0 !important;
+      }
+      .topbar-actions .topbar-btn.btn-back-web svg {
+        width: 13px !important;
+        height: 13px !important;
+      }
+      .topbar-actions .btn-back-web .back-text-full {
+        display: none !important;
+      }
+      .topbar-actions .btn-back-web .back-text-short {
+        display: inline !important;
+      }
 
       /* Tools sub-row: Search and Job Selector */
       .topbar-search-tools {
@@ -1736,6 +1759,18 @@
         padding: 0 6px !important;
         font-size: 0.70rem !important;
       }
+      .topbar-actions .topbar-btn.btn-back-web {
+        width: auto !important;
+        min-width: auto !important;
+        height: 30px !important;
+        padding: 0 7px !important;
+        font-size: 0.70rem !important;
+        gap: 3px !important;
+      }
+      .topbar-actions .topbar-btn.btn-back-web svg {
+        width: 12px !important;
+        height: 12px !important;
+      }
 
       .topbar-search-tools {
         gap: 6px;
@@ -1860,6 +1895,18 @@
         height: 28px !important;
         padding: 0 5px !important;
         font-size: 0.65rem !important;
+      }
+      .topbar-actions .topbar-btn.btn-back-web {
+        height: 28px !important;
+        padding: 0 5px !important;
+        font-size: 0.65rem !important;
+        gap: 2px !important;
+      }
+      .topbar-actions .btn-back-web .back-text-full {
+        display: none !important;
+      }
+      .topbar-actions .btn-back-web .back-text-short {
+        display: inline !important;
       }
       .topbar-actions .topbar-btn svg {
         width: 12px !important;
@@ -2071,6 +2118,13 @@
               <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
               <span class="label-text">RTL</span>
             </button>
+
+            <!-- Back to Website Pill Button (Near RTL Button) -->
+            <a href="index.html" class="topbar-btn btn-back-web" title="Return to AquaShield Website" id="topbarBackWebBtn" aria-label="Return to AquaShield Website">
+              <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+              <span class="back-text-full">Back to Website</span>
+              <span class="back-text-short">Website</span>
+            </a>
           </div>
         </div>
       </header>
@@ -4422,7 +4476,7 @@
   </div>
 
   <!-- Client-side Logic (Tabs, Themes, RTL, Session) -->
-  <script src="assets/js/main.js?v=4.4"></script>
+  <script src="assets/js/main.js?v=4.5"></script>
   <script>
     // Tab Navigation Logic
     const navButtons = document.querySelectorAll('.sidebar-nav-btn');
