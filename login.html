@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Client Portal Login | AquaShield Pro Restoration</title>
+  <meta name="description" content="Access your live restoration project tracker, view crew dispatch status, moisture readings, and download insurance claim reports.">
+    <!-- Google Fonts: Outfit (Headings) & Plus Jakarta Sans (Body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/responsive.css">
+
+  <!-- Favicon & Brand Icons -->
+  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
+  <link rel="shortcut icon" href="favicon.ico">
+</head>
+<body>
+
+  <main>
+    <section class="auth-page">
+      <!-- Top Floating Controls: Dark/Light Mode & RTL -->
+      <div class="auth-top-controls">
+        <button type="button" class="btn-ctrl theme-toggle-btn" aria-label="Toggle Theme" title="Toggle Dark/Light Mode">
+          <span class="theme-icon"><svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg></span>
+        </button>
+        <button type="button" class="btn-ctrl rtl-toggle-btn" aria-label="Toggle RTL" title="Switch LTR / RTL">
+          <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
+          <span class="label-text">RTL</span>
+        </button>
+      </div>
+
+      <div class="container" style="max-width: 480px;">
+        <div class="auth-card">
+
+          <!-- Brand Logo Header -->
+          <div class="auth-brand-header">
+            <a href="index.html" class="auth-brand-logo">
+              <div class="logo-icon-wrap">
+                <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
+              </div>
+              <div class="logo-text">
+                <h3>Aqua<span>Shield</span></h3>
+                <p>Emergency Restoration</p>
+              </div>
+            </a>
+          </div>
+
+          <h1 class="auth-card-title">Customer Login</h1>
+          <p class="auth-card-subtitle">Sign in to access your Property Restoration Portal.</p>
+
+          <form id="customerLoginForm" novalidate>
+            <div class="auth-form-group">
+              <label for="loginEmail" class="auth-field-label">Customer Email Address</label>
+              <div class="auth-input-group">
+                <span class="input-icon-box">
+                  <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                </span>
+                <input type="email" id="loginEmail" class="auth-field-input" placeholder="client@example.com" required value="client@aquashield.com">
+              </div>
+            </div>
+
+            <div class="auth-form-group">
+              <div class="auth-label-row">
+                <label for="loginPassword" class="auth-field-label">Password</label>
+                <a href="#forgot" id="forgotPasswordLink" class="forgot-link">Forgot password?</a>
+              </div>
+              <div class="auth-input-group">
+                <span class="input-icon-box">
+                  <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                </span>
+                <input type="password" id="loginPassword" class="auth-field-input" placeholder="Enter your password" required value="Restore2026!">
+                <button type="button" class="password-toggle-btn" id="togglePasswordBtn" aria-label="Toggle password visibility">
+                  <svg id="eyeIcon" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="auth-checkbox-row">
+              <label class="custom-checkbox-label">
+                <input type="checkbox" id="rememberMe" checked>
+                <span>Remember me</span>
+              </label>
+            </div>
+
+            <!-- Inline Alert Message Container -->
+            <div id="loginAlertBox" style="display: none; padding: 12px 14px; border-radius: 8px; font-size: 0.88rem; font-weight: 600; margin-bottom: 16px;"></div>
+
+            <button type="submit" class="btn-auth-primary" id="submitLoginBtn">
+              <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013 3v1"/></svg>
+              <span id="loginBtnText">Customer Login</span>
+            </button>
+          </form>
+
+          <div class="auth-or-divider">
+            <span>OR CONTINUE WITH</span>
+          </div>
+
+          <!-- Social / SSO Logins (Google & Apple) -->
+          <div class="auth-social-stack">
+            <button type="button" class="btn-auth-social" id="btnGoogleSso">
+              <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
+              <span>Continue with Google</span>
+            </button>
+            <button type="button" class="btn-auth-social" id="btnAppleSso">
+              <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.62-.75 1.04-1.8 1.01-2.87-.96.04-2.14.64-2.79 1.41-.57.65-.99 1.72-.94 2.76 1.07.08 2.1-.55 2.72-1.3z"/></svg>
+              <span>Continue with Apple</span>
+            </button>
+          </div>
+
+          <div class="auth-bottom-switch">
+            <span>Don't have an account?</span>
+            <a href="signup.html" id="linkBottomSwitch">Customer Sign Up</a>
+          </div>
+
+          <!-- Back to Website Link (Below Auth Form) -->
+          <div class="auth-back-website-row">
+            <a href="index.html" class="link-back-website">
+              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+              <span>Back to Website</span>
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- OAuth Integration Notice Toast Notification (Matching Reference Design) -->
+  <div id="oauthNoticeToast" class="oauth-notice-toast" style="display: none;" role="alert" aria-live="assertive">
+    <div class="oauth-toast-card">
+      <div class="oauth-icon-wrap" id="oauthNoticeIconWrap"></div>
+      <div class="oauth-content">
+        <h4 class="oauth-title">OAuth Integration Notice</h4>
+        <p class="oauth-desc" id="oauthNoticeText">Google Sign-In requires backend OAuth integration. This HTML template demonstrates the UI only.</p>
+      </div>
+      <button type="button" class="oauth-close-btn" id="closeOauthNoticeBtn" aria-label="Close Notice">
+        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <script src="assets/js/main.js"></script>
+  <script>
+    const emailInput = document.getElementById('loginEmail');
+    const passwordInput = document.getElementById('loginPassword');
+    const loginBtnText = document.getElementById('loginBtnText');
+    const alertBox = document.getElementById('loginAlertBox');
+
+    // Password toggle
+    const togglePasswordBtn = document.getElementById('togglePasswordBtn');
+    if (togglePasswordBtn && passwordInput) {
+      togglePasswordBtn.addEventListener('click', () => {
+        const isPassword = passwordInput.getAttribute('type') === 'password';
+        passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+        togglePasswordBtn.innerHTML = isPassword
+          ? `<svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18"/></svg>`
+          : `<svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>`;
+      });
+    }
+
+    function showAlert(msg, isSuccess = false) {
+      alertBox.textContent = msg;
+      alertBox.style.display = 'block';
+      if (isSuccess) {
+        alertBox.style.background = '#ecfdf5';
+        alertBox.style.color = '#047857';
+        alertBox.style.border = '1px solid rgba(16, 185, 129, 0.3)';
+      } else {
+        alertBox.style.background = '#fef2f2';
+        alertBox.style.color = '#b91c1c';
+        alertBox.style.border = '1px solid rgba(239, 68, 68, 0.3)';
+      }
+    }
+
+    function performDemoLogin(name = 'Jane Doe', email = 'client@aquashield.com') {
+      const dummyUser = {
+        name: name,
+        email: email,
+        role: 'Property Loss Client',
+        jobId: 'AQ-9421',
+        loginTime: new Date().toLocaleTimeString()
+      };
+      localStorage.setItem('aquashield_user', JSON.stringify(dummyUser));
+
+      submitBtn.disabled = false;
+      loginBtnText.textContent = 'Customer Login';
+      showAlert(`✓ Dummy Login Successful! Client authenticated for ${name} (${email}).`, true);
+    }
+
+    // Check if redirected from Sign Up
+    window.addEventListener('DOMContentLoaded', () => {
+      const signupSuccessMsg = sessionStorage.getItem('aquashield_signup_success');
+      const registeredEmail = sessionStorage.getItem('aquashield_signup_email');
+      const urlParams = new URLSearchParams(window.location.search);
+
+      if (signupSuccessMsg || urlParams.get('registered') === 'true') {
+        const msg = signupSuccessMsg || '✓ Account created successfully! Please log in with your credentials.';
+        showAlert(msg, true);
+        if (registeredEmail && emailInput) {
+          emailInput.value = registeredEmail;
+        }
+        sessionStorage.removeItem('aquashield_signup_success');
+        sessionStorage.removeItem('aquashield_signup_email');
+      }
+    });
+
+    // OAuth Integration Notice Toast Logic (Matching Reference Screenshot)
+    const oauthToast = document.getElementById('oauthNoticeToast');
+    const oauthIconWrap = document.getElementById('oauthNoticeIconWrap');
+    const oauthText = document.getElementById('oauthNoticeText');
+    const closeOauthBtn = document.getElementById('closeOauthNoticeBtn');
+    let oauthDismissTimer = null;
+
+    const googleIconSvg = `<svg width="22" height="22" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>`;
+    const appleIconSvg = `<svg width="22" height="22" fill="currentColor" viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.62-.75 1.04-1.8 1.01-2.87-.96.04-2.14.64-2.79 1.41-.57.65-.99 1.72-.94 2.76 1.07.08 2.1-.55 2.72-1.3z"/></svg>`;
+
+    function showOAuthNotice(provider) {
+      if (oauthDismissTimer) clearTimeout(oauthDismissTimer);
+
+      if (provider === 'google') {
+        oauthIconWrap.innerHTML = googleIconSvg;
+        oauthText.textContent = 'Google Sign-In requires backend OAuth integration. This HTML template demonstrates the UI only.';
+      } else {
+        oauthIconWrap.innerHTML = appleIconSvg;
+        oauthText.textContent = 'Apple Sign-In requires backend OAuth integration. This HTML template demonstrates the UI only.';
+      }
+
+      oauthToast.style.display = 'block';
+
+      oauthDismissTimer = setTimeout(() => {
+        closeOAuthNotice();
+      }, 7000);
+    }
+
+    function closeOAuthNotice() {
+      if (oauthDismissTimer) clearTimeout(oauthDismissTimer);
+      oauthToast.style.display = 'none';
+    }
+
+    if (closeOauthBtn) {
+      closeOauthBtn.addEventListener('click', closeOAuthNotice);
+    }
+
+    // Google SSO Click
+    const btnGoogleSso = document.getElementById('btnGoogleSso');
+    if (btnGoogleSso) {
+      btnGoogleSso.addEventListener('click', () => {
+        showOAuthNotice('google');
+      });
+    }
+
+    // Apple SSO Click
+    const btnAppleSso = document.getElementById('btnAppleSso');
+    if (btnAppleSso) {
+      btnAppleSso.addEventListener('click', () => {
+        showOAuthNotice('apple');
+      });
+    }
+
+    // Forgot Password Simulation
+    const forgotLink = document.getElementById('forgotPasswordLink');
+    if (forgotLink) {
+      forgotLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        const currentEmail = emailInput.value.trim() || 'client@aquashield.com';
+        showAlert(`Password reset instructions sent to ${currentEmail} (Demo simulation)`, true);
+      });
+    }
+
+    // Form Submission (Accepts any or default dummy credentials without redirection)
+    const loginForm = document.getElementById('customerLoginForm');
+    const submitBtn = document.getElementById('submitLoginBtn');
+
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = emailInput.value.trim() || 'client@aquashield.com';
+      const pass = passwordInput.value.trim() || 'Restore2026!';
+
+      submitBtn.disabled = true;
+      loginBtnText.textContent = 'Authenticating...';
+
+      setTimeout(() => {
+        let displayName = 'Jane Doe';
+        if (email.includes('@')) {
+          const userPart = email.split('@')[0];
+          displayName = userPart.charAt(0).toUpperCase() + userPart.slice(1);
+        }
+        performDemoLogin(displayName, email);
+      }, 400);
+    });
+  </script>
+</body>
+</html>
