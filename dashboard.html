@@ -1471,111 +1471,17 @@
       }
 
       .app-content {
-        padding: 16px 12px 90px !important;
+        padding: 18px 14px 40px !important;
         width: 100% !important;
         max-width: 100% !important;
         box-sizing: border-box !important;
         overflow-x: hidden !important;
       }
 
-      /* Mobile Horizontal Pill Quick-Switch Strip */
-      .mobile-tab-pill-strip {
-        display: flex !important;
-        align-items: center;
-        gap: 8px;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        padding: 2px 2px 14px 2px;
-        margin-bottom: 12px;
-        scrollbar-width: none;
-        width: 100%;
-        max-width: 100%;
-        box-sizing: border-box;
-      }
-
-      .mobile-tab-pill-strip::-webkit-scrollbar {
-        display: none;
-      }
-
-      .tab-pill-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        padding: 7px 14px;
-        border-radius: 999px;
-        font-size: 0.80rem;
-        font-weight: 600;
-        border: 1px solid var(--dash-border);
-        background: var(--dash-surface);
-        color: var(--dash-muted);
-        white-space: nowrap;
-        cursor: pointer;
-        flex-shrink: 0;
-        transition: all 0.18s ease;
-      }
-
-      .tab-pill-btn:hover {
-        background: var(--dash-surface-alt);
-        color: var(--dash-text);
-      }
-
-      .tab-pill-btn.active {
-        background: var(--dash-primary);
-        color: #ffffff !important;
-        border-color: var(--dash-primary);
-        box-shadow: 0 3px 10px rgba(2, 132, 199, 0.28);
-      }
-
-      /* Mobile Floating Bottom Navigation Bar */
+      /* Explicitly suppress mobile pill strip and bottom floating bar */
+      .mobile-tab-pill-strip,
       .mobile-bottom-nav {
-        display: flex !important;
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        height: 62px;
-        background: var(--dash-surface);
-        border-top: 1px solid var(--dash-border);
-        z-index: 990;
-        align-items: center;
-        justify-content: space-around;
-        backdrop-filter: blur(14px);
-        -webkit-backdrop-filter: blur(14px);
-        box-shadow: 0 -4px 18px rgba(0, 0, 0, 0.08);
-        padding-bottom: env(safe-area-inset-bottom, 0);
-        box-sizing: border-box;
-      }
-
-      .bottom-nav-item {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 3px;
-        font-size: 0.68rem;
-        font-weight: 600;
-        color: var(--dash-muted);
-        background: transparent;
-        border: none;
-        cursor: pointer;
-        flex: 1;
-        height: 100%;
-        padding: 6px 0;
-        transition: all 0.18s ease;
-      }
-
-      .bottom-nav-item svg {
-        transition: transform 0.18s ease;
-      }
-
-      .bottom-nav-item.active {
-        color: var(--dash-primary) !important;
-        font-weight: 700;
-      }
-
-      .bottom-nav-item.active svg {
-        stroke: var(--dash-primary);
-        transform: translateY(-1px);
+        display: none !important;
       }
 
       /* Layout cards & grids on tablet/phone */
@@ -1865,7 +1771,7 @@
       .toast-container {
         left: 14px !important;
         right: 14px !important;
-        bottom: 74px !important;
+        bottom: 20px !important;
         max-width: calc(100% - 28px) !important;
       }
 
@@ -1878,10 +1784,69 @@
 
     @media (max-width: 540px) {
       .kpi-grid {
-        grid-template-columns: 1fr !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 10px !important;
+        margin-bottom: 18px !important;
+      }
+
+      .kpi-card {
+        padding: 14px 12px !important;
+        min-height: 120px !important;
+        border-radius: 14px !important;
+      }
+
+      .kpi-icon-wrap {
+        width: 32px !important;
+        height: 32px !important;
+        top: 12px !important;
+        right: 12px !important;
+        border-radius: 8px !important;
+      }
+
+      [dir="rtl"] .kpi-icon-wrap {
+        right: auto !important;
+        left: 12px !important;
+      }
+
+      .kpi-icon-wrap svg {
+        width: 16px !important;
+        height: 16px !important;
+      }
+
+      .kpi-subtitle {
+        font-size: 0.74rem !important;
+        margin-bottom: 4px !important;
+        padding-right: 34px !important;
+        line-height: 1.25 !important;
+      }
+
+      [dir="rtl"] .kpi-subtitle {
+        padding-right: 0 !important;
+        padding-left: 34px !important;
+      }
+
+      .kpi-value {
+        font-size: 1.22rem !important;
+        margin-bottom: 4px !important;
+        line-height: 1.2 !important;
+      }
+
+      .kpi-value span {
+        font-size: 0.82rem !important;
+      }
+
+      .kpi-detail {
+        font-size: 0.72rem !important;
+        line-height: 1.3 !important;
       }
 
       .pipeline-wrapper {
+        grid-template-columns: 1fr !important;
+      }
+    }
+
+    @media (max-width: 350px) {
+      .kpi-grid {
         grid-template-columns: 1fr !important;
       }
     }
@@ -2352,18 +2317,6 @@
       <!-- App Dynamic Content -->
       <div class="app-content">
 
-        <!-- Mobile Horizontal Tab Quick-Switch Strip (Visible only on mobile/tablet <= 900px, hidden on laptop/desktop) -->
-        <nav class="mobile-tab-pill-strip" id="mobileTabPillStrip" aria-label="Mobile Dashboard Sections">
-          <button type="button" class="tab-pill-btn active" data-target="dashOverview">📊 Overview</button>
-          <button type="button" class="tab-pill-btn" data-target="dashCrew">🚚 Crew Dispatch</button>
-          <button type="button" class="tab-pill-btn" data-target="dashTracker">📋 Pipeline</button>
-          <button type="button" class="tab-pill-btn" data-target="dashTelemetry">💧 Moisture Log</button>
-          <button type="button" class="tab-pill-btn" data-target="dashDocuments">📄 Claims Dossier</button>
-          <button type="button" class="tab-pill-btn" data-target="dashRequest">🚨 Emergency Ticket</button>
-          <button type="button" class="tab-pill-btn" data-target="dashPayments">💳 Carrier Pay</button>
-          <button type="button" class="tab-pill-btn" data-target="dashReceipts">🧾 Estimates</button>
-          <button type="button" class="tab-pill-btn" data-target="dashProfile">👤 My Profile</button>
-        </nav>
 
         <!-- ==============================================
              TAB 1: PRIMARY DASHBOARD (EXACT REFERENCE DESIGN)
@@ -4708,53 +4661,15 @@
     </main>
   </div>
 
-  <!-- Mobile Bottom Floating App Bar (Visible on mobile/tablet <= 900px, completely hidden on laptop/desktop) -->
-  <nav class="mobile-bottom-nav" id="mobileBottomNav" aria-label="Mobile Navigation">
-    <button type="button" class="bottom-nav-item active" data-target="dashOverview" title="Dashboard Overview">
-      <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
-      <span>Overview</span>
-    </button>
-    <button type="button" class="bottom-nav-item" data-target="dashCrew" title="Live Crew Dispatch">
-      <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-      <span>Crew</span>
-    </button>
-    <button type="button" class="bottom-nav-item" data-target="dashTracker" title="Drying Pipeline">
-      <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
-      <span>Pipeline</span>
-    </button>
-    <button type="button" class="bottom-nav-item" data-target="dashDocuments" title="Insurance Claims Dossier">
-      <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-      <span>Claims</span>
-    </button>
-    <button type="button" class="bottom-nav-item" id="bottomNavMenuBtn" title="All Navigation &amp; Tools">
-      <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-      <span>Menu</span>
-    </button>
-  </nav>
-
   <!-- Client-side Logic (Tabs, Themes, RTL, Session) -->
-  <script src="assets/js/main.js?v=4.5"></script>
+  <script src="assets/js/main.js?v=4.9"></script>
   <script>
-    // Unified Multi-Navigation Sync (Sidebar, Mobile Pill Strip, Mobile Bottom Nav)
+    // Unified Navigation Switcher
     function switchDashboardTab(targetId) {
       if (!targetId) return;
 
       // Update sidebar nav buttons
       document.querySelectorAll('.sidebar-nav-btn').forEach(b => {
-        b.classList.toggle('active', b.getAttribute('data-target') === targetId);
-      });
-
-      // Update mobile pill buttons
-      document.querySelectorAll('.tab-pill-btn').forEach(b => {
-        const isActive = b.getAttribute('data-target') === targetId;
-        b.classList.toggle('active', isActive);
-        if (isActive) {
-          b.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-        }
-      });
-
-      // Update mobile bottom nav items
-      document.querySelectorAll('.bottom-nav-item[data-target]').forEach(b => {
         b.classList.toggle('active', b.getAttribute('data-target') === targetId);
       });
 
@@ -4772,8 +4687,8 @@
       }
     }
 
-    // Attach click listeners to all tab buttons across sidebar, pills, and bottom nav
-    document.querySelectorAll('.sidebar-nav-btn, .tab-pill-btn, .bottom-nav-item[data-target]').forEach(btn => {
+    // Attach click listeners to sidebar tab buttons
+    document.querySelectorAll('.sidebar-nav-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.preventDefault();
         const targetId = btn.getAttribute('data-target');
@@ -4785,7 +4700,6 @@
     const sidebarClose = document.getElementById('sidebarCloseBtn');
     const sidebar = document.getElementById('appSidebar');
     const overlay = document.getElementById('sidebarOverlay');
-    const bottomNavMenu = document.getElementById('bottomNavMenuBtn');
 
     function openMobileSidebar() {
       if (sidebar) sidebar.classList.add('mobile-open');
@@ -4800,7 +4714,6 @@
     if (mobileToggle) mobileToggle.addEventListener('click', openMobileSidebar);
     if (sidebarClose) sidebarClose.addEventListener('click', closeMobileSidebar);
     if (overlay) overlay.addEventListener('click', closeMobileSidebar);
-    if (bottomNavMenu) bottomNavMenu.addEventListener('click', openMobileSidebar);
 
     // Sign Out Handler
     const signOutBtn = document.getElementById('sidebarSignOutBtn');
