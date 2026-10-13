@@ -1229,13 +1229,66 @@
       }
 
       [dir="rtl"] .app-sidebar {
-        left: auto;
-        right: 0;
-        transform: translateX(100%);
+        left: auto !important;
+        right: 0 !important;
+        transform: translateX(100%) !important;
+        border-right: none !important;
+        border-left: 1px solid var(--dash-border) !important;
       }
 
       .app-sidebar.mobile-open {
         transform: translateX(0) !important;
+      }
+
+      [dir="rtl"] .app-sidebar.mobile-open {
+        transform: translateX(0) !important;
+      }
+
+      .sidebar-drawer-actions {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 12px;
+        width: 100%;
+      }
+
+      .sidebar-drawer-actions .topbar-btn {
+        flex: 1;
+        justify-content: center;
+        height: 38px;
+      }
+
+      .topbar-dash-badge {
+        display: inline-flex !important;
+        align-items: center;
+        padding: 2px 8px;
+        border-radius: 999px;
+        background: var(--dash-primary-light);
+        color: var(--dash-primary);
+        font-size: 0.70rem;
+        font-weight: 700;
+        border: 1px solid rgba(2, 132, 199, 0.3);
+        white-space: nowrap;
+        line-height: 1;
+        flex-shrink: 0;
+        letter-spacing: 0.2px;
+      }
+
+      [data-theme="dark"] .topbar-dash-badge {
+        background: rgba(14, 165, 233, 0.15);
+        color: #38bdf8;
+        border-color: rgba(56, 189, 248, 0.35);
+      }
+
+      .dash-header-back-btn {
+        display: none;
+      }
+
+      @media (max-width: 900px) {
+        .dash-header-back-btn {
+          display: inline-flex !important;
+          align-items: center;
+          gap: 6px;
+        }
       }
 
       .btn-mobile-sidebar-toggle {
@@ -1255,6 +1308,11 @@
 
       .btn-sidebar-close {
         display: inline-flex !important;
+      }
+
+      [dir="rtl"] .btn-sidebar-close {
+        margin-left: 0 !important;
+        margin-right: auto !important;
       }
 
       .mobile-topbar-logo {
@@ -1357,6 +1415,12 @@
         flex-shrink: 0 !important;
         margin-left: auto !important;
         order: 2 !important;
+      }
+
+      [dir="rtl"] .topbar-actions {
+        margin-left: 0 !important;
+        margin-right: auto !important;
+        justify-content: flex-start !important;
       }
 
       .topbar-actions .topbar-btn {
@@ -1912,22 +1976,34 @@
 
       .topbar-actions .topbar-btn.rtl-toggle-btn {
         height: 32px !important;
-        padding: 0 6px !important;
-        font-size: 0.68rem !important;
+        padding: 0 8px !important;
+        font-size: 0.72rem !important;
+        font-weight: 700 !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 4px !important;
       }
 
       .topbar-actions .rtl-toggle-btn .label-text {
-        display: none !important;
+        display: inline !important;
+        font-size: 0.72rem !important;
+        font-weight: 700 !important;
       }
 
       .topbar-actions .topbar-btn.btn-back-web {
         height: 32px !important;
-        padding: 0 7px !important;
-        font-size: 0.68rem !important;
+        padding: 0 8px !important;
+        font-size: 0.72rem !important;
+        font-weight: 700 !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 4px !important;
       }
 
       .topbar-actions .btn-back-web .back-text-short {
-        display: none !important;
+        display: inline !important;
+        font-size: 0.72rem !important;
+        font-weight: 700 !important;
       }
 
       .topbar-actions .topbar-btn svg {
@@ -1957,6 +2033,12 @@
         right: 10px;
       }
 
+      [dir="rtl"] .topbar-btn.btn-back-web svg,
+      [dir="rtl"] .btn-sidebar-back-web svg,
+      [dir="rtl"] .dash-header-back-btn svg {
+        transform: scaleX(-1);
+      }
+
       .topbar-search-tools .job-pill-select {
         height: 36px;
         max-width: 110px;
@@ -1965,7 +2047,7 @@
       }
 
       .app-content {
-        padding: 12px 8px 84px !important;
+        padding: 14px 10px 36px !important;
       }
 
       .panel-card {
@@ -2164,6 +2246,23 @@
         </button>
       </div>
 
+      <!-- Back to Website & Drawer Controls -->
+      <a href="index.html" class="btn-sidebar-back-web" title="Return to AquaShield Website">
+        <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+        <span>Back to Website</span>
+      </a>
+
+      <div class="sidebar-drawer-actions">
+        <button type="button" class="topbar-btn rtl-toggle-btn" aria-label="Switch LTR / RTL" title="Switch Direction">
+          <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
+          <span class="label-text">RTL</span>
+        </button>
+        <button type="button" class="topbar-btn theme-toggle-btn" aria-label="Toggle dark/light mode" title="Toggle Theme">
+          <span class="theme-icon"><svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg></span>
+          <span>Theme</span>
+        </button>
+      </div>
+
       <!-- Synchronized Claim Job Selector in Mobile/Tablet Drawer -->
       <div class="sidebar-job-switcher-card">
         <div class="sidebar-job-label">
@@ -2278,6 +2377,7 @@
                 <p class="mobile-logo-subtitle">Emergency Restoration</p>
               </div>
             </a>
+            <span class="topbar-dash-badge">Dashboard</span>
           </div>
 
           <div class="topbar-search-tools">
@@ -2322,6 +2422,18 @@
              TAB 1: PRIMARY DASHBOARD (EXACT REFERENCE DESIGN)
              ============================================== -->
         <section class="dash-section active" id="dashOverview">
+
+          <!-- Page Header Component (Consistent Alignment Across Tabs) -->
+          <div class="dash-page-header">
+            <div class="dash-page-header-text">
+              <h2>Restoration Dashboard</h2>
+              <p>Live psychometric drying telemetry, field crew &amp; ANSI/IICRC S500 standard milestones.</p>
+            </div>
+            <a href="index.html" class="topbar-btn btn-back-web dash-header-back-btn" title="Return to AquaShield Website">
+              <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+              <span>Back to Website</span>
+            </a>
+          </div>
 
           <!-- 4 KPI Stat Cards Row (Aligned Heights) -->
           <div class="kpi-grid">
@@ -4662,7 +4774,7 @@
   </div>
 
   <!-- Client-side Logic (Tabs, Themes, RTL, Session) -->
-  <script src="assets/js/main.js?v=4.9"></script>
+  <script src="assets/js/main.js?v=5.0"></script>
   <script>
     // Unified Navigation Switcher
     function switchDashboardTab(targetId) {
