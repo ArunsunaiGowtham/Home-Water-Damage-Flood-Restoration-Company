@@ -14,22 +14,27 @@ document.addEventListener('DOMContentLoaded', () => {
    1. Dashboard Navigation Tabs
    ---------------------------------------------------- */
 function initDashboardTabs() {
-  const navButtons = document.querySelectorAll('.dash-nav-btn');
+  const navButtons = document.querySelectorAll('.dash-nav-btn, .sidebar-nav-btn, .tab-pill-btn, .bottom-nav-item[data-target]');
   const sections = document.querySelectorAll('.dash-section');
 
   navButtons.forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
       const targetId = btn.getAttribute('data-target');
+      if (!targetId) return;
 
-      navButtons.forEach(b => b.classList.remove('active'));
-      sections.forEach(s => s.classList.remove('active'));
+      navButtons.forEach(b => {
+        b.classList.toggle('active', b.getAttribute('data-target') === targetId);
+      });
+      sections.forEach(s => {
+        s.classList.toggle('active', s.id === targetId);
+      });
 
-      btn.classList.add('active');
-      const targetSection = document.getElementById(targetId);
-      if (targetSection) {
-        targetSection.classList.add('active');
-      }
+      // Close mobile drawer if present
+      const sidebar = document.getElementById('appSidebar');
+      const overlay = document.getElementById('sidebarOverlay');
+      if (sidebar) sidebar.classList.remove('mobile-open');
+      if (overlay) overlay.classList.remove('active');
     });
   });
 }
