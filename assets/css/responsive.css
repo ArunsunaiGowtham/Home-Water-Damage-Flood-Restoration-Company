@@ -458,14 +458,9 @@
     border-top: 1px solid var(--border-light);
   }
 
-  /* Prominent Customer Dashboard button inside mobile drawer */
+  /* Suppress duplicate Customer Dashboard button inside mobile drawer */
   .mobile-menu-actions .mobile-drawer-dash-btn {
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    width: 100%;
-    margin-bottom: 6px;
+    display: none !important;
   }
 
   /* Hide theme and RTL buttons inside mobile drawer (already available in top navbar) */
