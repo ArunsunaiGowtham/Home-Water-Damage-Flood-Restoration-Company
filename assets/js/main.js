@@ -108,6 +108,17 @@ function initNavigation() {
       navMenu.classList.toggle('mobile-active');
       const isOpen = navMenu.classList.contains('mobile-active');
       mobileToggle.setAttribute('aria-expanded', isOpen);
+
+      // On mobile menu open, ensure active dropdown (like Home) is expanded by default
+      if (isOpen) {
+        dropdownParents.forEach(parent => {
+          if (parent.classList.contains('active') && !parent.classList.contains('dropdown-collapsed')) {
+            parent.classList.add('dropdown-open');
+            const trig = parent.querySelector('.dropdown-trigger');
+            if (trig) trig.setAttribute('aria-expanded', 'true');
+          }
+        });
+      }
     });
   }
 
@@ -118,11 +129,29 @@ function initNavigation() {
       trigger.addEventListener('click', (e) => {
         if (window.innerWidth <= 991) {
           e.preventDefault();
-          // Close other open dropdowns in mobile menu
-          dropdownParents.forEach(other => {
-            if (other !== parent) other.classList.remove('dropdown-open');
-          });
-          parent.classList.toggle('dropdown-open');
+          e.stopPropagation();
+
+          const isCurrentlyOpen = parent.classList.contains('dropdown-open') || 
+            (parent.classList.contains('active') && !parent.classList.contains('dropdown-collapsed'));
+
+          if (isCurrentlyOpen) {
+            parent.classList.remove('dropdown-open');
+            parent.classList.add('dropdown-collapsed');
+            trigger.setAttribute('aria-expanded', 'false');
+          } else {
+            // Close other open dropdowns in mobile menu
+            dropdownParents.forEach(other => {
+              if (other !== parent) {
+                other.classList.remove('dropdown-open');
+                other.classList.add('dropdown-collapsed');
+                const otherTrig = other.querySelector('.dropdown-trigger');
+                if (otherTrig) otherTrig.setAttribute('aria-expanded', 'false');
+              }
+            });
+            parent.classList.add('dropdown-open');
+            parent.classList.remove('dropdown-collapsed');
+            trigger.setAttribute('aria-expanded', 'true');
+          }
         } else if (trigger.getAttribute('data-href')) {
           window.location.href = trigger.getAttribute('data-href');
         }
@@ -153,6 +182,7 @@ function initNavigation() {
     if (navMenu && navMenu.classList.contains('mobile-active')) {
       if (!navMenu.contains(e.target) && !mobileToggle.contains(e.target)) {
         navMenu.classList.remove('mobile-active');
+        if (mobileToggle) mobileToggle.setAttribute('aria-expanded', 'false');
       }
     }
   });
@@ -220,6 +250,21 @@ function highlightCurrentNavLink() {
     if (isMatch) {
       item.classList.add('active');
       if (link) link.classList.add('active');
+
+      // Sync active state on individual dropdown links inside Home
+      if (isDropdown) {
+        const dropdownLinks = item.querySelectorAll('.dropdown-link');
+        dropdownLinks.forEach(dl => {
+          const dlHref = (dl.getAttribute('href') || '').toLowerCase();
+          if ((currentFile === '' || currentFile === 'index.html') && dlHref.includes('index.html') && !dlHref.includes('index-2')) {
+            dl.classList.add('active');
+          } else if (currentFile === 'index-2.html' && dlHref.includes('index-2.html')) {
+            dl.classList.add('active');
+          } else {
+            dl.classList.remove('active');
+          }
+        });
+      }
     } else {
       item.classList.remove('active');
       if (link) link.classList.remove('active');
