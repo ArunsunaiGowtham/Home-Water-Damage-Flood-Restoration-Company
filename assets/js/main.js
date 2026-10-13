@@ -122,15 +122,15 @@ function initNavigation() {
     });
   }
 
-  // Handle Dropdown touch / click interactions on mobile & tablet
+  // Handle Dropdown touch / click interactions on mobile, tablet & desktop
   dropdownParents.forEach(parent => {
     const trigger = parent.querySelector('.dropdown-trigger');
     if (trigger) {
       trigger.addEventListener('click', (e) => {
-        if (window.innerWidth <= 991) {
-          e.preventDefault();
-          e.stopPropagation();
+        e.preventDefault();
+        e.stopPropagation();
 
+        if (window.innerWidth <= 991) {
           const isCurrentlyOpen = parent.classList.contains('dropdown-open') || 
             (parent.classList.contains('active') && !parent.classList.contains('dropdown-collapsed'));
 
@@ -152,9 +152,64 @@ function initNavigation() {
             parent.classList.remove('dropdown-collapsed');
             trigger.setAttribute('aria-expanded', 'true');
           }
-        } else if (trigger.getAttribute('data-href')) {
-          window.location.href = trigger.getAttribute('data-href');
+        } else {
+          // Desktop / Laptop click interaction: toggle open/close
+          const isCurrentlyOpen = parent.classList.contains('dropdown-open');
+          if (isCurrentlyOpen) {
+            parent.classList.remove('dropdown-open');
+            parent.classList.add('dropdown-collapsed');
+            trigger.setAttribute('aria-expanded', 'false');
+          } else {
+            dropdownParents.forEach(other => {
+              other.classList.remove('dropdown-open');
+              other.classList.add('dropdown-collapsed');
+              const otherTrig = other.querySelector('.dropdown-trigger');
+              if (otherTrig) otherTrig.setAttribute('aria-expanded', 'false');
+            });
+            parent.classList.add('dropdown-open');
+            parent.classList.remove('dropdown-collapsed');
+            trigger.setAttribute('aria-expanded', 'true');
+          }
         }
+      });
+
+      // On desktop, reset dropdown-collapsed on mouse enter and close on mouse leave
+      parent.addEventListener('mouseenter', () => {
+        if (window.innerWidth > 991) {
+          parent.classList.remove('dropdown-collapsed');
+        }
+      });
+
+      parent.addEventListener('mouseleave', () => {
+        if (window.innerWidth > 991) {
+          parent.classList.remove('dropdown-open');
+          parent.classList.remove('dropdown-collapsed');
+          trigger.setAttribute('aria-expanded', 'false');
+        }
+      });
+    }
+  });
+
+  // Close dropdown on desktop when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.nav-item-dropdown')) {
+      dropdownParents.forEach(p => {
+        p.classList.remove('dropdown-open');
+        p.classList.remove('dropdown-collapsed');
+        const trig = p.querySelector('.dropdown-trigger');
+        if (trig) trig.setAttribute('aria-expanded', 'false');
+      });
+    }
+  });
+
+  // Close dropdown on desktop when Escape key is pressed
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      dropdownParents.forEach(p => {
+        p.classList.remove('dropdown-open');
+        p.classList.remove('dropdown-collapsed');
+        const trig = p.querySelector('.dropdown-trigger');
+        if (trig) trig.setAttribute('aria-expanded', 'false');
       });
     }
   });

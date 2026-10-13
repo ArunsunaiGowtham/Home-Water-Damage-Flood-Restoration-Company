@@ -693,7 +693,6 @@ button.nav-link {
 }
 
 .nav-item:hover .nav-dropdown,
-.nav-item.active .nav-dropdown,
 .nav-item.dropdown-open .nav-dropdown {
   opacity: 1;
   visibility: visible;
