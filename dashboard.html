@@ -1221,11 +1221,23 @@
         width: min(310px, 86vw);
         height: 100vh;
         height: 100dvh;
+        max-height: 100dvh;
         transform: translateX(-100%);
         box-shadow: 0 0 35px rgba(0, 0, 0, 0.4);
         z-index: 1000;
         transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        -webkit-overflow-scrolling: touch;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        display: flex !important;
+        flex-direction: column !important;
+        padding: 20px 16px 50px !important;
+        box-sizing: border-box !important;
+      }
+
+      .app-sidebar .sidebar-footer {
+        margin-top: 24px !important;
+        flex-shrink: 0 !important;
+        padding-bottom: 24px !important;
       }
 
       [dir="rtl"] .app-sidebar {
@@ -1242,19 +1254,6 @@
 
       [dir="rtl"] .app-sidebar.mobile-open {
         transform: translateX(0) !important;
-      }
-
-      .sidebar-drawer-actions {
-        display: flex;
-        gap: 8px;
-        margin-bottom: 12px;
-        width: 100%;
-      }
-
-      .sidebar-drawer-actions .topbar-btn {
-        flex: 1;
-        justify-content: center;
-        height: 38px;
       }
 
       .topbar-dash-badge {
@@ -2246,23 +2245,6 @@
         </button>
       </div>
 
-      <!-- Back to Website & Drawer Controls -->
-      <a href="index.html" class="btn-sidebar-back-web" title="Return to AquaShield Website">
-        <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
-        <span>Back to Website</span>
-      </a>
-
-      <div class="sidebar-drawer-actions">
-        <button type="button" class="topbar-btn rtl-toggle-btn" aria-label="Switch LTR / RTL" title="Switch Direction">
-          <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
-          <span class="label-text">RTL</span>
-        </button>
-        <button type="button" class="topbar-btn theme-toggle-btn" aria-label="Toggle dark/light mode" title="Toggle Theme">
-          <span class="theme-icon"><svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg></span>
-          <span>Theme</span>
-        </button>
-      </div>
-
       <!-- Synchronized Claim Job Selector in Mobile/Tablet Drawer -->
       <div class="sidebar-job-switcher-card">
         <div class="sidebar-job-label">
@@ -2349,6 +2331,10 @@
             <div style="font-size: 0.75rem; color: #059669; font-weight: 600;">● Active Demo</div>
           </div>
         </div>
+        <a href="index.html" class="btn-sidebar-back-web" title="Return to AquaShield Website">
+          <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+          <span>Back to Website</span>
+        </a>
         <button type="button" class="btn-signout" id="sidebarSignOutBtn">
           <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
           <span>Sign Out</span>
