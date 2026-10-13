@@ -1256,39 +1256,7 @@
         transform: translateX(0) !important;
       }
 
-      .topbar-dash-badge {
-        display: inline-flex !important;
-        align-items: center;
-        padding: 2px 8px;
-        border-radius: 999px;
-        background: var(--dash-primary-light);
-        color: var(--dash-primary);
-        font-size: 0.70rem;
-        font-weight: 700;
-        border: 1px solid rgba(2, 132, 199, 0.3);
-        white-space: nowrap;
-        line-height: 1;
-        flex-shrink: 0;
-        letter-spacing: 0.2px;
-      }
 
-      [data-theme="dark"] .topbar-dash-badge {
-        background: rgba(14, 165, 233, 0.15);
-        color: #38bdf8;
-        border-color: rgba(56, 189, 248, 0.35);
-      }
-
-      .dash-header-back-btn {
-        display: none;
-      }
-
-      @media (max-width: 900px) {
-        .dash-header-back-btn {
-          display: inline-flex !important;
-          align-items: center;
-          gap: 6px;
-        }
-      }
 
       .btn-mobile-sidebar-toggle {
         display: inline-flex !important;
@@ -1360,29 +1328,17 @@
       }
 
       .mobile-topbar-logo .mobile-logo-subtitle {
-        display: block !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-        font-size: 0.46rem !important;
-        line-height: 1 !important;
-        margin: 2px 0 0 0 !important;
-        color: var(--dash-muted) !important;
-        text-transform: uppercase !important;
-        font-weight: 700 !important;
-        letter-spacing: 0.25px !important;
-        white-space: nowrap !important;
-        overflow: hidden !important;
-        text-overflow: ellipsis !important;
+        display: none !important;
       }
 
       /* Clean Two-Row Responsive Topbar */
       .app-topbar {
-        height: auto;
-        min-height: auto;
-        padding: 8px 12px 10px;
-        width: 100%;
-        max-width: 100%;
-        box-sizing: border-box;
+        height: auto !important;
+        min-height: auto !important;
+        padding: 8px 12px 10px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
       }
 
       .topbar-main-row {
@@ -1390,24 +1346,24 @@
         align-items: center !important;
         justify-content: space-between !important;
         flex-wrap: wrap !important;
-        width: 100%;
-        max-width: 100%;
-        gap: 8px 10px !important;
-        box-sizing: border-box;
+        width: 100% !important;
+        max-width: 100% !important;
+        row-gap: 8px !important;
+        column-gap: 8px !important;
+        box-sizing: border-box !important;
       }
 
       .topbar-brand-section {
         display: flex !important;
         align-items: center !important;
-        gap: 8px !important;
+        gap: 7px !important;
         min-width: 0 !important;
-        overflow: hidden !important;
-        flex-shrink: 1 !important;
+        flex: 0 1 auto !important;
         order: 1 !important;
       }
 
       .topbar-actions {
-        display: inline-flex !important;
+        display: flex !important;
         align-items: center !important;
         justify-content: flex-end !important;
         gap: 5px !important;
@@ -1423,14 +1379,14 @@
       }
 
       .topbar-actions .topbar-btn {
-        height: 34px !important;
+        height: 32px !important;
         box-sizing: border-box !important;
       }
 
       .topbar-actions .topbar-btn.theme-toggle-btn {
-        width: 34px !important;
-        min-width: 34px !important;
-        height: 34px !important;
+        width: 32px !important;
+        min-width: 32px !important;
+        height: 32px !important;
         padding: 0 !important;
         border-radius: 50% !important;
         display: inline-flex !important;
@@ -1447,7 +1403,7 @@
       .topbar-actions .topbar-btn.rtl-toggle-btn {
         width: auto !important;
         min-width: auto !important;
-        height: 34px !important;
+        height: 32px !important;
         padding: 0 8px !important;
         border-radius: 999px !important;
         gap: 4px !important;
@@ -1466,8 +1422,8 @@
       .topbar-actions .topbar-btn.btn-back-web {
         width: auto !important;
         min-width: auto !important;
-        height: 34px !important;
-        padding: 0 9px !important;
+        height: 32px !important;
+        padding: 0 8px !important;
         border-radius: 999px !important;
         gap: 4px !important;
         display: inline-flex !important;
@@ -1490,9 +1446,10 @@
         display: inline !important;
       }
 
-      /* Tools sub-row: Search and Job Selector */
+      /* Tools Row 2: Search and Job Selector (Dedicated 100% full-width row) */
       .topbar-search-tools {
         width: 100% !important;
+        flex: 0 0 100% !important;
         max-width: 100% !important;
         display: flex !important;
         align-items: center !important;
@@ -1503,7 +1460,7 @@
       }
 
       .topbar-search-tools .topbar-search-wrap {
-        flex: 1 !important;
+        flex: 1 1 auto !important;
         min-width: 0 !important;
       }
 
@@ -1511,18 +1468,28 @@
         width: 100% !important;
         height: 38px !important;
         font-size: 0.84rem !important;
+        padding: 0 12px 0 34px !important;
+        box-sizing: border-box !important;
+      }
+
+      [dir="rtl"] .topbar-search-tools .topbar-search-input {
+        padding: 0 34px 0 12px !important;
       }
 
       .topbar-search-tools .job-pill-select {
         display: block !important;
+        flex: 0 0 auto !important;
         width: auto !important;
         max-width: 130px !important;
         min-width: 95px !important;
         height: 38px !important;
         padding: 0 8px !important;
         font-size: 0.78rem !important;
+        font-weight: 600 !important;
         flex-shrink: 0 !important;
+        box-sizing: border-box !important;
         text-overflow: ellipsis !important;
+        white-space: nowrap !important;
       }
 
       /* Content Area Spacing on Mobile (Leaves room for bottom app bar) */
@@ -2011,8 +1978,10 @@
       }
 
       .topbar-search-tools {
-        gap: 6px;
-        margin-top: 6px;
+        width: 100% !important;
+        flex: 0 0 100% !important;
+        gap: 6px !important;
+        margin-top: 6px !important;
       }
 
       .topbar-search-input {
@@ -2032,9 +2001,12 @@
         right: 10px;
       }
 
+      [dir="rtl"] .topbar-search-input {
+        padding: 0 32px 0 10px !important;
+      }
+
       [dir="rtl"] .topbar-btn.btn-back-web svg,
-      [dir="rtl"] .btn-sidebar-back-web svg,
-      [dir="rtl"] .dash-header-back-btn svg {
+      [dir="rtl"] .btn-sidebar-back-web svg {
         transform: scaleX(-1);
       }
 
@@ -2170,6 +2142,11 @@
       .topbar-actions .topbar-btn svg {
         width: 12px !important;
         height: 12px !important;
+      }
+
+      .topbar-search-tools {
+        width: 100% !important;
+        flex: 0 0 100% !important;
       }
 
       .topbar-search-tools .job-pill-select {
@@ -2363,7 +2340,6 @@
                 <p class="mobile-logo-subtitle">Emergency Restoration</p>
               </div>
             </a>
-            <span class="topbar-dash-badge">Dashboard</span>
           </div>
 
           <div class="topbar-search-tools">
@@ -2415,10 +2391,6 @@
               <h2>Restoration Dashboard</h2>
               <p>Live psychometric drying telemetry, field crew &amp; ANSI/IICRC S500 standard milestones.</p>
             </div>
-            <a href="index.html" class="topbar-btn btn-back-web dash-header-back-btn" title="Return to AquaShield Website">
-              <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
-              <span>Back to Website</span>
-            </a>
           </div>
 
           <!-- 4 KPI Stat Cards Row (Aligned Heights) -->
