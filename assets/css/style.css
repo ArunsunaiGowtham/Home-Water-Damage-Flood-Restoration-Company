@@ -693,10 +693,17 @@ button.nav-link {
 }
 
 .nav-item:hover .nav-dropdown,
+.nav-item.active .nav-dropdown,
 .nav-item.dropdown-open .nav-dropdown {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
+}
+
+.nav-item.dropdown-collapsed .nav-dropdown {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  display: none !important;
 }
 
 .dropdown-trigger svg {
@@ -706,6 +713,10 @@ button.nav-link {
 .nav-item:hover .dropdown-trigger svg,
 .nav-item.dropdown-open .dropdown-trigger svg {
   transform: rotate(180deg);
+}
+
+.nav-item.dropdown-collapsed .dropdown-trigger svg {
+  transform: rotate(0deg) !important;
 }
 
 .nav-item:last-child .nav-dropdown,
