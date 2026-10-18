@@ -59,7 +59,7 @@
               <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
               <span>Frontend Demo Environment</span>
             </div>
-            <p style="margin: 0 0 8px 0; color: var(--text-muted); font-size: 0.82rem;">This website is a frontend client demonstration. Secure production authentication requires a live backend authentication server. For this demo, sign in using the configured client credentials:</p>
+            <p style="margin: 0 0 8px 0; color: var(--text-muted); font-size: 0.82rem;">This page is a dummy frontend demonstration and does not redirect to the dashboard. Valid credentials simulate successful authentication locally:</p>
             <div style="display: flex; flex-direction: column; gap: 4px; font-family: monospace; font-size: 0.82rem; background: var(--bg-surface); padding: 8px 10px; border-radius: 6px; border: 1px solid var(--border-color);">
               <div><span style="color: var(--text-muted);">Email:</span> <strong style="color: var(--primary);">client@aquashield.com</strong></div>
               <div><span style="color: var(--text-muted);">Password:</span> <strong style="color: var(--primary);">Restore2026!</strong></div>
@@ -402,13 +402,15 @@
           localStorage.setItem('aquashield_user', JSON.stringify(activeUser));
           localStorage.setItem('aquashield_logged_in', 'true');
 
-          loginBtnText.textContent = '✓ Authenticated!';
-          showAlert(`✓ Authentication successful! Loading restoration portal for ${activeUser.name}...`, true);
+          loginBtnText.textContent = '✓ Login Verified (Demo)';
+          showAlert(`✓ Demo Authentication Successful: Welcome back, ${activeUser.name}! (Dummy Mode: Redirect to dashboard is disabled.)`, true);
 
-          // Proceed to intended dashboard page
+          // Re-enable submit button for demo interaction (no redirect to dashboard)
           setTimeout(() => {
-            window.location.href = 'dashboard.html';
-          }, 600);
+            submitBtn.disabled = false;
+            submitBtn.style.cursor = 'pointer';
+            loginBtnText.textContent = 'Customer Login';
+          }, 3500);
         } else {
           // Failure: Reject incorrect email and password
           submitBtn.disabled = false;

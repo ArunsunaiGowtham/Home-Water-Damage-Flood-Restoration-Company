@@ -53,6 +53,15 @@
           <h1 class="auth-card-title">Customer Sign Up</h1>
           <p class="auth-card-subtitle">Register your customer account to track your restoration plan and crew dispatch.</p>
 
+          <!-- Frontend Prototype Demo Notice -->
+          <div class="auth-demo-notice" style="background: rgba(2, 132, 199, 0.08); border: 1px solid rgba(2, 132, 199, 0.25); border-radius: 12px; padding: 12px 14px; margin-bottom: 20px; font-size: 0.85rem; line-height: 1.5;">
+            <div style="display: flex; align-items: center; gap: 8px; font-weight: 700; color: var(--primary); margin-bottom: 4px;">
+              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              <span>Frontend Demo Environment</span>
+            </div>
+            <p style="margin: 0; color: var(--text-muted); font-size: 0.82rem;">This sign up page is a dummy frontend demonstration and does not redirect to the dashboard. Submitting the form simulates account registration locally.</p>
+          </div>
+
           <form id="customerSignupForm" novalidate>
             <div class="auth-form-group">
               <label for="regName" class="auth-field-label">Full Name <span class="required">*</span></label>
@@ -185,51 +194,124 @@
       }
     }
 
-    function performDemoSignup(name = 'Sarah Connor', email = 'client@aquashield.com', phone = '+1 (555) 019-9421') {
-      const randomJobNumber = Math.floor(1000 + Math.random() * 9000);
-      const jobId = `AQ-${randomJobNumber}`;
-
-      const dummyUser = {
-        name: name,
-        email: email,
-        phone: phone,
-        role: 'Property Loss Client',
-        jobId: jobId,
-        signupTime: new Date().toLocaleTimeString()
-      };
-
-      localStorage.setItem('aquashield_user', JSON.stringify(dummyUser));
-
-      // Store dummy message for login page
-      sessionStorage.setItem('aquashield_signup_success', `✓ Account created successfully for ${name}! Please log in with your credentials.`);
-      sessionStorage.setItem('aquashield_signup_email', email);
-
-      submitBtn.disabled = true;
-      signupBtnText.textContent = 'Account Created! Redirecting...';
-      showAlert(`✓ Account created successfully for ${name}! Redirecting to Customer Login...`, true);
-
-      setTimeout(() => {
-        window.location.href = 'login.html?registered=true';
-      }, 700);
+    function hideAlert() {
+      alertBox.style.display = 'none';
+      alertBox.textContent = '';
+      [nameInput, emailInput, phoneInput, passInput, confirmInput].forEach(inp => {
+        if (inp) inp.classList.remove('is-invalid');
+      });
     }
 
-    // Signup Form Submission (Accepts any or default dummy credentials and redirects to login)
+    [nameInput, emailInput, phoneInput, passInput, confirmInput].forEach(inp => {
+      if (inp) {
+        inp.addEventListener('input', () => {
+          if (alertBox.style.display !== 'none') hideAlert();
+        });
+      }
+    });
+
+    // Signup Form Submission (Dummy Frontend Registration - No Dashboard Redirection)
     const signupForm = document.getElementById('customerSignupForm');
     const submitBtn = document.getElementById('submitSignupBtn');
     const signupBtnText = document.getElementById('signupBtnText');
 
     signupForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      const name = nameInput.value.trim() || 'Sarah Connor';
-      const email = emailInput.value.trim() || 'client@aquashield.com';
-      const phone = phoneInput.value.trim() || '+1 (555) 019-9421';
 
+      if (submitBtn.disabled) return;
+
+      const nameVal = nameInput ? nameInput.value.trim() : '';
+      const emailVal = emailInput ? emailInput.value.trim() : '';
+      const phoneVal = phoneInput ? phoneInput.value.trim() : '';
+      const passVal = passInput ? passInput.value : '';
+      const confirmVal = confirmInput ? confirmInput.value : '';
+      const termsCheckbox = document.getElementById('regTerms');
+
+      // 1. Name validation
+      if (!nameVal) {
+        showAlert('Please enter your full name.', false);
+        if (nameInput) { nameInput.classList.add('is-invalid'); nameInput.focus(); }
+        return;
+      }
+      if (/^[0-9\s.,+_-]+$/.test(nameVal)) {
+        showAlert('Full name cannot be purely numeric. Please enter a valid name.', false);
+        if (nameInput) { nameInput.classList.add('is-invalid'); nameInput.focus(); }
+        return;
+      }
+
+      // 2. Email format validation (RFC 5322 regex)
+      const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
+      if (!emailVal || !emailRegex.test(emailVal)) {
+        showAlert('Please enter a valid email address (e.g., client@example.com).', false);
+        if (emailInput) { emailInput.classList.add('is-invalid'); emailInput.focus(); }
+        return;
+      }
+
+      // 3. Phone validation
+      if (!phoneVal) {
+        showAlert('Please enter your contact phone number.', false);
+        if (phoneInput) { phoneInput.classList.add('is-invalid'); phoneInput.focus(); }
+        return;
+      }
+      if (/[a-zA-Z]/.test(phoneVal)) {
+        showAlert('Phone number cannot contain alphabetic letters.', false);
+        if (phoneInput) { phoneInput.classList.add('is-invalid'); phoneInput.focus(); }
+        return;
+      }
+
+      // 4. Password validation
+      if (!passVal || passVal.length < 6) {
+        showAlert('Password must be at least 6 characters in length.', false);
+        if (passInput) { passInput.classList.add('is-invalid'); passInput.focus(); }
+        return;
+      }
+
+      // 5. Confirm password matching
+      if (passVal !== confirmVal) {
+        showAlert('Passwords do not match. Please verify your password.', false);
+        if (confirmInput) { confirmInput.classList.add('is-invalid'); confirmInput.focus(); }
+        return;
+      }
+
+      // 6. Terms agreement
+      if (termsCheckbox && !termsCheckbox.checked) {
+        showAlert('Please agree to the Privacy Policy and Terms of Care to register.', false);
+        return;
+      }
+
+      // Processing dummy registration
       submitBtn.disabled = true;
-      signupBtnText.textContent = 'Creating Account...';
+      submitBtn.style.cursor = 'not-allowed';
+      signupBtnText.textContent = 'Simulating Registration...';
+      hideAlert();
 
       setTimeout(() => {
-        performDemoSignup(name, email, phone);
-      }, 400);
+        const randomJobNumber = Math.floor(1000 + Math.random() * 9000);
+        const jobId = `AQ-${randomJobNumber}`;
+
+        const dummyUser = {
+          name: nameVal,
+          email: emailVal.toLowerCase(),
+          phone: phoneVal,
+          role: 'Property Loss Client',
+          jobId: jobId,
+          signupTime: new Date().toLocaleTimeString()
+        };
+
+        // Store demo account locally for login page simulation
+        localStorage.setItem('aquashield_user', JSON.stringify(dummyUser));
+        sessionStorage.setItem('aquashield_signup_email', emailVal.toLowerCase());
+
+        submitBtn.disabled = false;
+        submitBtn.style.cursor = 'pointer';
+        signupBtnText.textContent = '✓ Registered (Demo)';
+        showAlert(`✓ Demo Registration Successful: Account simulated for ${nameVal}! (Dummy Mode: Redirect to dashboard is disabled.)`, true);
+
+        // Reset button text after 3.5 seconds (no redirect to dashboard)
+        setTimeout(() => {
+          signupBtnText.textContent = 'Customer Sign Up';
+        }, 3500);
+      }, 500);
     });
   </script>
 </body>
