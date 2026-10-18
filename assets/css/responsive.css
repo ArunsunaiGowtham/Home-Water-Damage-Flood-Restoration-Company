@@ -23,9 +23,10 @@
   .site-logo .logo-text h3 {
     font-size: 1.18rem;
   }
-  .site-logo .logo-text p {
-    font-size: 0.62rem !important;
-    letter-spacing: 0.5px !important;
+  .site-logo .logo-text p,
+  .site-logo .logo-text .logo-subtitle {
+    font-size: 0.62rem;
+    letter-spacing: 0.5px;
   }
   .nav-menu {
     gap: 2px;
@@ -158,27 +159,47 @@
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .site-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+    flex-shrink: 1;
+    overflow: hidden;
+    text-decoration: none;
   }
 
   .logo-text {
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: center !important;
-    min-width: 0 !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 0;
+    overflow: hidden;
   }
 
-  .logo-text p {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    font-size: 0.65rem !important;
-    line-height: 1.1 !important;
-    margin: 2px 0 0 0 !important;
-    color: var(--text-muted) !important;
-    text-transform: uppercase !important;
-    font-weight: 700 !important;
-    letter-spacing: 0.6px !important;
-    white-space: nowrap !important;
+  .logo-text h3 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .logo-text p,
+  .logo-text .logo-subtitle {
+    display: block;
+    font-size: 0.62rem;
+    line-height: 1.1;
+    margin: 2px 0 0 0;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
   }
 
   .nav-actions {
@@ -188,6 +209,11 @@
     gap: 8px;
     flex-shrink: 0;
     margin-left: auto;
+  }
+
+  [dir="rtl"] .nav-actions {
+    margin-left: 0;
+    margin-right: auto;
   }
 
   .nav-auth-group {
@@ -571,16 +597,25 @@
   }
 
   .navbar-wrapper {
-    height: 64px;
-    gap: 6px;
+    height: 60px;
+    gap: 8px;
     width: 100%;
+    max-width: 100%;
+    display: flex;
+    align-items: center;
     justify-content: space-between;
+    box-sizing: border-box;
+    overflow: hidden;
   }
 
   .site-logo {
     min-width: 0;
     flex-shrink: 1;
     gap: 8px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    text-decoration: none;
   }
 
   .logo-icon-wrap {
@@ -588,6 +623,7 @@
     height: 36px;
     min-width: 36px;
     border-radius: 8px;
+    flex-shrink: 0;
   }
 
   .logo-icon-wrap svg {
@@ -600,37 +636,57 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    overflow: hidden;
   }
 
   .logo-text h3 {
-    font-size: 1.15rem;
+    font-size: 1.12rem;
     line-height: 1.1;
     margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
-  /* Subtitle text on mobile phones: beautifully scaled and crisp */
-  .logo-text p {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    font-size: 0.58rem !important;
-    line-height: 1.1 !important;
-    margin: 2px 0 0 0 !important;
-    color: var(--text-muted) !important;
-    text-transform: uppercase !important;
-    font-weight: 700 !important;
-    letter-spacing: 0.5px !important;
-    white-space: nowrap !important;
+  /* Subtitle text on mobile phones: beautifully scaled, crisp, and clipped if space is tight */
+  .logo-text p,
+  .logo-text .logo-subtitle {
+    display: block;
+    font-size: 0.50rem;
+    line-height: 1.1;
+    margin: 2px 0 0 0;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.25px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
   }
 
   .nav-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
     gap: 6px;
     flex-shrink: 0;
     margin-left: auto;
   }
 
+  [dir="rtl"] .nav-actions {
+    margin-left: 0;
+    margin-right: auto;
+  }
+
   .btn-ctrl {
     height: 36px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    flex-shrink: 0;
   }
 
   .btn-ctrl.theme-toggle-btn {
@@ -638,35 +694,35 @@
     min-width: 36px;
     height: 36px;
     padding: 0 !important;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     flex-shrink: 0;
   }
 
   .btn-ctrl.rtl-toggle-btn {
-    width: auto !important;
-    min-width: auto !important;
+    width: 36px !important;
+    min-width: 36px !important;
     height: 36px !important;
-    padding: 0 10px !important;
-    border-radius: 999px !important;
-    font-size: 0.8rem !important;
-    font-weight: 700 !important;
+    padding: 0 !important;
+    border-radius: 50% !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 5px !important;
+    gap: 0 !important;
     flex-shrink: 0 !important;
   }
 
   .btn-ctrl.rtl-toggle-btn svg {
-    width: 14px;
-    height: 14px;
+    width: 15px;
+    height: 15px;
     flex-shrink: 0;
+    margin: 0 auto;
   }
 
   .btn-ctrl.rtl-toggle-btn .label-text {
-    display: inline !important;
-    font-size: 0.8rem !important;
-    font-weight: 700 !important;
-    letter-spacing: 0.3px;
+    display: none !important;
   }
 
   .btn-mobile-toggle {
@@ -678,6 +734,12 @@
     height: 38px;
     padding: 0;
     flex-shrink: 0 !important;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+    background: var(--bg-surface);
+    color: var(--text-main);
+    cursor: pointer;
+    box-sizing: border-box;
     margin: 0;
   }
 
@@ -837,34 +899,114 @@
   }
 }
 
-/* Ultra Small Devices (320px - 375px) */
-@media (max-width: 375px) {
-  .container {
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-
+/* Compact Mobile Devices (361px - 390px) */
+@media (max-width: 390px) {
   .navbar-wrapper {
-    gap: 4px;
+    gap: 6px;
+    height: 56px;
   }
 
   .site-logo {
     gap: 6px;
+    min-width: 0;
+    flex-shrink: 1;
+    overflow: hidden;
   }
 
   .logo-icon-wrap {
     width: 34px;
     height: 34px;
     min-width: 34px;
+    border-radius: 7px;
+  }
+
+  .logo-icon-wrap svg {
+    width: 18px;
+    height: 18px;
   }
 
   .logo-text h3 {
     font-size: 1.05rem;
   }
 
-  .logo-text p {
-    font-size: 0.50rem !important;
-    letter-spacing: 0.3px !important;
+  .logo-text p,
+  .logo-text .logo-subtitle {
+    font-size: 0.45rem !important;
+    letter-spacing: 0.2px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .nav-actions {
+    gap: 5px;
+  }
+
+  .btn-ctrl.theme-toggle-btn {
+    width: 34px;
+    min-width: 34px;
+    height: 34px;
+  }
+
+  .btn-ctrl.rtl-toggle-btn {
+    width: 34px !important;
+    min-width: 34px !important;
+    height: 34px !important;
+    padding: 0 !important;
+    border-radius: 50% !important;
+    gap: 0 !important;
+  }
+
+  .btn-ctrl.rtl-toggle-btn .label-text {
+    display: none !important;
+  }
+
+  .btn-mobile-toggle {
+    width: 36px;
+    min-width: 36px;
+    height: 36px;
+  }
+}
+
+/* Ultra Small Devices (320px - 360px) */
+@media (max-width: 360px) {
+  .container {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  .navbar-wrapper {
+    gap: 4px;
+    height: 54px;
+  }
+
+  .site-logo {
+    gap: 5px;
+    min-width: 0;
+    flex-shrink: 1;
+    overflow: hidden;
+  }
+
+  .logo-icon-wrap {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    border-radius: 6px;
+  }
+
+  .logo-icon-wrap svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .logo-text h3 {
+    font-size: 0.98rem;
+  }
+
+  /* On ultra-small screens, hide subtitle so brand name is prominent with zero collision */
+  .logo-text p,
+  .logo-text .logo-subtitle {
+    display: none !important;
   }
 
   .btn {
@@ -907,30 +1049,37 @@
     gap: 4px;
   }
   .btn-ctrl {
-    padding: 0 4px;
-    height: 34px;
+    padding: 0;
+    height: 32px;
   }
   .btn-ctrl.theme-toggle-btn {
-    width: 34px;
-    min-width: 34px;
-    height: 34px;
+    width: 32px !important;
+    min-width: 32px !important;
+    height: 32px !important;
   }
   .btn-ctrl.rtl-toggle-btn {
-    width: auto !important;
-    min-width: auto !important;
-    height: 34px !important;
-    padding: 0 8px !important;
-    font-size: 0.74rem !important;
-    gap: 4px !important;
+    width: 32px !important;
+    min-width: 32px !important;
+    height: 32px !important;
+    padding: 0 !important;
+    border-radius: 50% !important;
+    gap: 0 !important;
   }
   .btn-ctrl.rtl-toggle-btn .label-text {
-    display: inline !important;
-    font-size: 0.74rem !important;
+    display: none !important;
+  }
+  .btn-ctrl.rtl-toggle-btn svg {
+    width: 14px;
+    height: 14px;
   }
   .btn-mobile-toggle {
-    width: 36px;
-    min-width: 36px;
-    height: 36px;
+    width: 34px !important;
+    min-width: 34px !important;
+    height: 34px !important;
+  }
+  .btn-mobile-toggle svg {
+    width: 16px;
+    height: 16px;
   }
 
   .about-purpose-img {

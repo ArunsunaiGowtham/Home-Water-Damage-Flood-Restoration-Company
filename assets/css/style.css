@@ -503,10 +503,9 @@ td {
 .logo-text h3 span {
   color: var(--primary);
 }
-.logo-text p {
-  display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
+.logo-text p,
+.logo-text .logo-subtitle {
+  display: block;
   font-size: 0.72rem;
   color: var(--text-muted);
   text-transform: uppercase;
