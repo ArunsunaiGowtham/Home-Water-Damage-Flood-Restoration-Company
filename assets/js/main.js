@@ -11,6 +11,7 @@ function initApp() {
   initFaqAccordion();
   initEmergencyModal();
   initHeroDispatchForm();
+  initContactForm();
   initCounters();
   initPasswordToggles();
   initCostEstimator();
@@ -376,6 +377,189 @@ function initFaqAccordion() {
   });
 }
 
+/* ==========================================================================
+   AquaShield Universal Form Validation & Sanitization Engine
+   ========================================================================== */
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+const AquaValidator = {
+  /**
+   * Validate full name:
+   * - Must contain letters
+   * - Allows spaces, hyphens, apostrophes, periods
+   * - Rejects numbers / digits completely
+   * - Rejects empty or purely whitespace strings
+   * - Requires at least 2 letters
+   */
+  validateName(rawName) {
+    const trimmed = (rawName || '').trim();
+    if (!trimmed) {
+      return { valid: false, message: 'Please enter your full name.' };
+    }
+    if (/\d/.test(trimmed)) {
+      return { valid: false, message: 'Name cannot contain numbers or digits.' };
+    }
+    // Check total letters count (supports Unicode accented characters)
+    const letterMatches = trimmed.match(/[\p{L}]/gu) || trimmed.match(/[A-Za-z\u00C0-\u024F\u1E00-\u1EFF]/g) || [];
+    if (letterMatches.length < 2) {
+      return { valid: false, message: 'Please enter a valid name with at least 2 letters.' };
+    }
+    // Allow legitimate names with letters, spaces, apostrophes, hyphens, periods
+    const nameRegex = /^[\p{L}\s'. -]+$/u;
+    if (!nameRegex.test(trimmed)) {
+      return { valid: false, message: 'Name contains invalid characters. Use letters, spaces, hyphens, or apostrophes only.' };
+    }
+    return { valid: true, value: trimmed };
+  },
+
+  /**
+   * Validate phone number:
+   * - Must use type="tel"
+   * - Rejects alphabetic characters
+   * - Accepts digits and optional leading +
+   * - Permits reasonable formatting (spaces, hyphens, parentheses, periods)
+   * - Normalizes number and checks digit count (10 to 15 digits)
+   */
+  validatePhone(rawPhone) {
+    const trimmed = (rawPhone || '').trim();
+    if (!trimmed) {
+      return { valid: false, message: 'Please enter your phone number.' };
+    }
+    if (/[a-zA-Z]/.test(trimmed)) {
+      return { valid: false, message: 'Phone number cannot contain letters or alphabetic characters.' };
+    }
+    const allowedCharsRegex = /^\+?[\d\s\-().]+$/;
+    if (!allowedCharsRegex.test(trimmed)) {
+      return { valid: false, message: 'Phone number contains invalid characters. Use digits and standard formatting only.' };
+    }
+    const digits = trimmed.replace(/\D/g, '');
+    if (digits.length < 10) {
+      return { valid: false, message: 'Phone number is too short. Please enter a valid 10-digit number.' };
+    }
+    if (digits.length > 15) {
+      return { valid: false, message: 'Phone number is too long. Please enter a valid phone number (up to 15 digits).' };
+    }
+    return { valid: true, value: trimmed, normalized: digits };
+  },
+
+  /**
+   * Validate email address
+   */
+  validateEmail(rawEmail) {
+    const trimmed = (rawEmail || '').trim();
+    if (!trimmed) {
+      return { valid: false, message: 'Please enter your email address.' };
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+    if (!emailRegex.test(trimmed)) {
+      return { valid: false, message: 'Please enter a valid email address (e.g. name@example.com).' };
+    }
+    return { valid: true, value: trimmed };
+  },
+
+  /**
+   * Validate required field
+   */
+  validateRequired(rawValue, fieldLabel = 'This field') {
+    const trimmed = (rawValue || '').trim();
+    if (!trimmed) {
+      return { valid: false, message: `Please enter ${fieldLabel.toLowerCase()}.` };
+    }
+    if (trimmed.length < 3) {
+      return { valid: false, message: `Please enter a complete ${fieldLabel.toLowerCase()}.` };
+    }
+    return { valid: true, value: trimmed };
+  },
+
+  /**
+   * Display field-level validation message beside/below the input
+   */
+  showFieldError(inputEl, message) {
+    if (!inputEl) return;
+    inputEl.classList.add('is-invalid');
+    inputEl.classList.remove('is-valid');
+    inputEl.setAttribute('aria-invalid', 'true');
+    const group = inputEl.closest('.form-group') || inputEl.closest('.dispatch-form-group') || inputEl.parentElement;
+    if (!group) return;
+    group.classList.add('is-invalid');
+
+    let errorEl = group.querySelector('.field-error-msg');
+    if (!errorEl) {
+      errorEl = document.createElement('div');
+      errorEl.className = 'field-error-msg';
+      errorEl.setAttribute('role', 'alert');
+      if (inputEl.nextSibling) {
+        inputEl.parentNode.insertBefore(errorEl, inputEl.nextSibling);
+      } else {
+        inputEl.parentNode.appendChild(errorEl);
+      }
+    }
+    errorEl.innerHTML = `
+      <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10" stroke-width="2"/>
+        <line x1="12" y1="8" x2="12" y2="12" stroke-width="2"/>
+        <line x1="12" y1="16" x2="12.01" y2="16" stroke-width="2"/>
+      </svg>
+      <span>${escapeHtml(message)}</span>
+    `;
+    errorEl.style.display = 'flex';
+  },
+
+  /**
+   * Clear field-level validation message
+   */
+  clearFieldError(inputEl) {
+    if (!inputEl) return;
+    inputEl.classList.remove('is-invalid');
+    inputEl.removeAttribute('aria-invalid');
+    const group = inputEl.closest('.form-group') || inputEl.closest('.dispatch-form-group') || inputEl.parentElement;
+    if (group) {
+      group.classList.remove('is-invalid');
+      const errorEl = group.querySelector('.field-error-msg');
+      if (errorEl) {
+        errorEl.style.display = 'none';
+        errorEl.textContent = '';
+      }
+    }
+  },
+
+  /**
+   * Attach live validation listeners on input and blur
+   */
+  bindLiveValidation(inputEl, validateFn) {
+    if (!inputEl) return;
+    inputEl.addEventListener('input', () => {
+      if (inputEl.classList.contains('is-invalid')) {
+        const res = validateFn(inputEl.value);
+        if (res.valid) {
+          AquaValidator.clearFieldError(inputEl);
+        } else {
+          AquaValidator.showFieldError(inputEl, res.message);
+        }
+      }
+    });
+    inputEl.addEventListener('blur', () => {
+      const val = inputEl.value.trim();
+      if (val.length > 0) {
+        const res = validateFn(inputEl.value);
+        if (!res.valid) {
+          AquaValidator.showFieldError(inputEl, res.message);
+        } else {
+          AquaValidator.clearFieldError(inputEl);
+        }
+      }
+    });
+  }
+};
+
 /* ----------------------------------------------------
    6. Emergency Dispatch Modal & Toast Notifications
    ---------------------------------------------------- */
@@ -452,6 +636,14 @@ function initEmergencyModal() {
     const activeForm = document.getElementById('emergencyModalForm');
     if (!activeForm) return;
 
+    const phoneInput = activeForm.querySelector('input[type="tel"]');
+    const nameInput = activeForm.querySelector('input[name="name"]');
+    const addressInput = activeForm.querySelector('input[name="address"]');
+
+    if (nameInput) AquaValidator.bindLiveValidation(nameInput, AquaValidator.validateName);
+    if (phoneInput) AquaValidator.bindLiveValidation(phoneInput, AquaValidator.validatePhone);
+    if (addressInput) AquaValidator.bindLiveValidation(addressInput, (val) => AquaValidator.validateRequired(val, 'Property Address'));
+
     // Attach submit listener
     activeForm.onsubmit = function(e) {
       if (e) e.preventDefault();
@@ -467,10 +659,6 @@ function initEmergencyModal() {
         submitBtn.classList.add('btn-emergency');
       }
       submitBtn.onclick = function(e) {
-        if (activeForm.checkValidity && !activeForm.checkValidity()) {
-          activeForm.reportValidity();
-          return;
-        }
         if (e) e.preventDefault();
         handleFormSubmission(activeForm);
       };
@@ -485,15 +673,62 @@ function initEmergencyModal() {
     const damageSelect = form.querySelector('select[name="damage_type"]');
     const submitBtn = form.querySelector('button[type="submit"]') || form.querySelector('.btn-emergency, .btn-primary');
 
-    const phone = (phoneInput && phoneInput.value.trim()) ? phoneInput.value.trim() : '';
-    const address = (addressInput && addressInput.value.trim()) ? addressInput.value.trim() : '';
-    const name = (nameInput && nameInput.value.trim()) ? nameInput.value.trim() : 'Property Owner';
+    let hasErrors = false;
+    let firstErrorField = null;
+
+    // 1. Validate Customer Name
+    const nameVal = AquaValidator.validateName(nameInput ? nameInput.value : '');
+    if (!nameVal.valid) {
+      if (nameInput) {
+        AquaValidator.showFieldError(nameInput, nameVal.message);
+        if (!firstErrorField) firstErrorField = nameInput;
+      }
+      hasErrors = true;
+    } else if (nameInput) {
+      AquaValidator.clearFieldError(nameInput);
+    }
+
+    // 2. Validate Phone Number
+    const phoneVal = AquaValidator.validatePhone(phoneInput ? phoneInput.value : '');
+    if (!phoneVal.valid) {
+      if (phoneInput) {
+        AquaValidator.showFieldError(phoneInput, phoneVal.message);
+        if (!firstErrorField) firstErrorField = phoneInput;
+      }
+      hasErrors = true;
+    } else if (phoneInput) {
+      AquaValidator.clearFieldError(phoneInput);
+    }
+
+    // 3. Validate Property Address
+    const addressVal = AquaValidator.validateRequired(addressInput ? addressInput.value : '', 'Property Address');
+    if (!addressVal.valid) {
+      if (addressInput) {
+        AquaValidator.showFieldError(addressInput, addressVal.message);
+        if (!firstErrorField) firstErrorField = addressInput;
+      }
+      hasErrors = true;
+    } else if (addressInput) {
+      AquaValidator.clearFieldError(addressInput);
+    }
+
+    if (hasErrors) {
+      if (firstErrorField) {
+        firstErrorField.focus();
+      }
+      return;
+    }
+
+    const name = nameVal.value;
+    const phone = phoneVal.value;
+    const address = addressVal.value;
     const carrier = (carrierSelect && carrierSelect.value) ? carrierSelect.value : 'State Farm';
     const damageType = (damageSelect && damageSelect.value) ? damageSelect.value : 'Emergency Water Extraction';
 
-    if (!phone || !address) {
-      showToast('Please fill in your contact number and property address.', 'warning');
-      return;
+    // Prevent duplicate clicks while processing
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span class="aqua-spinner"></span> Confirming Request...';
     }
 
     const submitBtnText = submitBtn ? submitBtn.textContent.trim().toLowerCase() : '';
@@ -543,7 +778,11 @@ function initEmergencyModal() {
             <div style="text-align: left; background: rgba(2, 132, 199, 0.06); border: 1px solid rgba(2, 132, 199, 0.2); border-radius: 8px; padding: 14px; margin-bottom: 18px;">
               <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.85rem;">
                 <span style="color: var(--text-muted, #64748b);">Client Name:</span>
-                <strong style="color: var(--text-heading, #1e293b);">${name}</strong>
+                <strong style="color: var(--text-heading, #1e293b);">${escapeHtml(name)}</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.85rem;">
+                <span style="color: var(--text-muted, #64748b);">Contact Phone:</span>
+                <strong style="color: var(--text-heading, #1e293b);">${escapeHtml(phone)}</strong>
               </div>
               <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.85rem;">
                 <span style="color: var(--text-muted, #64748b);">Arrival Window:</span>
@@ -555,21 +794,25 @@ function initEmergencyModal() {
               </div>
               <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.85rem;">
                 <span style="color: var(--text-muted, #64748b);">Insurance Carrier:</span>
-                <strong style="color: var(--text-heading, #1e293b);">${carrier}</strong>
+                <strong style="color: var(--text-heading, #1e293b);">${escapeHtml(carrier)}</strong>
               </div>
               <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
                 <span style="color: var(--text-muted, #64748b);">Property Location:</span>
-                <strong style="color: var(--text-heading, #1e293b); text-align: right; max-width: 60%;">${address}</strong>
+                <strong style="color: var(--text-heading, #1e293b); text-align: right; max-width: 60%;">${escapeHtml(address)}</strong>
               </div>
             </div>
 
             <div style="background: rgba(16, 185, 129, 0.08); border-left: 3px solid #10b981; padding: 10px 12px; text-align: left; margin-bottom: 18px; border-radius: 4px;">
               <p style="margin: 0; font-size: 0.8rem; color: #065f46; line-height: 1.45;">
-                ✓ <strong>100% Free Assessment:</strong> Thermal moisture scans &amp; insurance-ready estimates are zero out-of-pocket. Inspector will call <strong>${phone}</strong> before arrival.
+                ✓ <strong>100% Free Assessment:</strong> Thermal moisture scans &amp; insurance-ready estimates are zero out-of-pocket. Inspector will call <strong>${escapeHtml(phone)}</strong> before arrival.
               </p>
             </div>
 
-            <div style="display: flex; gap: 10px;">
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+              <a href="index.html" class="btn btn-primary" style="flex: 1; text-align: center; text-decoration: none; justify-content: center; display: inline-flex; align-items: center; gap: 6px;">
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                Back to Home
+              </a>
               <a href="tel:8005550199" class="btn btn-emergency" style="flex: 1; text-align: center; text-decoration: none; justify-content: center; display: inline-flex; align-items: center; gap: 6px;">
                 <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
                 Call Hotline
@@ -634,18 +877,30 @@ function initEmergencyModal() {
                 <strong style="color: var(--text-heading, #1e293b);">David Vance (Master Restorer)</strong>
               </div>
               <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
+                <span style="color: var(--text-muted, #64748b);">Client Name:</span>
+                <strong style="color: var(--text-heading, #1e293b);">${escapeHtml(name)}</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
+                <span style="color: var(--text-muted, #64748b);">Contact Phone:</span>
+                <strong style="color: var(--text-heading, #1e293b);">${escapeHtml(phone)}</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
                 <span style="color: var(--text-muted, #64748b);">Location:</span>
-                <strong style="color: var(--text-heading, #1e293b); text-align: right; max-width: 60%;">${address}</strong>
+                <strong style="color: var(--text-heading, #1e293b); text-align: right; max-width: 60%;">${escapeHtml(address)}</strong>
               </div>
             </div>
 
             <div style="background: rgba(239, 68, 68, 0.08); border-left: 3px solid #ef4444; padding: 10px 12px; text-align: left; margin-bottom: 18px; border-radius: 4px;">
               <p style="margin: 0; font-size: 0.8rem; color: #b91c1c; line-height: 1.4;">
-                ⚠️ <strong>Safety Warning:</strong> Turn off main water valve if accessible. Technician will call <strong>${phone}</strong> upon arrival.
+                ⚠️ <strong>Safety Warning:</strong> Turn off main water valve if accessible. Technician will call <strong>${escapeHtml(phone)}</strong> upon arrival.
               </p>
             </div>
 
-            <div style="display: flex; gap: 10px;">
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+              <a href="index.html" class="btn btn-primary" style="flex: 1; text-align: center; text-decoration: none; justify-content: center; display: inline-flex; align-items: center; gap: 6px;">
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                Back to Home
+              </a>
               <a href="tel:8005550199" class="btn btn-emergency" style="flex: 1; text-align: center; text-decoration: none; justify-content: center; display: inline-flex; align-items: center; gap: 6px;">
                 <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
                 Call Hotline
@@ -664,25 +919,357 @@ function initEmergencyModal() {
 }
 
 /* ----------------------------------------------------
+   6b. Priority Dispatch Ticket Form (Contact Page) & FormSubmit Integration
+   ---------------------------------------------------- */
+function initContactForm() {
+  const contactForm = document.getElementById('contactFormSubmit');
+  const formCard = document.getElementById('contactFormCard');
+  if (!contactForm || !formCard) return;
+
+  const nameInput = document.getElementById('cName');
+  const phoneInput = document.getElementById('cPhone');
+  const emailInput = document.getElementById('cEmail');
+  const subjectSelect = document.getElementById('cSubject');
+  const addressInput = document.getElementById('cAddress');
+  const messageInput = document.getElementById('cMessage');
+  const submitBtn = document.getElementById('contactSubmitBtn') || contactForm.querySelector('button[type="submit"]');
+
+  if (nameInput) AquaValidator.bindLiveValidation(nameInput, AquaValidator.validateName);
+  if (phoneInput) AquaValidator.bindLiveValidation(phoneInput, AquaValidator.validatePhone);
+  if (emailInput) AquaValidator.bindLiveValidation(emailInput, AquaValidator.validateEmail);
+  if (messageInput) AquaValidator.bindLiveValidation(messageInput, (val) => AquaValidator.validateRequired(val, 'Situation description'));
+
+  // Store original container HTML for resetting if desired
+  const formHeader = document.getElementById('contactFormHeader');
+  const originalHeaderHTML = formHeader ? formHeader.outerHTML : '';
+  const originalFormHTML = contactForm.outerHTML;
+
+  contactForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    let hasErrors = false;
+    let firstErrorField = null;
+
+    // Validate Name
+    const nameVal = AquaValidator.validateName(nameInput ? nameInput.value : '');
+    if (!nameVal.valid) {
+      AquaValidator.showFieldError(nameInput, nameVal.message);
+      if (!firstErrorField) firstErrorField = nameInput;
+      hasErrors = true;
+    } else {
+      AquaValidator.clearFieldError(nameInput);
+    }
+
+    // Validate Phone
+    const phoneVal = AquaValidator.validatePhone(phoneInput ? phoneInput.value : '');
+    if (!phoneVal.valid) {
+      AquaValidator.showFieldError(phoneInput, phoneVal.message);
+      if (!firstErrorField) firstErrorField = phoneInput;
+      hasErrors = true;
+    } else {
+      AquaValidator.clearFieldError(phoneInput);
+    }
+
+    // Validate Email
+    const emailVal = AquaValidator.validateEmail(emailInput ? emailInput.value : '');
+    if (!emailVal.valid) {
+      AquaValidator.showFieldError(emailInput, emailVal.message);
+      if (!firstErrorField) firstErrorField = emailInput;
+      hasErrors = true;
+    } else {
+      AquaValidator.clearFieldError(emailInput);
+    }
+
+    // Validate Message
+    const msgVal = AquaValidator.validateRequired(messageInput ? messageInput.value : '', 'Situation description');
+    if (!msgVal.valid) {
+      AquaValidator.showFieldError(messageInput, msgVal.message);
+      if (!firstErrorField) firstErrorField = messageInput;
+      hasErrors = true;
+    } else {
+      AquaValidator.clearFieldError(messageInput);
+    }
+
+    if (hasErrors) {
+      if (firstErrorField) {
+        firstErrorField.focus();
+        firstErrorField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+      return;
+    }
+
+    // Prevent duplicate submissions while request is processing
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span class="aqua-spinner"></span> Transmitting Priority Ticket...';
+    }
+
+    const urgentCheckbox = contactForm.querySelector('input[name="urgent_dispatch_requested"]');
+    const payload = {
+      name: nameVal.value,
+      phone: phoneVal.value,
+      email: emailVal.value,
+      subject: subjectSelect ? subjectSelect.value : 'Emergency Water Extraction',
+      property_address: (addressInput && addressInput.value.trim()) ? addressInput.value.trim() : 'Property Address Not Specified',
+      message: msgVal.value,
+      urgent_dispatch_requested: urgentCheckbox && urgentCheckbox.checked ? 'Yes (Immediate Contact Authorized)' : 'Standard Contact Requested',
+      _subject: 'New Water Damage Emergency Request - AquaShield Pro',
+      _template: 'table',
+      submitted_at: new Date().toLocaleString()
+    };
+
+    const randomTicketId = `AQ-DISPATCH-${Math.floor(100000 + Math.random() * 900000)}`;
+
+    // Target FormSubmit AJAX endpoint without navigating away from the AquaShield website
+    const rawAction = contactForm.action || '';
+    const endpoint = rawAction.includes('formsubmit.co/ajax/')
+      ? rawAction
+      : (rawAction.includes('formsubmit.co/')
+          ? rawAction.replace('https://formsubmit.co/', 'https://formsubmit.co/ajax/')
+          : 'https://formsubmit.co/ajax/dispatch@aquashieldpro.com');
+
+    let isRealDeliverySuccess = false;
+
+    try {
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await response.json().catch(() => null);
+
+      if (data && (data.success === 'true' || data.success === true)) {
+        isRealDeliverySuccess = true;
+      }
+    } catch (err) {
+      // In case of network error, activation requirement remains default
+      isRealDeliverySuccess = false;
+    }
+
+    // Save ticket data to localStorage for customer record and tracking
+    const ticketRecord = {
+      ticketId: randomTicketId,
+      ...payload,
+      realDelivery: isRealDeliverySuccess,
+      status: isRealDeliverySuccess ? 'Transmitted to Fleet Dispatch' : 'Simulated (Demo Mode - Activation Pending)'
+    };
+    try {
+      localStorage.setItem('aquashield_last_ticket', JSON.stringify(ticketRecord));
+    } catch (e) {}
+
+    // Render in-place completion card inside AquaShield website
+    if (isRealDeliverySuccess) {
+      showToast('✓ Priority Dispatch Ticket Transmitted! Unit alerted.', 'success');
+      formCard.innerHTML = `
+        <div class="ticket-confirmation-card">
+          <div style="text-align: center; margin-bottom: 24px;">
+            <div style="width: 64px; height: 64px; background: rgba(16, 185, 129, 0.15); border: 2px solid #10b981; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+              <svg width="32" height="32" fill="none" stroke="#10b981" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+            </div>
+            <span style="display: inline-flex; align-items: center; gap: 6px; background: rgba(16, 185, 129, 0.15); color: #10b981; padding: 4px 14px; border-radius: 20px; font-size: 0.82rem; font-weight: 700; margin-bottom: 8px;">
+              <span style="width: 8px; height: 8px; background: #10b981; border-radius: 50%; box-shadow: 0 0 8px #10b981;"></span>
+              DELIVERED TO ON-DUTY DISPATCH
+            </span>
+            <h3 style="margin: 0 0 6px; font-size: 1.5rem; color: var(--text-main);">Priority Dispatch Ticket Transmitted</h3>
+            <p style="color: var(--text-muted); font-size: 0.92rem; margin: 0;">Ticket Reference: <strong style="color: var(--primary); font-family: monospace; font-size: 1.05rem;">#${randomTicketId}</strong></p>
+          </div>
+
+          <div class="ticket-details-table">
+            <div class="ticket-detail-row">
+              <span class="ticket-detail-label">Client Name:</span>
+              <span class="ticket-detail-val">${escapeHtml(payload.name)}</span>
+            </div>
+            <div class="ticket-detail-row">
+              <span class="ticket-detail-label">Contact Phone:</span>
+              <span class="ticket-detail-val">${escapeHtml(payload.phone)}</span>
+            </div>
+            <div class="ticket-detail-row">
+              <span class="ticket-detail-label">Email Address:</span>
+              <span class="ticket-detail-val">${escapeHtml(payload.email)}</span>
+            </div>
+            <div class="ticket-detail-row">
+              <span class="ticket-detail-label">Service Required:</span>
+              <span class="ticket-detail-val">${escapeHtml(payload.subject)}</span>
+            </div>
+            <div class="ticket-detail-row">
+              <span class="ticket-detail-label">Property Location:</span>
+              <span class="ticket-detail-val">${escapeHtml(payload.property_address)}</span>
+            </div>
+            <div class="ticket-detail-row">
+              <span class="ticket-detail-label">Dispatch SLA:</span>
+              <span class="ticket-detail-val" style="color: #10b981;">Guaranteed 15-Minute Callback</span>
+            </div>
+          </div>
+
+          <div class="ticket-actions-row">
+            <a href="index.html" class="btn btn-primary btn-lg" id="contactBackToHomeBtn">
+              <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+              <span>Back to Home</span>
+            </a>
+            <button type="button" class="btn btn-outline btn-lg" id="btnSubmitAnotherTicket">
+              Submit Another Request
+            </button>
+          </div>
+        </div>
+      `;
+    } else {
+      // Activation Required / Demo Mode Confirmation as specified in Requirement 3
+      formCard.innerHTML = `
+        <div class="ticket-confirmation-card">
+          <!-- Clear Email Service Activation Notice -->
+          <div class="ticket-alert-box" role="alert">
+            <h4>
+              <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+              Email Service Activation Required
+            </h4>
+            <p><strong>Notice for Administrator:</strong> FormSubmit is currently awaiting activation for <code>dispatch@aquashieldpro.com</code>. An email with an "Activate Form" link was dispatched by FormSubmit to that address. Once approved by the mailbox owner, real-time email dispatch will function automatically.</p>
+          </div>
+
+          <!-- Clearly Labelled Frontend Demo Confirmation -->
+          <div style="text-align: center; margin-bottom: 20px;">
+            <div style="width: 60px; height: 60px; background: rgba(2, 132, 199, 0.12); border: 2px solid var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px;">
+              <svg width="30" height="30" fill="none" stroke="var(--primary)" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+            <span style="display: inline-flex; align-items: center; gap: 6px; background: rgba(2, 132, 199, 0.12); color: var(--primary); padding: 4px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; margin-bottom: 8px;">
+              <span style="width: 8px; height: 8px; background: var(--primary); border-radius: 50%; box-shadow: 0 0 8px var(--primary);"></span>
+              FRONTEND DEMO CONFIRMATION (SIMULATED TICKET)
+            </span>
+            <h3 style="margin: 0 0 6px; font-size: 1.45rem; color: var(--text-main);">Priority Dispatch Ticket Created</h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin: 0;">Demo Reference: <strong style="color: var(--primary); font-family: monospace; font-size: 1.05rem;">#${randomTicketId}</strong></p>
+          </div>
+
+          <div class="ticket-details-table">
+            <div class="ticket-detail-row">
+              <span class="ticket-detail-label">Client Name:</span>
+              <span class="ticket-detail-val">${escapeHtml(payload.name)}</span>
+            </div>
+            <div class="ticket-detail-row">
+              <span class="ticket-detail-label">Contact Phone:</span>
+              <span class="ticket-detail-val">${escapeHtml(payload.phone)}</span>
+            </div>
+            <div class="ticket-detail-row">
+              <span class="ticket-detail-label">Email Address:</span>
+              <span class="ticket-detail-val">${escapeHtml(payload.email)}</span>
+            </div>
+            <div class="ticket-detail-row">
+              <span class="ticket-detail-label">Service Needed:</span>
+              <span class="ticket-detail-val">${escapeHtml(payload.subject)}</span>
+            </div>
+            <div class="ticket-detail-row">
+              <span class="ticket-detail-label">Property Location:</span>
+              <span class="ticket-detail-val">${escapeHtml(payload.property_address)}</span>
+            </div>
+            <div class="ticket-detail-row">
+              <span class="ticket-detail-label">Delivery Mode:</span>
+              <span class="ticket-detail-val" style="color: #f59e0b;">Simulated (Pending FormSubmit Activation)</span>
+            </div>
+            <div class="ticket-detail-row">
+              <span class="ticket-detail-label">Emergency SLA:</span>
+              <span class="ticket-detail-val" style="color: #10b981;">15-Minute Response Protocol</span>
+            </div>
+          </div>
+
+          <div style="background: rgba(2, 132, 199, 0.08); border-left: 3px solid var(--primary); padding: 12px 14px; border-radius: 6px; margin-bottom: 20px; font-size: 0.85rem; color: var(--text-main); text-align: left;">
+            <p style="margin: 0;">ℹ️ For real live emergencies, our 24/7 central dispatch board can always be contacted immediately via phone at <strong>(800) 555-0199</strong>.</p>
+          </div>
+
+          <div class="ticket-actions-row">
+            <a href="index.html" class="btn btn-primary btn-lg" id="contactBackToHomeBtn">
+              <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+              <span>Back to Home</span>
+            </a>
+            <a href="tel:8005550199" class="btn btn-emergency btn-lg">
+              <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+              <span>Call Dispatch</span>
+            </a>
+            <button type="button" class="btn btn-outline btn-lg" id="btnSubmitAnotherTicket" style="flex: 1 1 100%;">
+              Submit Another Ticket
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    // Bind "Submit Another Ticket" button to restore form
+    const resetBtn = document.getElementById('btnSubmitAnotherTicket');
+    if (resetBtn) {
+      resetBtn.addEventListener('click', () => {
+        formCard.innerHTML = originalHeaderHTML + originalFormHTML;
+        initContactForm();
+      });
+    }
+  });
+}
+
+/* ----------------------------------------------------
    6b. Hero Rapid Dispatch Form Submission & Inline Confirmation
    ---------------------------------------------------- */
 function initHeroDispatchForm() {
   const dispatchForm = document.getElementById('heroDispatchForm');
   if (!dispatchForm) return;
 
+  const nameInput = document.getElementById('dispatchName');
+  const phoneInput = document.getElementById('dispatchPhone');
+  const addressInput = document.getElementById('dispatchAddress');
+  const damageSelect = document.getElementById('dispatchDamageType');
+  const submitBtn = document.getElementById('heroDispatchSubmitBtn') || dispatchForm.querySelector('button[type="submit"]');
+  const btnText = document.getElementById('heroDispatchBtnText');
+
+  if (nameInput) AquaValidator.bindLiveValidation(nameInput, AquaValidator.validateName);
+  if (phoneInput) AquaValidator.bindLiveValidation(phoneInput, AquaValidator.validatePhone);
+  if (addressInput) AquaValidator.bindLiveValidation(addressInput, (val) => AquaValidator.validateRequired(val, 'Property Address'));
+
   dispatchForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    const nameInput = document.getElementById('dispatchName');
-    const phoneInput = document.getElementById('dispatchPhone');
-    const addressInput = document.getElementById('dispatchAddress');
-    const damageSelect = document.getElementById('dispatchDamageType');
-    const submitBtn = document.getElementById('heroDispatchSubmitBtn') || dispatchForm.querySelector('button[type="submit"]');
-    const btnText = document.getElementById('heroDispatchBtnText');
+    let hasErrors = false;
+    let firstErrorField = null;
 
-    const name = (nameInput && nameInput.value.trim()) ? nameInput.value.trim() : 'Emergency Dispatch';
-    const phone = (phoneInput && phoneInput.value.trim()) ? phoneInput.value.trim() : '(800) 555-0199';
-    const address = (addressInput && addressInput.value.trim()) ? addressInput.value.trim() : 'Property on File';
+    const nameVal = AquaValidator.validateName(nameInput ? nameInput.value : '');
+    if (!nameVal.valid) {
+      if (nameInput) {
+        AquaValidator.showFieldError(nameInput, nameVal.message);
+        if (!firstErrorField) firstErrorField = nameInput;
+      }
+      hasErrors = true;
+    } else if (nameInput) {
+      AquaValidator.clearFieldError(nameInput);
+    }
+
+    const phoneVal = AquaValidator.validatePhone(phoneInput ? phoneInput.value : '');
+    if (!phoneVal.valid) {
+      if (phoneInput) {
+        AquaValidator.showFieldError(phoneInput, phoneVal.message);
+        if (!firstErrorField) firstErrorField = phoneInput;
+      }
+      hasErrors = true;
+    } else if (phoneInput) {
+      AquaValidator.clearFieldError(phoneInput);
+    }
+
+    const addressVal = AquaValidator.validateRequired(addressInput ? addressInput.value : '', 'Property Address');
+    if (!addressVal.valid) {
+      if (addressInput) {
+        AquaValidator.showFieldError(addressInput, addressVal.message);
+        if (!firstErrorField) firstErrorField = addressInput;
+      }
+      hasErrors = true;
+    } else if (addressInput) {
+      AquaValidator.clearFieldError(addressInput);
+    }
+
+    if (hasErrors) {
+      if (firstErrorField) firstErrorField.focus();
+      return;
+    }
+
+    const name = nameVal.value;
+    const phone = phoneVal.value;
+    const address = addressVal.value;
     const damageType = (damageSelect && damageSelect.value) ? damageSelect.value : 'Burst Pipe / Plumbing Leak';
 
     if (submitBtn) {

@@ -580,6 +580,61 @@
       margin: 4px 0 0 0;
     }
 
+    /* Welcome Note Component */
+    .dash-welcome-note {
+      background: var(--dash-surface);
+      border: 1px solid var(--dash-border);
+      border-left: 4px solid var(--dash-primary);
+      border-radius: 14px;
+      padding: 16px 20px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .dash-welcome-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background: var(--dash-primary-light);
+      color: var(--dash-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    [data-theme="dark"] .dash-welcome-icon {
+      background: rgba(2, 132, 199, 0.2);
+      color: #38bdf8;
+    }
+
+    .dash-welcome-text p {
+      margin: 0;
+      font-size: 0.95rem;
+      line-height: 1.55;
+      color: var(--dash-text);
+      font-weight: 500;
+    }
+
+    @media (max-width: 576px) {
+      .dash-welcome-note {
+        padding: 14px 16px;
+        gap: 12px;
+      }
+      .dash-welcome-icon {
+        width: 36px;
+        height: 36px;
+      }
+      .dash-welcome-text p {
+        font-size: 0.88rem;
+        line-height: 1.5;
+      }
+    }
+
     /* --------------------------------------------------
        4 KPI Cards Grid (Aligned Heights)
        -------------------------------------------------- */
@@ -861,11 +916,28 @@
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
     }
 
+    /* Suppress any pseudo-element connector lines across Dashboard to prevent line overlap */
+    .app-layout .pipeline-step::before,
+    .app-layout .pipeline-step::after,
+    .dash-section .pipeline-step::before,
+    .dash-section .pipeline-step::after,
+    #dashDocuments .pipeline-step::before,
+    #dashDocuments .pipeline-step::after,
+    .pipeline-wrapper .pipeline-step::before,
+    .pipeline-wrapper .pipeline-step::after {
+      display: none !important;
+      content: none !important;
+      width: 0 !important;
+      height: 0 !important;
+      border: none !important;
+    }
+
     .pipeline-wrapper {
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
+      grid-template-columns: repeat(5, minmax(0, 1fr));
       gap: 10px;
       margin: 16px 0;
+      position: relative;
     }
 
     .pipeline-step {
@@ -874,6 +946,9 @@
       border-radius: 10px;
       border: 1px solid var(--dash-border);
       transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
+      min-width: 0;
     }
 
     .pipeline-step.completed {
@@ -1096,9 +1171,178 @@
 
     .claim-grid-2col {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 20px;
       margin-bottom: 24px;
+      width: 100%;
+    }
+
+    .claim-grid-2col > .panel-card {
+      min-width: 0;
+      overflow: hidden;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    /* --------------------------------------------------
+       Dashboard Document Preview Modal
+       -------------------------------------------------- */
+    .dash-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 10500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.22s ease, visibility 0.22s ease;
+    }
+
+    .dash-modal-backdrop.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .dash-modal-container {
+      background: var(--dash-surface);
+      border: 1px solid var(--dash-border);
+      border-radius: 18px;
+      width: 100%;
+      max-width: 640px;
+      max-height: 88vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.3);
+      transform: translateY(16px) scale(0.98);
+      transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+      overflow: hidden;
+    }
+
+    .dash-modal-backdrop.active .dash-modal-container {
+      transform: translateY(0) scale(1);
+    }
+
+    .dash-modal-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--dash-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-shrink: 0;
+      background: var(--dash-surface);
+    }
+
+    .dash-modal-badge {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: var(--primary-light);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.8rem;
+      flex-shrink: 0;
+    }
+
+    .dash-modal-close {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      border: 1px solid var(--dash-border);
+      background: var(--dash-surface-alt);
+      color: var(--dash-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      line-height: 1;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .dash-modal-close:hover {
+      background: var(--dash-border);
+      color: var(--dash-text);
+    }
+
+    .dash-modal-body {
+      padding: 20px;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      font-size: 0.88rem;
+      color: var(--dash-text);
+      flex: 1;
+    }
+
+    .dash-modal-footer {
+      padding: 14px 20px;
+      border-top: 1px solid var(--dash-border);
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      flex-shrink: 0;
+      background: var(--dash-surface-alt);
+    }
+
+    .modal-detail-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px dashed var(--dash-border);
+      font-size: 0.86rem;
+      gap: 12px;
+    }
+
+    .modal-detail-row:last-child {
+      border-bottom: none;
+    }
+
+    .modal-detail-label {
+      color: var(--dash-muted);
+      font-weight: 500;
+    }
+
+    .modal-detail-val {
+      color: var(--dash-text);
+      font-weight: 600;
+      text-align: right;
+    }
+
+    .modal-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0;
+      font-size: 0.82rem;
+    }
+
+    .modal-table th {
+      background: var(--dash-surface-alt);
+      padding: 8px 10px;
+      text-align: left;
+      font-weight: 700;
+      color: var(--dash-muted);
+      border-bottom: 1px solid var(--dash-border);
+    }
+
+    .modal-table td {
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--dash-border);
+      color: var(--dash-text);
+    }
+
+    .modal-table tr:last-child td {
+      border-bottom: none;
     }
 
     /* Sidebar Brand & Mobile Close Button */
@@ -1770,12 +2014,14 @@
       }
 
       /* Document Card Action Buttons in Tab 5 */
-      #dashDocuments .panel-card > div:last-child[style*="display: flex"] {
+      #dashDocuments .doc-card-actions,
+      #dashDocuments .panel-card > .doc-card-actions {
         flex-direction: column !important;
         gap: 8px !important;
       }
 
-      #dashDocuments .panel-card > div:last-child[style*="display: flex"] button {
+      #dashDocuments .doc-card-actions button,
+      #dashDocuments .panel-card > .doc-card-actions button {
         width: 100% !important;
         justify-content: center !important;
       }
@@ -2414,6 +2660,16 @@
             </div>
           </div>
 
+          <!-- Welcome Note Component -->
+          <div class="dash-welcome-note" id="dashWelcomeNote">
+            <div class="dash-welcome-icon" aria-hidden="true">
+              <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
+            </div>
+            <div class="dash-welcome-text">
+              <p>Welcome to AquaShield! Manage your water damage restoration services, review recent activity, and access your available tools from one place.</p>
+            </div>
+          </div>
+
           <!-- 4 KPI Stat Cards Row (Aligned Heights) -->
           <div class="kpi-grid">
             <!-- Card 1: Next Crew Inspection -->
@@ -2841,7 +3097,7 @@
               <p>Real-time carrier direct-pay status, adjusters' liaison logs, IICRC-certified documentation, and zero-liability settlement packet.</p>
             </div>
             <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-              <button type="button" class="topbar-btn" id="btnDownloadAllClaims" style="background: var(--dash-surface); border: 1px solid var(--dash-border); color: var(--dash-text);" onclick="showToast('Packaging all certified claim PDFs (SF-2026-894102.zip)...', 'info'); setTimeout(() => showToast('✓ Complete Insurance Claim Packet (19.8 MB) downloaded!', 'success'), 1500);">
+              <button type="button" class="topbar-btn" id="btnDownloadAllClaims" style="background: var(--dash-surface); border: 1px solid var(--dash-border); color: var(--dash-text);" onclick="downloadDocPDF('all_claims');">
                 <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
                 <span>Download All Claim PDFs (ZIP)</span>
               </button>
@@ -3057,12 +3313,12 @@
                 <p style="font-size: 0.84rem; color: var(--dash-muted); margin: 0 0 14px 0; line-height: 1.45;">Baseline infrared moisture boundary mapping &amp; high-res structural cavity loss photographs (14.2 MB).</p>
                 <div style="font-size: 0.78rem; color: var(--dash-muted); margin-bottom: 14px;">Certified: Oct 8, 2026 &bull; Inspector #4192</div>
               </div>
-              <div style="display: flex; gap: 8px;">
-                <button type="button" class="topbar-btn" style="flex: 1; justify-content: center; background: var(--dash-primary); color: #fff; border-color: var(--dash-primary);" onclick="showToast('Downloading FLIR_Thermal_Loss_Dossier.pdf (14.2 MB)...', 'info');">
+              <div class="doc-card-actions" style="display: flex; gap: 8px;">
+                <button type="button" class="topbar-btn" style="flex: 1; justify-content: center; background: var(--dash-primary); color: #fff; border-color: var(--dash-primary);" onclick="downloadDocPDF('flir');">
                   <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
                   <span>Download PDF</span>
                 </button>
-                <button type="button" class="topbar-btn" style="background: var(--dash-surface); border: 1px solid var(--dash-border); color: var(--dash-text);" onclick="showToast('Previewing FLIR Radiometric Thermal Dossier (18 Scans)', 'info');">
+                <button type="button" class="topbar-btn" style="background: var(--dash-surface); border: 1px solid var(--dash-border); color: var(--dash-text);" onclick="openDocViewerModal('flir');">
                   View
                 </button>
               </div>
@@ -3081,12 +3337,12 @@
                 <p style="font-size: 0.84rem; color: var(--dash-muted); margin: 0 0 14px 0; line-height: 1.45;">Chamber relative humidity, grain depression (GPP), and stud moisture content telemetry sheets (2.4 MB).</p>
                 <div style="font-size: 0.78rem; color: var(--dash-muted); margin-bottom: 14px;">Updated: Today at 08:30 AM &bull; 4 Rooms</div>
               </div>
-              <div style="display: flex; gap: 8px;">
-                <button type="button" class="topbar-btn" style="flex: 1; justify-content: center; background: var(--dash-primary); color: #fff; border-color: var(--dash-primary);" onclick="showToast('Downloading Psychrometric_Drying_Log_Day2.pdf (2.4 MB)...', 'info');">
+              <div class="doc-card-actions" style="display: flex; gap: 8px;">
+                <button type="button" class="topbar-btn" style="flex: 1; justify-content: center; background: var(--dash-primary); color: #fff; border-color: var(--dash-primary);" onclick="downloadDocPDF('psychrometric');">
                   <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
                   <span>Download PDF</span>
                 </button>
-                <button type="button" class="topbar-btn" style="background: var(--dash-surface); border: 1px solid var(--dash-border); color: var(--dash-text);" onclick="showToast('Previewing Moisture Chamber Telemetry Chart', 'info');">
+                <button type="button" class="topbar-btn" style="background: var(--dash-surface); border: 1px solid var(--dash-border); color: var(--dash-text);" onclick="openDocViewerModal('psychrometric');">
                   View
                 </button>
               </div>
@@ -3105,12 +3361,12 @@
                 <p style="font-size: 0.84rem; color: var(--dash-muted); margin: 0 0 14px 0; line-height: 1.45;">Standard regional code insurance billing sheet with verified unit labor &amp; equipment codes (1.8 MB).</p>
                 <div style="font-size: 0.78rem; color: var(--dash-muted); margin-bottom: 14px;">Carrier Price Match: 100% Pre-Approved</div>
               </div>
-              <div style="display: flex; gap: 8px;">
-                <button type="button" class="topbar-btn" style="flex: 1; justify-content: center; background: var(--dash-primary); color: #fff; border-color: var(--dash-primary);" onclick="showToast('Downloading Xactimate_Itemized_Estimate.pdf (1.8 MB)...', 'info');">
+              <div class="doc-card-actions" style="display: flex; gap: 8px;">
+                <button type="button" class="topbar-btn" style="flex: 1; justify-content: center; background: var(--dash-primary); color: #fff; border-color: var(--dash-primary);" onclick="downloadDocPDF('xactimate');">
                   <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
                   <span>Download PDF</span>
                 </button>
-                <button type="button" class="topbar-btn" style="background: var(--dash-surface); border: 1px solid var(--dash-border); color: var(--dash-text);" onclick="showToast('Previewing Xactimate Scope Breakdown', 'info');">
+                <button type="button" class="topbar-btn" style="background: var(--dash-surface); border: 1px solid var(--dash-border); color: var(--dash-text);" onclick="openDocViewerModal('xactimate');">
                   View
                 </button>
               </div>
@@ -3129,12 +3385,12 @@
                 <p style="font-size: 0.84rem; color: var(--dash-muted); margin: 0 0 14px 0; line-height: 1.45;">EPA Registered Thymol botanical antimicrobial treatment guarantee against mold &amp; microbials (850 KB).</p>
                 <div style="font-size: 0.78rem; color: var(--dash-muted); margin-bottom: 14px;">Guarantee Term: 1 Year Antimicrobial</div>
               </div>
-              <div style="display: flex; gap: 8px;">
-                <button type="button" class="topbar-btn" style="flex: 1; justify-content: center; background: var(--dash-primary); color: #fff; border-color: var(--dash-primary);" onclick="showToast('Downloading Botanical_Sanitization_Warranty.pdf (850 KB)...', 'info');">
+              <div class="doc-card-actions" style="display: flex; gap: 8px;">
+                <button type="button" class="topbar-btn" style="flex: 1; justify-content: center; background: var(--dash-primary); color: #fff; border-color: var(--dash-primary);" onclick="downloadDocPDF('warranty');">
                   <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
                   <span>Download PDF</span>
                 </button>
-                <button type="button" class="topbar-btn" style="background: var(--dash-surface); border: 1px solid var(--dash-border); color: var(--dash-text);" onclick="showToast('Previewing EPA Sanitization Warranty', 'info');">
+                <button type="button" class="topbar-btn" style="background: var(--dash-surface); border: 1px solid var(--dash-border); color: var(--dash-text);" onclick="openDocViewerModal('warranty');">
                   View
                 </button>
               </div>
@@ -3179,7 +3435,7 @@
                     </div>
                   </div>
                   <div style="display: flex; gap: 8px;">
-                    <button type="button" class="btn btn-outline btn-sm" style="padding: 4px 12px; font-size: 0.8rem;" onclick="showToast('Viewing Plumber_Emergency_Water_Shutoff_Invoice.pdf', 'info');">Preview</button>
+                    <button type="button" class="btn btn-outline btn-sm" style="padding: 4px 12px; font-size: 0.8rem;" onclick="openDocViewerModal('plumber_invoice');">Preview</button>
                     <button type="button" class="btn btn-emergency btn-sm" style="padding: 4px 10px; font-size: 0.8rem;" onclick="this.closest('.uploaded-doc-item').remove(); showToast('Document removed from claim file.', 'warning');">Remove</button>
                   </div>
                 </div>
@@ -3196,7 +3452,7 @@
                     </div>
                   </div>
                   <div style="display: flex; gap: 8px;">
-                    <button type="button" class="btn btn-outline btn-sm" style="padding: 4px 12px; font-size: 0.8rem;" onclick="showToast('Viewing LivingRoom_Floor_Water_Line_PreMitigation.jpg', 'info');">Preview</button>
+                    <button type="button" class="btn btn-outline btn-sm" style="padding: 4px 12px; font-size: 0.8rem;" onclick="openDocViewerModal('photo_waterline');">Preview</button>
                     <button type="button" class="btn btn-emergency btn-sm" style="padding: 4px 10px; font-size: 0.8rem;" onclick="this.closest('.uploaded-doc-item').remove(); showToast('Document removed from claim file.', 'warning');">Remove</button>
                   </div>
                 </div>
@@ -3292,11 +3548,11 @@
               <p>Real-time insurance disbursements, electronic fund transfers (ACH/EFT), recoverable depreciation releases, and zero-liability billing logs.</p>
             </div>
             <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-              <button type="button" class="topbar-btn" style="background: var(--dash-surface); border: 1px solid var(--dash-border); color: var(--dash-text);" onclick="alert('Generating official Carrier Remittance Advice (ERA-SF-9421.pdf)...');">
+              <button type="button" class="topbar-btn" style="background: var(--dash-surface); border: 1px solid var(--dash-border); color: var(--dash-text);" onclick="downloadDocPDF('carrier_remittance');">
                 <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                 <span>Download Remittance (ERA)</span>
               </button>
-              <button type="button" class="topbar-btn btn-back-web" onclick="alert('Lien Waiver &amp; Zero-Balance Certificate is active and verified by AquaShield Pro.');">
+              <button type="button" class="topbar-btn btn-back-web" onclick="openDocViewerModal('lien_waiver');">
                 <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
                 <span>Lien Waiver Certificate</span>
               </button>
@@ -3549,7 +3805,7 @@
                     <td style="font-weight: 700; color: #059669;">$1,811.20</td>
                     <td><span class="sidebar-badge" style="background: #ecfdf5; color: #059669;">Settled &bull; Cleared</span></td>
                     <td>
-                      <button type="button" class="topbar-btn" style="padding: 4px 10px; font-size: 0.78rem; background: var(--dash-surface); border: 1px solid var(--dash-border); color: var(--dash-text);" onclick="alert('Viewing Remittance Voucher ACH-SF-9421-01 ($1,811.20)');">
+                      <button type="button" class="topbar-btn" style="padding: 4px 10px; font-size: 0.78rem; background: var(--dash-surface); border: 1px solid var(--dash-border); color: var(--dash-text);" onclick="openDocViewerModal('voucher_1');">
                         <span>Voucher PDF</span>
                       </button>
                     </td>
@@ -3567,7 +3823,7 @@
                     <td style="font-weight: 700; color: #059669;">$2,070.00</td>
                     <td><span class="sidebar-badge" style="background: #ecfdf5; color: #059669;">Settled &bull; Cleared</span></td>
                     <td>
-                      <button type="button" class="topbar-btn" style="padding: 4px 10px; font-size: 0.78rem; background: var(--dash-surface); border: 1px solid var(--dash-border); color: var(--dash-text);" onclick="alert('Viewing Remittance Voucher ACH-SF-9421-02 ($2,070.00)');">
+                      <button type="button" class="topbar-btn" style="padding: 4px 10px; font-size: 0.78rem; background: var(--dash-surface); border: 1px solid var(--dash-border); color: var(--dash-text);" onclick="openDocViewerModal('voucher_2');">
                         <span>Voucher PDF</span>
                       </button>
                     </td>
@@ -3585,7 +3841,7 @@
                     <td style="font-weight: 700; color: #059669;">$738.00</td>
                     <td><span class="sidebar-badge" style="background: #ecfdf5; color: #059669;">Settled &bull; Cleared</span></td>
                     <td>
-                      <button type="button" class="topbar-btn" style="padding: 4px 10px; font-size: 0.78rem; background: var(--dash-surface); border: 1px solid var(--dash-border); color: var(--dash-text);" onclick="alert('Viewing Remittance Voucher ACH-SF-9421-03 ($738.00)');">
+                      <button type="button" class="topbar-btn" style="padding: 4px 10px; font-size: 0.78rem; background: var(--dash-surface); border: 1px solid var(--dash-border); color: var(--dash-text);" onclick="openDocViewerModal('voucher_3');">
                         <span>Voucher PDF</span>
                       </button>
                     </td>
@@ -3603,7 +3859,7 @@
                     <td style="font-weight: 700; color: #0284c7;">$955.80</td>
                     <td><span class="sidebar-badge" style="background: #e0f2fe; color: #0284c7;">Cleared &bull; Escrow</span></td>
                     <td>
-                      <button type="button" class="topbar-btn" style="padding: 4px 10px; font-size: 0.78rem; background: var(--dash-surface); border: 1px solid var(--dash-border); color: var(--dash-text);" onclick="alert('Viewing Remittance Voucher EFT-SF-9421-04 ($955.80)');">
+                      <button type="button" class="topbar-btn" style="padding: 4px 10px; font-size: 0.78rem; background: var(--dash-surface); border: 1px solid var(--dash-border); color: var(--dash-text);" onclick="openDocViewerModal('voucher_4');">
                         <span>Voucher PDF</span>
                       </button>
                     </td>
@@ -3621,7 +3877,7 @@
                     <td style="font-weight: 700; color: #d97706;">$2,920.00</td>
                     <td><span class="sidebar-badge" style="background: #fef3c7; color: #d97706;">Pending Dry Signoff</span></td>
                     <td>
-                      <button type="button" class="topbar-btn" style="padding: 4px 10px; font-size: 0.78rem; background: var(--dash-surface); border: 1px solid var(--dash-border); color: var(--dash-muted);" onclick="alert('Release scheduled upon delivery of final Certificate of Dryness.');">
+                      <button type="button" class="topbar-btn" style="padding: 4px 10px; font-size: 0.78rem; background: var(--dash-surface); border: 1px solid var(--dash-border); color: var(--dash-muted);" onclick="openDocViewerModal('voucher_holdback');">
                         <span>Pre-Approved</span>
                       </button>
                     </td>
@@ -3705,7 +3961,7 @@
                 <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
                 <span>Print Dossier</span>
               </button>
-              <button type="button" class="topbar-btn btn-back-web" onclick="alert('Downloading official signed Xactimate® Scope Dossier (EST-2026-9421-V2.pdf)...');">
+              <button type="button" class="topbar-btn btn-back-web" onclick="downloadDocPDF('xactimate');">
                 <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
                 <span>Export Xactimate® PDF</span>
               </button>
@@ -4330,7 +4586,7 @@
                 </div>
                 <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--dash-border); padding-top: 12px;">
                   <span style="font-size: 0.78rem; color: #059669; font-weight: 700;">✓ Adjuster Approved</span>
-                  <button type="button" class="topbar-btn" style="height: 32px; padding: 0 12px; font-size: 0.78rem;" onclick="alert('Viewing FLIR Thermal Radiometric Loss Survey (4.2 MB)...');">View Report</button>
+                  <button type="button" class="topbar-btn" style="height: 32px; padding: 0 12px; font-size: 0.78rem;" onclick="openDocViewerModal('flir');">View Report</button>
                 </div>
               </div>
 
@@ -4346,7 +4602,7 @@
                 </div>
                 <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--dash-border); padding-top: 12px;">
                   <span style="font-size: 0.78rem; color: #059669; font-weight: 700;">✓ Floorplan Locked</span>
-                  <button type="button" class="topbar-btn" style="height: 32px; padding: 0 12px; font-size: 0.78rem;" onclick="alert('Viewing CAD Moisture Map Floorplan (2.8 MB)...');">View Map</button>
+                  <button type="button" class="topbar-btn" style="height: 32px; padding: 0 12px; font-size: 0.78rem;" onclick="openDocViewerModal('cad_moisture');">View Map</button>
                 </div>
               </div>
 
@@ -4362,7 +4618,7 @@
                 </div>
                 <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--dash-border); padding-top: 12px;">
                   <span style="font-size: 0.78rem; color: #059669; font-weight: 700;">✓ Synced to Cloud</span>
-                  <button type="button" class="topbar-btn" style="height: 32px; padding: 0 12px; font-size: 0.78rem;" onclick="alert('Downloading photographic loss evidence archive (48.6 MB)...');">Download ZIP</button>
+                  <button type="button" class="topbar-btn" style="height: 32px; padding: 0 12px; font-size: 0.78rem;" onclick="downloadDocPDF('photo_evidence');">Download ZIP</button>
                 </div>
               </div>
 
@@ -4378,7 +4634,7 @@
                 </div>
                 <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--dash-border); padding-top: 12px;">
                   <span style="font-size: 0.78rem; color: #059669; font-weight: 700;">✓ Safe for Occupancy</span>
-                  <button type="button" class="topbar-btn" style="height: 32px; padding: 0 12px; font-size: 0.78rem;" onclick="alert('Viewing EPA Botanical Antimicrobial Safety Certificate...');">View Cert</button>
+                  <button type="button" class="topbar-btn" style="height: 32px; padding: 0 12px; font-size: 0.78rem;" onclick="openDocViewerModal('epa_cert');">View Cert</button>
                 </div>
               </div>
 
@@ -4394,7 +4650,7 @@
                 </div>
                 <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--dash-border); padding-top: 12px;">
                   <span style="font-size: 0.78rem; color: #059669; font-weight: 700;">✓ 48.0 Hours Validated</span>
-                  <button type="button" class="topbar-btn" style="height: 32px; padding: 0 12px; font-size: 0.78rem;" onclick="alert('Viewing Equipment Electronic Run-Hour Telemetry Audit...');">View Audit</button>
+                  <button type="button" class="topbar-btn" style="height: 32px; padding: 0 12px; font-size: 0.78rem;" onclick="openDocViewerModal('telemetry_audit');">View Audit</button>
                 </div>
               </div>
 
@@ -4410,7 +4666,7 @@
                 </div>
                 <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--dash-border); padding-top: 12px;">
                   <span style="font-size: 0.78rem; color: #059669; font-weight: 700;">✓ 100% Direct Pay</span>
-                  <button type="button" class="topbar-btn" style="height: 32px; padding: 0 12px; font-size: 0.78rem;" onclick="alert('Viewing Signed Work Authorization & Direct Carrier Assignment...');">View Form</button>
+                  <button type="button" class="topbar-btn" style="height: 32px; padding: 0 12px; font-size: 0.78rem;" onclick="openDocViewerModal('work_auth');">View Form</button>
                 </div>
               </div>
             </div>
@@ -4554,7 +4810,7 @@
             </div>
             <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
               <span class="sidebar-badge" style="background: #ecfdf5; color: #059669; font-size: 0.85rem; padding: 6px 14px; font-weight: 700;">✓ Account Active &amp; Verified</span>
-              <button type="button" class="topbar-btn" style="background: var(--dash-surface); border: 1px solid var(--dash-border); color: var(--dash-text);" onclick="alert('Downloading Certified Policyholder Profile Dossier (PDF)...');">
+              <button type="button" class="topbar-btn" style="background: var(--dash-surface); border: 1px solid var(--dash-border); color: var(--dash-text);" onclick="downloadDocPDF('policy_dossier');">
                 <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                 <span>Export Profile PDF</span>
               </button>
@@ -4941,7 +5197,7 @@
             </div>
           </div>
           <div style="display: flex; gap: 8px;">
-            <button type="button" class="btn btn-outline btn-sm" style="padding: 4px 12px; font-size: 0.8rem;" onclick="showToast('Viewing ${file.name}', 'info');">Preview</button>
+            <button type="button" class="btn btn-outline btn-sm" style="padding: 4px 12px; font-size: 0.8rem;" onclick="openUploadedDocViewer('${file.name.replace(/'/g, "\\'")}', '${ext}', '${sizeMb}', '${time}');">Preview</button>
             <button type="button" class="btn btn-emergency btn-sm" style="padding: 4px 10px; font-size: 0.8rem;" onclick="this.closest('.uploaded-doc-item').remove(); showToast('Document removed from claim file.', 'warning');">Remove</button>
           </div>
         `;
@@ -5209,6 +5465,669 @@
         <button type="button" onclick="this.parentElement.remove()" style="background: transparent; border: none; color: #ffffff; cursor: pointer; padding: 4px; font-size: 1.2rem; line-height: 1;" aria-label="Close alert">&times;</button>
       `;
     }
+
+    // ==============================================================
+    // AQUASHIELD CERTIFIED CLAIM DOCUMENTS & PDF GENERATION ENGINE
+    // ==============================================================
+    const AQUA_DOCS = {
+      flir: {
+        title: 'FLIR Thermal Radiometric Loss Survey',
+        subtitle: 'EST-FLIR-9421.pdf • 4.2 MB • 14 Radiometric Loss Images',
+        filename: 'aquashield-flir-thermal-dossier.pdf',
+        badge: 'PDF',
+        status: 'Adjuster Approved & Stamped',
+        fields: [
+          ['Claim #', 'SF-2026-894102'],
+          ['Insured', 'Michael R. Sterling'],
+          ['Insurer', 'State Farm Fire & Casualty'],
+          ['Device Model', 'FLIR E8-XT Radiometric (Serial #9421-X)']
+        ],
+        rows: [
+          ['Loss Zone Identified', 'Kitchen subfloor and living room perimeter cavity'],
+          ['Thermal Differential (ΔT)', '14.2°F Evaporative Cooling boundary mapped behind drywall'],
+          ['Subfloor Saturation', '240 sq ft moisture boundary confirmed via thermal imaging'],
+          ['Adjuster Assessment', 'Approved as sudden & accidental Category 1 discharge'],
+          ['Certified Thermographer', 'Sarah Jenkins, Level II ITC Certified #ITC-9412']
+        ]
+      },
+      psychrometric: {
+        title: 'Psychrometric Chamber Drying Log',
+        subtitle: 'PSY-SF-9421-D4.pdf • Daily Relative Humidity & GPP Logs',
+        filename: 'aquashield-psychrometric-drying-log.pdf',
+        badge: 'PDF',
+        status: 'IICRC S500 Standard Compliance',
+        fields: [
+          ['Claim #', 'SF-2026-894102'],
+          ['Log Duration', '4 Days Continuous Monitoring'],
+          ['Target Standard', 'IICRC S500 Equilibrium'],
+          ['Lead Restorer', 'David Vance, Master Restorer #4190']
+        ],
+        rows: [
+          ['Chamber Ambient Temp', '74.2°F (Optimized high-efficiency evaporation range)'],
+          ['Specific Humidity (GPP)', '38 Grains/lb (Baseline target: <45 GPP achieved)'],
+          ['Subfloor Moisture Content', '9.4% Wood Moisture Equivalent (Dry standard: <12%)'],
+          ['Dehumidification Fleet', '2x LGR commercial dehumidifiers + 4x high-velocity air movers'],
+          ['Final Clearance Test', 'All target cavities returned to dry baseline equilibrium']
+        ]
+      },
+      xactimate: {
+        title: 'Itemized Xactimate® Restoration Scope',
+        subtitle: 'EST-2026-9421-V2.pdf • Certified IICRC Unit Pricing',
+        filename: 'aquashield-xactimate-scope-dossier.pdf',
+        badge: 'PDF',
+        status: 'Agreed Pricing with State Farm Catastrophe Desk',
+        fields: [
+          ['Claim #', 'SF-2026-894102'],
+          ['Insurer', 'State Farm Catastrophe Unit'],
+          ['Xactimate Price List', 'FLTA8X_MAR26'],
+          ['Total Agreed Loss', '$8,495.00 Total Mitigation']
+        ],
+        rows: [
+          ['Direct Carrier Disbursement', '$5,575.00 (Disbursed via automated direct wire/ACH)'],
+          ['Policyholder Deductible', '$1,000.00 (AquaShield Program Credit - Waived $0 out of pocket)'],
+          ['Recoverable Depreciation', '$2,920.00 (Build-back completion reserve approved)'],
+          ['Water Extraction Scope', '650 SF extraction, anti-microbial treatment, 42 LF containment'],
+          ['Lead Estimator', 'Elena Rostova, Xactware Level 3 Certified #XW-8921']
+        ]
+      },
+      warranty: {
+        title: '5-Year Anti-Microbial & Zero-Mold Warranty',
+        subtitle: 'WAR-MOLD-2026-894.pdf • Fully Transferable Certificate',
+        filename: 'aquashield-mold-free-guarantee.pdf',
+        badge: 'CERT',
+        status: 'Active 5-Year Guarantee Guaranteed',
+        fields: [
+          ['Certificate ID', 'AQ-5YR-GOLD-942102'],
+          ['Property Address', '742 Evergreen Terrace, Tampa FL'],
+          ['Effective Period', 'March 2026 - March 2031 (5 Full Years)'],
+          ['Antimicrobial Applied', 'Benefect Decon 30 (EPA Reg #84683-3)']
+        ],
+        rows: [
+          ['Guaranteed Protection', 'Zero mold, fungal growth, or microbiological recurrence'],
+          ['Treated Substrates', 'Subflooring, sill plates, framing, and drywall perimeter'],
+          ['Air Clearance Testing', 'Spore trap baseline PCR clearance negative on all spore species'],
+          ['Transferability', '100% Transferable to subsequent property buyers with deed'],
+          ['AquaShield Signoff', 'Certified by Corporate Restoration Director Marcus Vance']
+        ]
+      },
+      all_claims: {
+        title: 'Consolidated Claim Dossier & Insurance Audit',
+        subtitle: 'CLM-DOSSIER-2026-894102.pdf • Complete Certified File',
+        filename: 'aquashield-master-claim-dossier.pdf',
+        badge: 'PDF',
+        status: 'State Farm Catastrophe Claim #SF-2026-894102',
+        fields: [
+          ['Claim File', 'SF-2026-894102'],
+          ['Insured Party', 'Michael R. Sterling'],
+          ['Loss Date', 'March 27, 2026'],
+          ['Total Valuation', '$8,495.00 Total Agreed']
+        ],
+        rows: [
+          ['Loss Event Description', 'Sudden and accidental dishwasher supply line rupture'],
+          ['Primary Insurer', 'State Farm Fire & Casualty Co. (Policy #SF-9842104-FL)'],
+          ['Emergency Mitigation', 'Category 1 Extraction, drying, and structural stabilization complete'],
+          ['Carrier Remittance', '$5,575.00 settled and cleared with $0 policyholder out-of-pocket balance'],
+          ['Restoration Status', 'Phase 4 Complete: Drying chamber dismantled, build-back authorized']
+        ]
+      },
+      plumber_invoice: {
+        title: 'Emergency Water Shutoff & Source Repair Invoice',
+        subtitle: 'INV-PLUMB-7821.pdf • Apex Master Plumbing LLC',
+        filename: 'aquashield-plumber-emergency-invoice.pdf',
+        badge: 'PDF',
+        status: 'Adjuster Verified & Direct Reimbursed',
+        fields: [
+          ['Invoice #', 'INV-PLUMB-7821'],
+          ['Licensed Contractor', 'Apex Master Plumbing (Lic #CFC1428590)'],
+          ['Service Date', 'Oct 9, 2026'],
+          ['Amount Billed', '$485.00 Reimbursable']
+        ],
+        rows: [
+          ['Emergency Work Performed', 'Main supply isolation, shutoff valve replacement, copper crimp'],
+          ['Source Cause', 'Failure of 1/2-inch braided supply line under sink basin'],
+          ['Carrier Action', 'Added to emergency mitigation claim scope line-item #14'],
+          ['Verification Status', 'Inspected and certified by Sarah Jenkins, Senior Adjuster']
+        ]
+      },
+      photo_waterline: {
+        title: 'Pre-Mitigation Waterline Loss Photographic Record',
+        subtitle: 'IMG-EVID-894102.jpg • High-Resolution Loss Survey',
+        filename: 'aquashield-waterline-loss-photo-record.pdf',
+        badge: 'JPG',
+        status: 'Verified Timestamp & Cloud Synced',
+        fields: [
+          ['Photo Evidence', 'IMG-EVID-894102'],
+          ['Camera & Sensor', 'Exif Timestamp Verified 08:42 AM EDT'],
+          ['GPS Coordinates', '27.9506° N, 82.4572° W'],
+          ['Inspection ID', 'INSP-2026-9421']
+        ],
+        rows: [
+          ['Evidence Description', '3.5-inch water migration line clearly visible on living room baseboard'],
+          ['Damage Extent', 'Standing water across oak hardwood parquet and drywall cavity'],
+          ['Mitigation Response', 'Pre-demolition photographic proof preserved for adjuster validation'],
+          ['Adjuster Signoff', 'Accepted as conclusive proof of sudden loss event']
+        ]
+      },
+      carrier_remittance: {
+        title: 'Carrier Electronic Remittance Advice (ERA)',
+        subtitle: 'ERA-SF-9421.pdf • Official Carrier Wire Disbursements',
+        filename: 'aquashield-carrier-remittance-advice.pdf',
+        badge: 'ERA',
+        status: 'Electronic Funds Transfer Verified',
+        fields: [
+          ['Payer', 'State Farm Fire & Casualty (Payer #00482)'],
+          ['Payee', 'AquaShield Pro Direct Billing'],
+          ['Trace #', 'ACH-SF-9421-ALL'],
+          ['Settled Total', '$5,575.00 Total Remitted']
+        ],
+        rows: [
+          ['Remittance Item 1', 'ACH-SF-9421-01 ($1,811.20) - Emergency Truckmount Extraction & Demo'],
+          ['Remittance Item 2', 'ACH-SF-9421-02 ($2,070.00) - Structural Drying & Psychrometric Setup'],
+          ['Remittance Item 3', 'ACH-SF-9421-03 ($738.00) - Antimicrobial Sanitization & HEPA Scrubbing'],
+          ['Remittance Item 4', 'EFT-SF-9421-04 ($955.80) - General Contractor Overhead & Supervision'],
+          ['Total Balance Due', '$0.00 Due from Policyholder (100% Carrier Direct Pay)']
+        ]
+      },
+      lien_waiver: {
+        title: 'Unconditional Lien Waiver & Zero-Balance Release',
+        subtitle: 'LW-CERT-9421.pdf • Policyholder Full Legal Indemnification',
+        filename: 'aquashield-unconditional-lien-waiver.pdf',
+        badge: 'LEGAL',
+        status: 'Policyholder 100% Protected & Indemnified',
+        fields: [
+          ['Waiver ID', 'LW-CERT-9421-FINAL'],
+          ['Property Owner', 'Michael R. Sterling'],
+          ['Property', '742 Evergreen Terrace, Tampa, FL'],
+          ['Out-Of-Pocket Balance', '$0.00 (Zero Homeowner Liability)']
+        ],
+        rows: [
+          ['Statutory Release', 'Full and final waiver of all mechanics and materialmen lien rights'],
+          ['Contractor Statement', 'All subcontractors, technicians, and equipment suppliers paid in full'],
+          ['Carrier Direct Agreement', 'Insurer direct billing contract absolves homeowner of recourse'],
+          ['Notarized Attestation', 'Recorded under Florida Restoration Industry Standards']
+        ]
+      },
+      voucher_1: {
+        title: 'Carrier Remittance Voucher ACH-SF-9421-01',
+        subtitle: 'Direct Wire Disbursement • Emergency Extraction',
+        filename: 'aquashield-voucher-ach-9421-01.pdf',
+        badge: 'ACH',
+        status: 'Cleared & Settled ($1,811.20)',
+        fields: [
+          ['Voucher #', 'ACH-SF-9421-01'],
+          ['Amount', '$1,811.20'],
+          ['Disbursement Date', 'March 28, 2026'],
+          ['Method', 'Direct ACH Wire']
+        ],
+        rows: [
+          ['Scope Covered', 'Emergency Truckmount Water Extraction & Controlled Demolition'],
+          ['Unit Details', '650 SF extraction, 42 LF flood cut, salvage baseboard treatment'],
+          ['Payer Reference', 'State Farm Catastrophe Unit Direct Settlement'],
+          ['Homeowner Obligation', '$0.00 (Fully funded by direct assignment)']
+        ]
+      },
+      voucher_2: {
+        title: 'Carrier Remittance Voucher ACH-SF-9421-02',
+        subtitle: 'Direct Wire Disbursement • Structural Drying Chamber',
+        filename: 'aquashield-voucher-ach-9421-02.pdf',
+        badge: 'ACH',
+        status: 'Cleared & Settled ($2,070.00)',
+        fields: [
+          ['Voucher #', 'ACH-SF-9421-02'],
+          ['Amount', '$2,070.00'],
+          ['Disbursement Date', 'March 29, 2026'],
+          ['Method', 'Direct ACH Wire']
+        ],
+        rows: [
+          ['Scope Covered', 'Structural Drying & Psychrometric Chamber Setup'],
+          ['Equipment Deployed', '2x LGR industrial dehumidifiers + 4x axial blowers running 48 hrs'],
+          ['Payer Reference', 'State Farm Catastrophe Unit Direct Settlement'],
+          ['Homeowner Obligation', '$0.00 (Fully funded by direct assignment)']
+        ]
+      },
+      voucher_3: {
+        title: 'Carrier Remittance Voucher ACH-SF-9421-03',
+        subtitle: 'Direct Wire Disbursement • Antimicrobial Sanitization',
+        filename: 'aquashield-voucher-ach-9421-03.pdf',
+        badge: 'ACH',
+        status: 'Cleared & Settled ($738.00)',
+        fields: [
+          ['Voucher #', 'ACH-SF-9421-03'],
+          ['Amount', '$738.00'],
+          ['Disbursement Date', 'March 30, 2026'],
+          ['Method', 'Direct ACH Wire']
+        ],
+        rows: [
+          ['Scope Covered', 'Antimicrobial Sanitization & HEPA Air Scrubbing'],
+          ['Chemical Agent', 'Benefect Decon 30 Botanical Antimicrobial + 3-day negative air filtering'],
+          ['Payer Reference', 'State Farm Catastrophe Unit Direct Settlement'],
+          ['Homeowner Obligation', '$0.00 (Fully funded by direct assignment)']
+        ]
+      },
+      voucher_4: {
+        title: 'Carrier Remittance Voucher EFT-SF-9421-04',
+        subtitle: 'EFT Direct Deposit • General Contractor Supervision',
+        filename: 'aquashield-voucher-eft-9421-04.pdf',
+        badge: 'EFT',
+        status: 'Cleared & Settled ($955.80)',
+        fields: [
+          ['Voucher #', 'EFT-SF-9421-04'],
+          ['Amount', '$955.80'],
+          ['Disbursement Date', 'March 31, 2026'],
+          ['Method', 'EFT Direct Deposit']
+        ],
+        rows: [
+          ['Scope Covered', 'General Contractor Overhead & Multi-Trade Supervision (10% O&P)'],
+          ['Standard Basis', 'Xactimate standard insurer mitigation overhead allowance'],
+          ['Payer Reference', 'State Farm Catastrophe Unit Direct Settlement'],
+          ['Homeowner Obligation', '$0.00 (Fully funded by direct assignment)']
+        ]
+      },
+      voucher_holdback: {
+        title: 'Recoverable Depreciation & Build-Back Reserve',
+        subtitle: 'HOLD-SF-9421-05 • Insurer Escrow Pre-Approval',
+        filename: 'aquashield-holdback-reserve-voucher.pdf',
+        badge: 'HOLD',
+        status: 'Pre-Approved by State Farm ($2,920.00)',
+        fields: [
+          ['Reserve #', 'HOLD-SF-9421-05'],
+          ['Amount', '$2,920.00 Pre-Approved'],
+          ['Release Milestone', 'Delivery of Final Certificate of Dryness'],
+          ['Disbursement Date', 'Est. Apr 2, 2026']
+        ],
+        rows: [
+          ['Scope Covered', 'Recoverable Depreciation: Drywall hanging, texture, primer & paint'],
+          ['Pre-Approval Status', 'Locked into State Farm catastrophe settlement schedule'],
+          ['Inspection Trigger', 'Moisture equilibrium verification by lead restorer David Vance'],
+          ['Direct Pay Transfer', 'Released directly to AquaShield build-back division without out-of-pocket cost']
+        ]
+      },
+      cad_moisture: {
+        title: 'CAD Moisture Map & Loss Floorplan Sketch',
+        subtitle: 'EST-MAP-9421.pdf • Dimensioned Architectural Floorplan',
+        filename: 'aquashield-cad-moisture-map.pdf',
+        badge: 'CAD',
+        status: 'Floorplan Verified & Dimensioned',
+        fields: [
+          ['Map Ref', 'EST-MAP-9421'],
+          ['Building Area', '1,840 sq ft total residential footprint'],
+          ['Affected Zone', '380 sq ft Kitchen, Hallway, Living Room'],
+          ['Drafted By', 'AquaShield Loss Engineering Team']
+        ],
+        rows: [
+          ['Moisture Boundary 1', 'Kitchen under-sink cavity: 98% saturation along base plates'],
+          ['Moisture Boundary 2', 'Living room oak hardwood parquet: 28% WME reading over 120 sq ft'],
+          ['Airlock Containment', 'Polyethylene containment barrier with zippered egress chamber'],
+          ['Dehumidifier Placement', 'Calculated cubic air volume requirement: 8,400 CFM exchange']
+        ]
+      },
+      photo_evidence: {
+        title: 'Photographic Loss Evidence Archive (38 Photos)',
+        subtitle: 'EST-PHOTOS-9421.pdf • Certified High-Res Dossier',
+        filename: 'aquashield-photo-evidence-archive.pdf',
+        badge: 'EVID',
+        status: 'Adjuster Verified High-Res Archive',
+        fields: [
+          ['Archive Ref', 'EST-PHOTOS-9421'],
+          ['Total Captures', '38 High-Resolution Loss Photos'],
+          ['Inspection Time', 'March 27-28, 2026'],
+          ['Cloud Archive', 'Encrypted Adjuster Vault']
+        ],
+        rows: [
+          ['Photo Set 1 (1-10)', 'Pre-mitigation standing water, baseboard saturation, cabinet kickplates'],
+          ['Photo Set 2 (11-22)', 'Thermal imaging cross-reference showing concealed moisture migration'],
+          ['Photo Set 3 (23-30)', 'Selective drywall flood-cut and insulation extraction proof'],
+          ['Photo Set 4 (31-38)', 'Drying chamber containment and machinery run-meter serial logs']
+        ]
+      },
+      epa_cert: {
+        title: 'EPA Botanical Antimicrobial Safety Certificate',
+        subtitle: 'EST-EPA-9421.pdf • Benefect Decon 30 Official Certificate',
+        filename: 'aquashield-epa-antimicrobial-cert.pdf',
+        badge: 'EPA',
+        status: 'Safe for Immediate Occupancy',
+        fields: [
+          ['Cert Ref', 'EST-EPA-9421'],
+          ['Product Name', 'Benefect Decon 30 Botanical Antimicrobial'],
+          ['EPA Registration', 'EPA Reg #84683-3'],
+          ['Application Date', 'March 29, 2026']
+        ],
+        rows: [
+          ['Active Ingredient', 'Thymol (Botanical component of thyme oil, zero synthetic chemicals)'],
+          ['Health Rating', 'HMIS 0-0-0: No PPE or evacuation required post-application'],
+          ['Clearance Kill Rate', '99.99% bacterial, fungal, and viral eradication in 30 seconds'],
+          ['Treated Substrates', 'Framing timber, subfloors, concrete foundation slabs, sill plates']
+        ]
+      },
+      telemetry_audit: {
+        title: 'Machinery Electronic Run-Hour Telemetry Audit',
+        subtitle: 'EST-METERS-9421.pdf • Bluetooth Hour-Meter Telemetry',
+        filename: 'aquashield-telemetry-run-hour-audit.pdf',
+        badge: 'AUDIT',
+        status: '48.0 Hours Validated Continuous Run',
+        fields: [
+          ['Audit Ref', 'EST-METERS-9421'],
+          ['Telemetry Hub', 'AquaShield Fleet Gateway AQ-GW4'],
+          ['Monitoring Period', 'March 28, 09:00 AM - March 30, 09:00 AM'],
+          ['Verified Run Time', '48.0 Hours Continuous']
+        ],
+        rows: [
+          ['Unit 1: LGR Dehumidifier', 'Asset #DH-081: 48.0 hrs run time @ 115V / 6.8 Amps steady'],
+          ['Unit 2: LGR Dehumidifier', 'Asset #DH-084: 48.0 hrs run time @ 115V / 6.9 Amps steady'],
+          ['Unit 3-6: Axial Air Movers', 'Assets #AM-101 to AM-104: 48.0 hrs run time each'],
+          ['Insurance Billing Validation', 'Complies with Xactimate® line item WTR DRY (Dehumidifier Extra Large)']
+        ]
+      },
+      work_auth: {
+        title: 'Signed Work Authorization & Direct Carrier Assignment',
+        subtitle: 'EST-AUTH-9421.pdf • Policyholder Contract Execution',
+        filename: 'aquashield-work-authorization-direct-pay.pdf',
+        badge: 'AUTH',
+        status: 'Direct Carrier Billing Authorized',
+        fields: [
+          ['Auth Ref', 'EST-AUTH-9421'],
+          ['Signatory', 'Michael R. Sterling'],
+          ['Insurer', 'State Farm Fire & Casualty'],
+          ['Policy #', 'SF-9842104-FL']
+        ],
+        rows: [
+          ['Assignment of Benefits', 'Restricted insurance billing authorization for emergency mitigation'],
+          ['Zero Homeowner Liability', 'AquaShield covenants not to balance-bill policyholder for approved scope'],
+          ['Right of Entry & Emergency Action', 'Full authorization for rapid water extraction and drying deployment'],
+          ['Legal Compliance', 'Fully compliant with 2026 Florida Property Insurance Reform Statutes']
+        ]
+      },
+      policy_dossier: {
+        title: 'Certified Policyholder Profile Dossier',
+        subtitle: 'aquashield-policyholder-profile.pdf • Account & Property Record',
+        filename: 'aquashield-policyholder-profile.pdf',
+        badge: 'USER',
+        status: 'Verified Policyholder Account',
+        fields: [
+          ['Account Name', 'Michael R. Sterling'],
+          ['Loss Address', '742 Evergreen Terrace, Tampa, FL 33602'],
+          ['Carrier Policy', 'State Farm #SF-9842104-FL'],
+          ['Contact Phone', '(813) 555-0149']
+        ],
+        rows: [
+          ['Emergency Contact', 'Elena Sterling (Spouse) - (813) 555-0150'],
+          ['Property Details', 'Single Family Home, 1,840 sq ft, Built 2014, Concrete Slab on Grade'],
+          ['Billing Assignment Status', 'Direct Pay Assignment on File & Verified by Adjuster Sarah Jenkins'],
+          ['AquaShield Priority Tier', 'Diamond Tier Emergency Response Member (#AQ-VIP-742)']
+        ]
+      }
+    };
+
+    function escapePdf(str) {
+      if (!str) return '';
+      return String(str).replace(/\\/g, '\\\\').replace(/\(/g, '\\(').replace(/\)/g, '\\)');
+    }
+
+    function buildAquaShieldPdfBlob(title, subtitle, filename, fields, rows) {
+      let content = 'BT\n0.05 0.46 0.77 rg\n/F2 18 Tf\n54 738 Td\n(AQUASHIELD EMERGENCY RESTORATION) Tj\nET\n';
+      content += '0.05 0.46 0.77 rg\n54 728 504 2 re f\n';
+      content += 'BT\n0.3 0.35 0.4 rg\n/F1 10 Tf\n54 712 Td\n(Certified IICRC S500 Mitigation - Direct Insurance Billing Desk) Tj\nET\n';
+      
+      content += 'BT\n0.1 0.15 0.25 rg\n/F2 15 Tf\n54 675 Td\n(' + escapePdf(title) + ') Tj\nET\n';
+      content += 'BT\n0.4 0.45 0.5 rg\n/F1 9 Tf\n54 660 Td\n(' + escapePdf(subtitle) + ') Tj\nET\n';
+      
+      content += '0.94 0.96 0.98 rg\n54 580 504 65 re f\n';
+      content += '0.8 0.85 0.9 rg\n54 580 504 65 re S\n';
+      
+      let y = 630;
+      for (let i = 0; i < fields.length; i += 2) {
+        let f1 = fields[i];
+        let f2 = fields[i+1];
+        content += 'BT\n0.1 0.15 0.2 rg\n/F2 9 Tf\n64 ' + y + ' Td\n(' + (f1 ? escapePdf(f1[0]) + ': ' : '') + ') Tj\n';
+        content += '/F1 9 Tf\n(' + (f1 ? escapePdf(f1[1]) : '') + ') Tj\nET\n';
+        if (f2) {
+          content += 'BT\n0.1 0.15 0.2 rg\n/F2 9 Tf\n310 ' + y + ' Td\n(' + escapePdf(f2[0]) + ': ) Tj\n';
+          content += '/F1 9 Tf\n(' + escapePdf(f2[1]) + ') Tj\nET\n';
+        }
+        y -= 16;
+      }
+
+      y = 540;
+      content += 'BT\n0.05 0.46 0.77 rg\n/F2 11 Tf\n54 ' + y + ' Td\n(Itemized Claim Record & Verification Summary) Tj\nET\n';
+      y -= 8;
+      content += '0.05 0.46 0.77 rg\n54 ' + y + ' 504 1 re f\n';
+      y -= 18;
+
+      for (let row of rows) {
+        content += 'BT\n0.2 0.25 0.3 rg\n/F2 9 Tf\n60 ' + y + ' Td\n(- ' + escapePdf(row[0]) + ': ) Tj\n';
+        content += '/F1 9 Tf\n(' + escapePdf(row[1]) + ') Tj\nET\n';
+        y -= 18;
+      }
+
+      content += '0.85 0.88 0.92 rg\n54 70 504 1 re f\n';
+      content += 'BT\n0.45 0.5 0.55 rg\n/F1 8 Tf\n54 55 Td\n(AquaShield Pro - 24/7 Catastrophe Restoration - Florida License #CGC-1528901 - Direct Adjuster Portal) Tj\nET\n';
+
+      const utf8Encoder = new TextEncoder();
+      const contentBytes = utf8Encoder.encode(content);
+      const streamLen = contentBytes.length;
+
+      let pdfHeader = '%PDF-1.4\n%\xE2\xE3\xCF\xD3\n';
+      let pdfParts = [pdfHeader];
+      let offsets = [];
+      let currentLen = pdfHeader.length;
+
+      function addObj(str) {
+        offsets.push(currentLen);
+        pdfParts.push(str);
+        currentLen += str.length;
+      }
+
+      addObj('1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n');
+      addObj('2 0 obj\n<< /Type /Pages /Kids [3 0 R] /Count 1 >>\nendobj\n');
+      addObj('3 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources << /Font << /F1 5 0 R /F2 6 0 R >> >> >>\nendobj\n');
+      addObj('4 0 obj\n<< /Length ' + streamLen + ' >>\nstream\n' + content + 'endstream\nendobj\n');
+      addObj('5 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>\nendobj\n');
+      addObj('6 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>\nendobj\n');
+
+      let xrefStart = currentLen;
+      let xref = 'xref\n0 7\n0000000000 65535 f \n';
+      for (let off of offsets) {
+        xref += String(off).padStart(10, '0') + ' 00000 n \n';
+      }
+      xref += 'trailer\n<< /Size 7 /Root 1 0 R >>\nstartxref\n' + xrefStart + '\n%%EOF\n';
+      pdfParts.push(xref);
+
+      return new Blob(pdfParts, { type: 'application/pdf' });
+    }
+
+    function triggerBlobDownload(blob, filename) {
+      const blobUrl = URL.createObjectURL(blob);
+      const downloadLink = document.createElement('a');
+      downloadLink.href = blobUrl;
+      downloadLink.download = filename || 'aquashield-report.pdf';
+      downloadLink.style.display = 'none';
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+      setTimeout(() => {
+        if (downloadLink.parentNode) {
+          downloadLink.parentNode.removeChild(downloadLink);
+        }
+        URL.revokeObjectURL(blobUrl);
+      }, 500);
+    }
+
+    function downloadDocPDF(docKey) {
+      try {
+        const doc = AQUA_DOCS[docKey];
+        if (!doc) {
+          showToast('Requested document could not be found.', 'warning');
+          return;
+        }
+        const blob = buildAquaShieldPdfBlob(doc.title, doc.subtitle, doc.filename, doc.fields, doc.rows);
+        triggerBlobDownload(blob, doc.filename);
+        showToast('✓ Downloaded: ' + doc.filename, 'success');
+      } catch (err) {
+        console.error('PDF Generation Error:', err);
+        showToast('Failed to generate document PDF. Please try again.', 'emergency');
+      }
+    }
+
+    function openDocViewerModal(docKey) {
+      const doc = AQUA_DOCS[docKey];
+      if (!doc) {
+        showToast('Document not found for preview.', 'warning');
+        return;
+      }
+      const modal = document.getElementById('dashDocViewerModal');
+      const titleEl = document.getElementById('modalDocTitle');
+      const subEl = document.getElementById('modalDocSubtitle');
+      const badgeEl = document.getElementById('modalDocBadge');
+      const statusEl = document.getElementById('modalDocStatus');
+      const bodyEl = document.getElementById('modalDocBody');
+      const dlBtn = document.getElementById('modalDownloadBtn');
+
+      if (!modal) return;
+
+      if (titleEl) titleEl.textContent = doc.title;
+      if (subEl) subEl.textContent = doc.subtitle;
+      if (badgeEl) badgeEl.textContent = doc.badge || 'PDF';
+      if (statusEl) statusEl.textContent = doc.status || 'Verified by Insurance Claims Desk';
+
+      if (dlBtn) {
+        dlBtn.onclick = function() {
+          downloadDocPDF(docKey);
+        };
+      }
+
+      let fieldsHtml = '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 20px; background: var(--dash-surface-alt); padding: 14px; border-radius: 10px; border: 1px solid var(--dash-border);">';
+      for (let f of doc.fields) {
+        fieldsHtml += `<div><span style="display: block; font-size: 0.75rem; color: var(--dash-muted); text-transform: uppercase; font-weight: 700;">${f[0]}</span><strong style="font-size: 0.88rem; color: var(--dash-text);">${f[1]}</strong></div>`;
+      }
+      fieldsHtml += '</div>';
+
+      let rowsHtml = '<div style="background: var(--dash-surface); border: 1px solid var(--dash-border); border-radius: 12px; overflow: hidden;"><table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">';
+      rowsHtml += '<thead style="background: var(--dash-surface-alt); border-bottom: 1px solid var(--dash-border); color: var(--dash-muted); font-size: 0.78rem; text-transform: uppercase;"><tr><th style="padding: 10px 14px; text-align: left;">Audit Item / Verification Metric</th><th style="padding: 10px 14px; text-align: left;">Restoration Finding</th></tr></thead><tbody>';
+      for (let r of doc.rows) {
+        rowsHtml += `<tr style="border-bottom: 1px solid var(--dash-border);"><td style="padding: 10px 14px; font-weight: 600; color: var(--dash-text); width: 40%; vertical-align: top;">${r[0]}</td><td style="padding: 10px 14px; color: var(--dash-muted); vertical-align: top;">${r[1]}</td></tr>`;
+      }
+      rowsHtml += '</tbody></table></div>';
+
+      if (bodyEl) {
+        bodyEl.innerHTML = fieldsHtml + rowsHtml;
+      }
+
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function openUploadedDocViewer(name, ext, sizeMb, time) {
+      const modal = document.getElementById('dashDocViewerModal');
+      const titleEl = document.getElementById('modalDocTitle');
+      const subEl = document.getElementById('modalDocSubtitle');
+      const badgeEl = document.getElementById('modalDocBadge');
+      const statusEl = document.getElementById('modalDocStatus');
+      const bodyEl = document.getElementById('modalDocBody');
+      const dlBtn = document.getElementById('modalDownloadBtn');
+
+      if (!modal) return;
+
+      if (titleEl) titleEl.textContent = name;
+      if (subEl) subEl.textContent = `Uploaded today at ${time} • ${sizeMb} • Attached to Claim SF-2026-894102`;
+      if (badgeEl) badgeEl.textContent = (ext || 'DOC').toUpperCase();
+      if (statusEl) statusEl.textContent = 'Uploaded & Synced to Claims Adjuster Vault';
+
+      const fields = [
+        ['File Name', name],
+        ['File Size', sizeMb],
+        ['Uploaded Timestamp', time],
+        ['Adjuster Portal Status', '✓ Synced & Verified']
+      ];
+      const rows = [
+        ['Document Classification', 'Policyholder Uploaded Loss Evidence & Mitigation Support'],
+        ['Adjuster Assigned', 'Sarah Jenkins (State Farm Catastrophe Unit)'],
+        ['Verification Status', 'Cryptographic file signature logged for audit trail'],
+        ['Claim Allocation', 'Allocated to primary mitigation loss file #SF-2026-894102']
+      ];
+
+      if (dlBtn) {
+        dlBtn.onclick = function() {
+          const blob = buildAquaShieldPdfBlob('Uploaded Loss Evidence Receipt: ' + name, 'File Size: ' + sizeMb + ' • Stamped: ' + time, 'aquashield-uploaded-receipt.pdf', fields, rows);
+          triggerBlobDownload(blob, 'aquashield-' + name.toLowerCase().replace(/[^a-z0-9]/g, '-') + '-receipt.pdf');
+          showToast('✓ Downloaded certified upload receipt for ' + name, 'success');
+        };
+      }
+
+      let fieldsHtml = '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 20px; background: var(--dash-surface-alt); padding: 14px; border-radius: 10px; border: 1px solid var(--dash-border);">';
+      for (let f of fields) {
+        fieldsHtml += `<div><span style="display: block; font-size: 0.75rem; color: var(--dash-muted); text-transform: uppercase; font-weight: 700;">${f[0]}</span><strong style="font-size: 0.88rem; color: var(--dash-text);">${f[1]}</strong></div>`;
+      }
+      fieldsHtml += '</div>';
+
+      let rowsHtml = '<div style="background: var(--dash-surface); border: 1px solid var(--dash-border); border-radius: 12px; overflow: hidden;"><table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">';
+      rowsHtml += '<thead style="background: var(--dash-surface-alt); border-bottom: 1px solid var(--dash-border); color: var(--dash-muted); font-size: 0.78rem; text-transform: uppercase;"><tr><th style="padding: 10px 14px; text-align: left;">Audit Metric</th><th style="padding: 10px 14px; text-align: left;">Evidence Detail</th></tr></thead><tbody>';
+      for (let r of rows) {
+        rowsHtml += `<tr style="border-bottom: 1px solid var(--dash-border);"><td style="padding: 10px 14px; font-weight: 600; color: var(--dash-text); width: 40%; vertical-align: top;">${r[0]}</td><td style="padding: 10px 14px; color: var(--dash-muted); vertical-align: top;">${r[1]}</td></tr>`;
+      }
+      rowsHtml += '</tbody></table></div>';
+
+      if (bodyEl) {
+        bodyEl.innerHTML = fieldsHtml + rowsHtml;
+      }
+
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeDocViewerModal() {
+      const modal = document.getElementById('dashDocViewerModal');
+      if (modal) {
+        modal.classList.remove('active');
+      }
+      document.body.style.overflow = '';
+    }
+
+    // Modal background click and Escape key listeners
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeDocViewerModal();
+      }
+    });
+
+    document.addEventListener('click', (e) => {
+      const modal = document.getElementById('dashDocViewerModal');
+      if (modal && modal.classList.contains('active') && e.target === modal) {
+        closeDocViewerModal();
+      }
+    });
   </script>
+
+  <!-- AquaShield Document Preview Modal -->
+  <div id="dashDocViewerModal" class="dash-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modalDocTitle">
+    <div class="dash-modal-container">
+      <div class="dash-modal-header">
+        <div style="display: flex; align-items: center; gap: 12px; min-width: 0;">
+          <div id="modalDocBadge" class="dash-modal-badge">PDF</div>
+          <div style="min-width: 0;">
+            <h3 id="modalDocTitle" style="margin: 0; font-size: 1.05rem; font-weight: 700; color: var(--dash-text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Document Preview</h3>
+            <span id="modalDocSubtitle" style="font-size: 0.78rem; color: var(--dash-muted);">AquaShield Certified Claim Record &bull; Claim #SF-2026-894102</span>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px; flex-shrink: 0;">
+          <button type="button" id="modalDownloadBtn" class="btn btn-emergency btn-sm" style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; font-size: 0.82rem; border-radius: 8px;">
+            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+            <span>Download PDF</span>
+          </button>
+          <button type="button" class="dash-modal-close" onclick="closeDocViewerModal()" aria-label="Close document modal">&times;</button>
+        </div>
+      </div>
+      <div id="modalDocBody" class="dash-modal-body">
+        <!-- Rendered dynamically -->
+      </div>
+      <div class="dash-modal-footer">
+        <div style="display: flex; align-items: center; gap: 8px; font-size: 0.82rem; color: var(--dash-muted);">
+          <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #10b981;"></span>
+          <span id="modalDocStatus">Verified by Insurance Claims Desk</span>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button type="button" class="btn btn-outline btn-sm" onclick="closeDocViewerModal()" style="padding: 6px 16px; border-radius: 8px;">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>

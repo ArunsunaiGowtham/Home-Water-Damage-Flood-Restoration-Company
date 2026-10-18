@@ -53,6 +53,19 @@
           <h1 class="auth-card-title">Customer Login</h1>
           <p class="auth-card-subtitle">Sign in to access your Property Restoration Portal.</p>
 
+          <!-- Frontend Prototype Demo Notice -->
+          <div class="auth-demo-notice" style="background: rgba(2, 132, 199, 0.08); border: 1px solid rgba(2, 132, 199, 0.25); border-radius: 12px; padding: 12px 14px; margin-bottom: 20px; font-size: 0.85rem; line-height: 1.5;">
+            <div style="display: flex; align-items: center; gap: 8px; font-weight: 700; color: var(--primary); margin-bottom: 4px;">
+              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              <span>Frontend Demo Environment</span>
+            </div>
+            <p style="margin: 0 0 8px 0; color: var(--text-muted); font-size: 0.82rem;">This website is a frontend client demonstration. Secure production authentication requires a live backend authentication server. For this demo, sign in using the configured client credentials:</p>
+            <div style="display: flex; flex-direction: column; gap: 4px; font-family: monospace; font-size: 0.82rem; background: var(--bg-surface); padding: 8px 10px; border-radius: 6px; border: 1px solid var(--border-color);">
+              <div><span style="color: var(--text-muted);">Email:</span> <strong style="color: var(--primary);">client@aquashield.com</strong></div>
+              <div><span style="color: var(--text-muted);">Password:</span> <strong style="color: var(--primary);">Restore2026!</strong></div>
+            </div>
+          </div>
+
           <form id="customerLoginForm" novalidate>
             <div class="auth-form-group">
               <label for="loginEmail" class="auth-field-label">Customer Email Address</label>
@@ -60,7 +73,7 @@
                 <span class="input-icon-box">
                   <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
                 </span>
-                <input type="email" id="loginEmail" class="auth-field-input" placeholder="client@example.com" required value="client@aquashield.com">
+                <input type="email" id="loginEmail" class="auth-field-input" placeholder="client@example.com" required value="client@aquashield.com" autocomplete="email">
               </div>
             </div>
 
@@ -73,7 +86,7 @@
                 <span class="input-icon-box">
                   <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
                 </span>
-                <input type="password" id="loginPassword" class="auth-field-input" placeholder="Enter your password" required value="Restore2026!">
+                <input type="password" id="loginPassword" class="auth-field-input" placeholder="Enter your password" required value="Restore2026!" autocomplete="current-password">
                 <button type="button" class="password-toggle-btn" id="togglePasswordBtn" aria-label="Toggle password visibility">
                   <svg id="eyeIcon" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
                 </button>
@@ -177,19 +190,62 @@
       }
     }
 
-    function performDemoLogin(name = 'Jane Doe', email = 'client@aquashield.com') {
-      const dummyUser = {
-        name: name,
-        email: email,
-        role: 'Property Loss Client',
-        jobId: 'AQ-9421',
-        loginTime: new Date().toLocaleTimeString()
-      };
-      localStorage.setItem('aquashield_user', JSON.stringify(dummyUser));
+    function hideAlert() {
+      alertBox.style.display = 'none';
+      alertBox.textContent = '';
+      if (emailInput) emailInput.classList.remove('is-invalid');
+      if (passwordInput) passwordInput.classList.remove('is-invalid');
+    }
 
-      submitBtn.disabled = false;
-      loginBtnText.textContent = 'Customer Login';
-      showAlert(`✓ Dummy Login Successful! Client authenticated for ${name} (${email}).`, true);
+    // Clear alert when user types in either input
+    if (emailInput) {
+      emailInput.addEventListener('input', () => {
+        if (alertBox.style.display !== 'none') hideAlert();
+      });
+    }
+    if (passwordInput) {
+      passwordInput.addEventListener('input', () => {
+        if (alertBox.style.display !== 'none') hideAlert();
+      });
+    }
+
+    // Configured Demo Credentials (Explicitly documented in UI)
+    const DEMO_CREDENTIALS = {
+      email: 'client@aquashield.com',
+      password: 'Restore2026!',
+      name: 'Jane Doe',
+      role: 'Property Loss Client',
+      jobId: 'AQ-9421'
+    };
+
+    /**
+     * Strict Email Format Validation (RFC 5322 Compliant Regex)
+     */
+    function validateEmailFormat(rawEmail) {
+      const email = (rawEmail || '').trim();
+      if (!email) {
+        return { valid: false, message: 'Please enter your customer email address.' };
+      }
+      // Strict standard email regex rejecting malformed addresses without TLD, invalid chars, missing @, etc.
+      const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
+      if (!emailRegex.test(email)) {
+        return { valid: false, message: 'Please enter a valid email address (e.g., client@example.com).' };
+      }
+      return { valid: true, value: email };
+    }
+
+    /**
+     * Strict Password Format Validation
+     */
+    function validatePasswordFormat(rawPass) {
+      const pass = rawPass || '';
+      if (!pass) {
+        return { valid: false, message: 'Please enter your account password.' };
+      }
+      if (pass.length < 6) {
+        return { valid: false, message: 'Password must be at least 6 characters in length.' };
+      }
+      return { valid: true, value: pass };
     }
 
     // Check if redirected from Sign Up
@@ -205,7 +261,6 @@
           emailInput.value = registeredEmail;
         }
         sessionStorage.removeItem('aquashield_signup_success');
-        sessionStorage.removeItem('aquashield_signup_email');
       }
     });
 
@@ -221,7 +276,6 @@
 
     function showOAuthNotice(provider) {
       if (oauthDismissTimer) clearTimeout(oauthDismissTimer);
-
       if (provider === 'google') {
         oauthIconWrap.innerHTML = googleIconSvg;
         oauthText.textContent = 'Google Sign-In requires backend OAuth integration. This HTML template demonstrates the UI only.';
@@ -229,12 +283,8 @@
         oauthIconWrap.innerHTML = appleIconSvg;
         oauthText.textContent = 'Apple Sign-In requires backend OAuth integration. This HTML template demonstrates the UI only.';
       }
-
       oauthToast.style.display = 'block';
-
-      oauthDismissTimer = setTimeout(() => {
-        closeOAuthNotice();
-      }, 7000);
+      oauthDismissTimer = setTimeout(() => { closeOAuthNotice(); }, 7000);
     }
 
     function closeOAuthNotice() {
@@ -249,17 +299,13 @@
     // Google SSO Click
     const btnGoogleSso = document.getElementById('btnGoogleSso');
     if (btnGoogleSso) {
-      btnGoogleSso.addEventListener('click', () => {
-        showOAuthNotice('google');
-      });
+      btnGoogleSso.addEventListener('click', () => { showOAuthNotice('google'); });
     }
 
     // Apple SSO Click
     const btnAppleSso = document.getElementById('btnAppleSso');
     if (btnAppleSso) {
-      btnAppleSso.addEventListener('click', () => {
-        showOAuthNotice('apple');
-      });
+      btnAppleSso.addEventListener('click', () => { showOAuthNotice('apple'); });
     }
 
     // Forgot Password Simulation
@@ -267,31 +313,116 @@
     if (forgotLink) {
       forgotLink.addEventListener('click', (e) => {
         e.preventDefault();
-        const currentEmail = emailInput.value.trim() || 'client@aquashield.com';
-        showAlert(`Password reset instructions sent to ${currentEmail} (Demo simulation)`, true);
+        const emailCheck = validateEmailFormat(emailInput.value);
+        if (!emailCheck.valid) {
+          showAlert('Please enter your registered email address first to reset password.', false);
+          if (emailInput) {
+            emailInput.classList.add('is-invalid');
+            emailInput.focus();
+          }
+          return;
+        }
+        showAlert(`Password reset instructions sent to ${emailCheck.value} (Demo simulation)`, true);
       });
     }
 
-    // Form Submission (Accepts any or default dummy credentials without redirection)
+    // Form Submission with Strict Email & Password Validation
     const loginForm = document.getElementById('customerLoginForm');
     const submitBtn = document.getElementById('submitLoginBtn');
 
     loginForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      const email = emailInput.value.trim() || 'client@aquashield.com';
-      const pass = passwordInput.value.trim() || 'Restore2026!';
 
-      submitBtn.disabled = true;
-      loginBtnText.textContent = 'Authenticating...';
+      // Prevent repeated submissions while request is processing
+      if (submitBtn.disabled) return;
 
-      setTimeout(() => {
-        let displayName = 'Jane Doe';
-        if (email.includes('@')) {
-          const userPart = email.split('@')[0];
-          displayName = userPart.charAt(0).toUpperCase() + userPart.slice(1);
+      const rawEmail = emailInput ? emailInput.value : '';
+      const rawPass = passwordInput ? passwordInput.value : '';
+
+      // 1. Email Format Validation
+      const emailResult = validateEmailFormat(rawEmail);
+      if (!emailResult.valid) {
+        showAlert(emailResult.message, false);
+        if (emailInput) {
+          emailInput.classList.add('is-invalid');
+          emailInput.focus();
         }
-        performDemoLogin(displayName, email);
-      }, 400);
+        return;
+      }
+
+      // 2. Password Format Validation
+      const passResult = validatePasswordFormat(rawPass);
+      if (!passResult.valid) {
+        showAlert(passResult.message, false);
+        if (passwordInput) {
+          passwordInput.classList.add('is-invalid');
+          passwordInput.focus();
+        }
+        return;
+      }
+
+      // 3. Initiate Verification & Lock Submit Button
+      submitBtn.disabled = true;
+      submitBtn.style.cursor = 'not-allowed';
+      loginBtnText.textContent = 'Authenticating...';
+      hideAlert();
+
+      // 4. Validate Credentials Against Configured Demo Authentication Mechanism
+      setTimeout(() => {
+        const cleanEmail = emailResult.value.toLowerCase();
+        const enteredPass = passResult.value;
+
+        // Check configured demo account
+        const isDemoMatch = (cleanEmail === DEMO_CREDENTIALS.email.toLowerCase() && enteredPass === DEMO_CREDENTIALS.password);
+
+        // Check if user registered via signup.html in this browser session
+        const sessionRegisteredEmail = (sessionStorage.getItem('aquashield_signup_email') || '').toLowerCase();
+        const storedUser = localStorage.getItem('aquashield_user');
+        let registeredName = 'Jane Doe';
+        try {
+          if (storedUser) {
+            const parsed = JSON.parse(storedUser);
+            if (parsed && parsed.name) registeredName = parsed.name;
+          }
+        } catch (err) {}
+
+        const isSessionRegisteredMatch = (sessionRegisteredEmail && cleanEmail === sessionRegisteredEmail && enteredPass === DEMO_CREDENTIALS.password);
+
+        if (isDemoMatch || isSessionRegisteredMatch) {
+          // Success: Client authenticated
+          const activeUser = {
+            name: isDemoMatch ? DEMO_CREDENTIALS.name : registeredName,
+            email: cleanEmail,
+            role: DEMO_CREDENTIALS.role,
+            jobId: DEMO_CREDENTIALS.jobId,
+            loginTime: new Date().toLocaleTimeString()
+          };
+
+          // Store session without plain-text password
+          localStorage.setItem('aquashield_user', JSON.stringify(activeUser));
+          localStorage.setItem('aquashield_logged_in', 'true');
+
+          loginBtnText.textContent = '✓ Authenticated!';
+          showAlert(`✓ Authentication successful! Loading restoration portal for ${activeUser.name}...`, true);
+
+          // Proceed to intended dashboard page
+          setTimeout(() => {
+            window.location.href = 'dashboard.html';
+          }, 600);
+        } else {
+          // Failure: Reject incorrect email and password
+          submitBtn.disabled = false;
+          submitBtn.style.cursor = 'pointer';
+          loginBtnText.textContent = 'Customer Login';
+
+          showAlert('Invalid email or password. Please verify your credentials and try again.', false);
+          if (passwordInput) {
+            passwordInput.classList.add('is-invalid');
+            passwordInput.focus();
+            passwordInput.select();
+          }
+        }
+      }, 500);
     });
   </script>
 </body>

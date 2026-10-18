@@ -2787,13 +2787,151 @@ textarea.form-control {
   margin-top: 4px;
   display: none;
 }
-.is-invalid .form-control {
-  border-color: var(--emergency);
+.form-control.is-invalid,
+.is-invalid .form-control,
+.auth-field-input.is-invalid,
+.dispatch-input.is-invalid {
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.18) !important;
+}
+.form-control.is-valid,
+.is-valid .form-control {
+  border-color: #10b981;
 }
 .is-invalid .form-feedback {
   display: block;
-  color: var(--emergency);
+  color: #ef4444;
 }
+
+/* Field-Level Error Messages */
+.field-error-msg {
+  color: #ef4444;
+  font-size: 0.82rem;
+  font-weight: 600;
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  line-height: 1.35;
+  animation: fieldErrorFadeIn 0.2s ease-in-out;
+}
+.field-error-msg svg {
+  flex-shrink: 0;
+  stroke: #ef4444;
+}
+[data-theme="dark"] .field-error-msg {
+  color: #f87171;
+}
+[data-theme="dark"] .field-error-msg svg {
+  stroke: #f87171;
+}
+
+@keyframes fieldErrorFadeIn {
+  from { opacity: 0; transform: translateY(-3px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes aquaSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.aqua-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: aquaSpin 0.75s linear infinite;
+  margin-right: 8px;
+  vertical-align: -2px;
+}
+
+/* Priority Dispatch Ticket Confirmation Card */
+.ticket-confirmation-card {
+  padding: 10px 0;
+  animation: fieldErrorFadeIn 0.3s ease;
+}
+.ticket-alert-box {
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  border-left: 4px solid #f59e0b;
+  border-radius: var(--radius-md, 10px);
+  padding: 14px 16px;
+  margin-bottom: 20px;
+  color: var(--text-main);
+  text-align: left;
+}
+[data-theme="dark"] .ticket-alert-box {
+  background: rgba(245, 158, 11, 0.15);
+  border-color: rgba(245, 158, 11, 0.4);
+}
+.ticket-alert-box h4 {
+  margin: 0 0 6px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #d97706;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+[data-theme="dark"] .ticket-alert-box h4 {
+  color: #fbbf24;
+}
+.ticket-alert-box p {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: var(--text-muted);
+}
+.ticket-details-table {
+  background: var(--bg-surface-alt);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md, 10px);
+  padding: 16px;
+  margin-bottom: 22px;
+  text-align: left;
+}
+.ticket-detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 7px 0;
+  border-bottom: 1px dashed var(--border-color);
+  font-size: 0.88rem;
+}
+.ticket-detail-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+.ticket-detail-label {
+  color: var(--text-muted);
+  font-weight: 500;
+  flex-shrink: 0;
+}
+.ticket-detail-val {
+  color: var(--text-main);
+  font-weight: 700;
+  text-align: right;
+  word-break: break-word;
+}
+.ticket-actions-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 20px;
+}
+.ticket-actions-row .btn {
+  flex: 1 1 200px;
+  justify-content: center;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
 
 /* ==========================================================================
    Client Dashboard
@@ -2933,7 +3071,7 @@ textarea.form-control {
   z-index: 2;
 }
 
-.pipeline-step::before {
+.pipeline-steps .pipeline-step::before {
   content: '';
   position: absolute;
   top: 18px;
@@ -2944,7 +3082,7 @@ textarea.form-control {
   z-index: -1;
 }
 
-.pipeline-step:first-child::before {
+.pipeline-steps .pipeline-step:first-child::before {
   display: none;
 }
 
@@ -2969,7 +3107,7 @@ textarea.form-control {
   border-color: var(--success);
   color: #fff;
 }
-.pipeline-step.completed::before {
+.pipeline-steps .pipeline-step.completed::before {
   background: var(--success);
 }
 
@@ -2980,7 +3118,7 @@ textarea.form-control {
   box-shadow: 0 0 0 6px var(--primary-light);
   animation: pulse-step 2s infinite;
 }
-.pipeline-step.active::before {
+.pipeline-steps .pipeline-step.active::before {
   background: var(--primary);
 }
 
@@ -4444,7 +4582,7 @@ textarea.form-control {
   right: 14px;
 }
 
-[dir="rtl"] .pipeline-step::before {
+[dir="rtl"] .pipeline-steps .pipeline-step::before {
   left: auto;
   right: -50%;
 }
