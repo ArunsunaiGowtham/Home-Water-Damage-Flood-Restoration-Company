@@ -53,19 +53,6 @@
           <h1 class="auth-card-title">Customer Login</h1>
           <p class="auth-card-subtitle">Sign in to access your Property Restoration Portal.</p>
 
-          <!-- Frontend Prototype Demo Notice -->
-          <div class="auth-demo-notice" style="background: rgba(2, 132, 199, 0.08); border: 1px solid rgba(2, 132, 199, 0.25); border-radius: 12px; padding: 12px 14px; margin-bottom: 20px; font-size: 0.85rem; line-height: 1.5;">
-            <div style="display: flex; align-items: center; gap: 8px; font-weight: 700; color: var(--primary); margin-bottom: 4px;">
-              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-              <span>Frontend Demo Environment</span>
-            </div>
-            <p style="margin: 0 0 8px 0; color: var(--text-muted); font-size: 0.82rem;">This page is a dummy frontend demonstration and does not redirect to the dashboard. Valid credentials simulate successful authentication locally:</p>
-            <div style="display: flex; flex-direction: column; gap: 4px; font-family: monospace; font-size: 0.82rem; background: var(--bg-surface); padding: 8px 10px; border-radius: 6px; border: 1px solid var(--border-color);">
-              <div><span style="color: var(--text-muted);">Email:</span> <strong style="color: var(--primary);">client@aquashield.com</strong></div>
-              <div><span style="color: var(--text-muted);">Password:</span> <strong style="color: var(--primary);">Restore2026!</strong></div>
-            </div>
-          </div>
-
           <form id="customerLoginForm" novalidate>
             <div class="auth-form-group">
               <label for="loginEmail" class="auth-field-label">Customer Email Address</label>
@@ -386,7 +373,8 @@
           }
         } catch (err) {}
 
-        const isSessionRegisteredMatch = (sessionRegisteredEmail && cleanEmail === sessionRegisteredEmail && enteredPass === DEMO_CREDENTIALS.password);
+        const sessionRegisteredPass = sessionStorage.getItem('aquashield_signup_pass');
+        const isSessionRegisteredMatch = (sessionRegisteredEmail && cleanEmail === sessionRegisteredEmail && (enteredPass === DEMO_CREDENTIALS.password || (sessionRegisteredPass && enteredPass === sessionRegisteredPass)));
 
         if (isDemoMatch || isSessionRegisteredMatch) {
           // Success: Client authenticated
@@ -402,8 +390,8 @@
           localStorage.setItem('aquashield_user', JSON.stringify(activeUser));
           localStorage.setItem('aquashield_logged_in', 'true');
 
-          loginBtnText.textContent = '✓ Login Verified (Demo)';
-          showAlert(`✓ Demo Authentication Successful: Welcome back, ${activeUser.name}! (Dummy Mode: Redirect to dashboard is disabled.)`, true);
+          loginBtnText.textContent = '✓ Logged In';
+          showAlert(`✓ Authentication Successful! Welcome back, ${activeUser.name}.`, true);
 
           // Re-enable submit button for demo interaction (no redirect to dashboard)
           setTimeout(() => {

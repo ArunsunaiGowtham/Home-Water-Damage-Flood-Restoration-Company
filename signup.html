@@ -53,15 +53,6 @@
           <h1 class="auth-card-title">Customer Sign Up</h1>
           <p class="auth-card-subtitle">Register your customer account to track your restoration plan and crew dispatch.</p>
 
-          <!-- Frontend Prototype Demo Notice -->
-          <div class="auth-demo-notice" style="background: rgba(2, 132, 199, 0.08); border: 1px solid rgba(2, 132, 199, 0.25); border-radius: 12px; padding: 12px 14px; margin-bottom: 20px; font-size: 0.85rem; line-height: 1.5;">
-            <div style="display: flex; align-items: center; gap: 8px; font-weight: 700; color: var(--primary); margin-bottom: 4px;">
-              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-              <span>Frontend Demo Environment</span>
-            </div>
-            <p style="margin: 0; color: var(--text-muted); font-size: 0.82rem;">This sign up page is a dummy frontend demonstration and does not redirect to the dashboard. Submitting the form simulates account registration locally.</p>
-          </div>
-
           <form id="customerSignupForm" novalidate>
             <div class="auth-form-group">
               <label for="regName" class="auth-field-label">Full Name <span class="required">*</span></label>
@@ -300,17 +291,19 @@
 
         // Store demo account locally for login page simulation
         localStorage.setItem('aquashield_user', JSON.stringify(dummyUser));
+        sessionStorage.setItem('aquashield_signup_success', `✓ Account created successfully for ${nameVal}! Please log in with your credentials.`);
         sessionStorage.setItem('aquashield_signup_email', emailVal.toLowerCase());
+        sessionStorage.setItem('aquashield_signup_pass', passVal);
 
-        submitBtn.disabled = false;
-        submitBtn.style.cursor = 'pointer';
-        signupBtnText.textContent = '✓ Registered (Demo)';
-        showAlert(`✓ Demo Registration Successful: Account simulated for ${nameVal}! (Dummy Mode: Redirect to dashboard is disabled.)`, true);
+        submitBtn.disabled = true;
+        submitBtn.style.cursor = 'not-allowed';
+        signupBtnText.textContent = 'Account Created! Redirecting to Login...';
+        showAlert(`✓ Account created successfully for ${nameVal}! Redirecting to Customer Login...`, true);
 
-        // Reset button text after 3.5 seconds (no redirect to dashboard)
+        // Redirect to login page (not dashboard)
         setTimeout(() => {
-          signupBtnText.textContent = 'Customer Sign Up';
-        }, 3500);
+          window.location.href = 'login.html?registered=true';
+        }, 700);
       }, 500);
     });
   </script>
